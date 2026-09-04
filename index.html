@@ -45,7 +45,9 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.14;letter-spacin
 .nav-menu a:hover{color:var(--oro)}
 .nav-btn{border:1px solid var(--blu);padding:9px 20px;border-radius:999px}
 .nav-btn:hover{background:var(--blu);color:var(--panna)!important}
-@media(max-width:800px){.nav-menu a:not(.nav-btn){display:none}}
+.nav-accedi{color:var(--blu);border:1px solid var(--linea);padding:8px 16px;border-radius:999px}
+.nav-accedi:hover{border-color:var(--oro)}
+@media(max-width:800px){.nav-menu a:not(.nav-btn):not(.nav-accedi){display:none}}
 
 /* bottoni */
 .btn{display:inline-block;font-family:var(--sans);font-size:15px;font-weight:400;letter-spacing:.03em;padding:15px 30px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
@@ -194,6 +196,7 @@ footer{border-top:1px solid var(--linea);padding:46px 0;font-size:14px;color:var
       <a href="#corsi">Corsi</a>
       <a href="#libri">Libri</a>
       <a href="#ebook">Ebook</a>
+      <a class="nav-accedi" href="https://corsi.laparolagiusta.it/login">Accedi</a>
       <a class="nav-btn" href="#corsi">Inizia ora</a>
     </div>
   </div>
