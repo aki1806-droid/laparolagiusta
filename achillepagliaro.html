@@ -26,14 +26,21 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.14;letter-spacin
 .stretto{max-width:740px}
 
 .nav{position:sticky;top:0;z-index:60;background:rgba(247,243,234,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-in{display:flex;align-items:center;flex-wrap:wrap;gap:26px;min-height:64px}
 .marchio{font-family:var(--serif);font-size:22px;color:var(--blu);text-decoration:none;white-space:nowrap}
-.nav-menu{display:flex;align-items:center;gap:26px}
-.nav-menu a{color:var(--blu);text-decoration:none;font-size:14px;letter-spacing:.04em}
-.nav-menu a:hover{color:var(--oro)}
+.nav-sezioni{display:flex;align-items:center;gap:26px;margin-left:auto}
+.nav-azioni{display:flex;align-items:center;gap:26px}
+.nav-sezioni a,.nav-azioni a{color:var(--blu);text-decoration:none;font-size:14px;letter-spacing:.04em}
+.nav-sezioni a:hover,.nav-azioni a:hover{color:var(--oro)}
 .nav-btn{border:1px solid var(--blu);padding:9px 20px;border-radius:999px}
 .nav-btn:hover{background:var(--blu);color:var(--panna)!important}
-@media(max-width:820px){.nav-menu a:not(.nav-btn){display:none}}
+@media(max-width:820px){
+  .nav-in{min-height:0;gap:0;padding-top:13px}
+  .nav-azioni{order:1;margin-left:auto;gap:14px}
+  .nav-sezioni{order:2;flex-basis:100%;margin:13px 0 0;justify-content:center;flex-wrap:wrap;
+    gap:8px 18px;border-top:1px solid var(--linea);padding:11px 0}
+  .nav-sezioni a{font-size:13px}
+}
 
 .btn{display:inline-block;font-size:15px;letter-spacing:.03em;padding:15px 30px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s}
 .btn-blu{background:var(--blu);color:var(--panna)}
@@ -142,11 +149,13 @@ footer{border-top:1px solid var(--linea);padding:44px 0;font-size:14px;color:var
 <nav class="nav">
   <div class="wrap nav-in">
     <a class="marchio" href="#top">Achille Pagliaro</a>
-    <div class="nav-menu">
+    <div class="nav-sezioni">
       <a href="#libri">I libri</a>
       <a href="#chi">Chi sono</a>
       <a href="#estratto">Estratto gratuito</a>
       <a href="index.html">La Parola Giusta</a>
+    </div>
+    <div class="nav-azioni">
       <a class="nav-btn" href="#acquista">Acquista</a>
     </div>
   </div>
