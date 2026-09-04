@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Achille Pagliaro</title>
+<style>
+  :root {
+    --bg: #fbfaf8;
+    --fg: #1c1a17;
+    --muted: #6b655c;
+    --card: #ffffff;
+    --line: #e5e0d8;
+    --accent: #8a5a2b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161513;
+      --fg: #f0ece6;
+      --muted: #a49c90;
+      --card: #201e1b;
+      --line: #322e29;
+      --accent: #d9a86c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 6vh 20px;
+  }
+  main { width: 100%; max-width: 640px; }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    margin: 0 0 .4rem;
+    letter-spacing: -0.02em;
+  }
+  .sub { color: var(--muted); margin: 0 0 2.5rem; }
+  a.card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s, transform .15s;
+  }
+  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  a.card strong { display: block; font-size: 1.15rem; margin-bottom: .25rem; }
+  a.card span { color: var(--muted); font-size: .95rem; }
+  footer { margin-top: 3rem; color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Achille Pagliaro</h1>
+  <p class="sub">Libri, corsi e strumenti sulla comunicazione.</p>
+
+  <a class="card" href="laparolagiusta.html">
+    <strong>La Parola Giusta</strong>
+    <span>Corsi, libri ed ebook sulla comunicazione</span>
+  </a>
+
+  <a class="card" href="achillepagliaro.html">
+    <strong>I libri</strong>
+    <span>La raccolta completa delle pubblicazioni</span>
+  </a>
+
+  <footer>Pubblicato con GitHub Pages.</footer>
+</main>
+</body>
+</html>
