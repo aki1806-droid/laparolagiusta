@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ti stiamo portando alla pagina giusta</title>
+<script>
+  // Le pagine della piattaforma corsi vivono su corsi.laparolagiusta.it.
+  // Qualsiasi indirizzo non presente su questo sito viene inoltrato lì,
+  // così i link condivisi prima dello spostamento del dominio continuano a funzionare.
+  (function () {
+    var destinazione = "https://corsi.laparolagiusta.it" +
+      location.pathname + location.search + location.hash;
+    document.addEventListener("DOMContentLoaded", function () {
+      var a = document.getElementById("vai");
+      if (a) { a.href = destinazione; }
+    });
+    location.replace(destinazione);
+  })();
+</script>
+<style>
+  :root{
+    --blu:#12294A;--oro:#C39A4E;--panna:#F7F3EA;--bianco:#FFFCF6;
+    --testo:#1C2B3F;--tenue:#69748A;--linea:#DED5C2;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       padding:40px 24px;background:var(--panna);color:var(--testo);font-family:var(--sans);font-weight:300}
+  .scheda{width:100%;max-width:520px;background:var(--bianco);border:1px solid var(--linea);
+          padding:44px 40px;text-align:center}
+  .filo{height:3px;background:var(--oro);margin:-44px -40px 34px}
+  .etichetta{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);margin-bottom:14px}
+  h1{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;color:var(--blu);margin:0 0 16px}
+  p{color:var(--tenue);font-size:16px;line-height:1.7;margin:0 0 26px}
+  .btn{display:inline-block;background:var(--blu);color:var(--bianco);text-decoration:none;
+       padding:14px 30px;border-radius:999px;font-size:14px;letter-spacing:.04em}
+  .btn:hover{background:#0B1B33}
+  .alt{margin:22px 0 0;font-size:14px}
+  .alt a{color:var(--tenue)}
+</style>
+</head>
+<body>
+  <div class="scheda">
+    <div class="filo"></div>
+    <div class="etichetta">Un attimo solo</div>
+    <h1>Ti stiamo portando alla pagina giusta</h1>
+    <p>Questa pagina si trova sul portale dei corsi. Se il trasferimento non parte da solo, usa il pulsante qui sotto.</p>
+    <a class="btn" id="vai" href="https://corsi.laparolagiusta.it/">Continua</a>
+    <p class="alt"><a href="/">Torna alla home di La Parola Giusta</a></p>
+  </div>
+</body>
+</html>
