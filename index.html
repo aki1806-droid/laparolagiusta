@@ -192,6 +192,9 @@ footer{border-top:1px solid var(--linea);padding:46px 0;font-size:14px;color:var
 .piede-marchio span{font-size:22px}
 .piede a{text-decoration:none;margin-right:20px}
 .piede a:hover{color:var(--oro)}
+.piede-visite{margin-top:7px;font-size:13px;letter-spacing:.03em}
+.piede-visite[hidden]{display:none}
+.visite-n{font-family:var(--serif);font-size:17px;color:var(--blu)}
 :focus-visible{outline:2px solid var(--oro);outline-offset:3px}
 
 @media(min-width:880px){
@@ -578,9 +581,34 @@ footer{border-top:1px solid var(--linea);padding:46px 0;font-size:14px;color:var
       <a href="#">Termini</a>
       <a href="#">Privacy</a>
     </div>
-    <div>© 2026 La parola giusta</div>
+    <div>
+      <div>© 2026 La parola giusta</div>
+      <div class="piede-visite" id="visite" hidden><span class="visite-n"></span> visite</div>
+    </div>
   </div>
 </footer>
+
+<!-- Statistiche GoatCounter: senza cookie, nessun dato personale raccolto.
+     Il codice sito e' "laparolagiusta": se registri un sottodominio diverso,
+     cambia l'indirizzo qui sotto (e in fondo alle altre pagine). -->
+<script data-goatcounter="https://laparolagiusta.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+<script>
+// Mostra il totale delle visite solo se GoatCounter risponde: se il servizio
+// non e' raggiungibile la riga resta nascosta invece di lasciare un buco.
+(function () {
+  var el = document.getElementById("visite");
+  if (!el || !window.fetch) return;
+  fetch("https://laparolagiusta.goatcounter.com/counter/TOTAL.json")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (d) {
+      if (!d || !d.count) return;
+      el.querySelector(".visite-n").textContent = d.count;
+      el.hidden = false;
+    })
+    .catch(function () {});
+})();
+</script>
 
 </body>
 </html>
