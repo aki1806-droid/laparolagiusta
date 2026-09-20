@@ -398,6 +398,14 @@ input:focus-visible,[tabindex]:focus-visible{
 .anteprima-video{margin-top:32px;border:1px solid var(--linea);background:var(--bianco);padding:10px;border-radius:3px}
 .anteprima-video video{width:100%;height:auto;display:block;background:var(--blu-scuro)}
 
+
+/* fascia ebook gratuito */
+.omaggio{padding:54px 0}
+.omaggio-in{display:grid;gap:28px;align-items:center}
+.omaggio-cop{width:120px;box-shadow:0 14px 34px rgba(11,27,51,.28)}
+.omaggio h2{max-width:24ch;font-size:clamp(26px,4.4vw,36px)}
+.omaggio .intro{margin-top:12px}
+@media(min-width:760px){.omaggio{padding:64px 0}.omaggio-in{grid-template-columns:auto 1fr auto;gap:44px}}
 </style>
 
 <link rel="canonical" href="https://laparolagiusta.it/">
@@ -475,6 +483,20 @@ input:focus-visible,[tabindex]:focus-visible{
     </div>
   </div></div>
 </header>
+
+<!-- EBOOK GRATUITO -->
+<section class="tinta omaggio" id="omaggio">
+  <div class="wrap omaggio-in">
+    <img class="omaggio-cop" decoding="async" width="700" height="993" src="img/copertina-di-cosa-dire-quando-non-sai-cosa-dire.webp" alt="Copertina di Cosa dire quando non sai cosa dire" loading="lazy">
+    <div>
+      <div class="etichetta">Ebook gratuito</div>
+      <h2>Cosa dire quando non sai cosa dire</h2>
+      <p class="intro">Un lutto, una critica davanti a tutti, un errore tuo: le situazioni in cui le parole non vengono, e cosa dire invece.</p>
+    </div>
+    <a class="btn btn-oro" href="cosa-dire.html">Ricevilo gratis</a>
+  </div>
+</section>
+
 
 <!-- CHI SONO -->
 <div id="principale"></div><section id="chi">
@@ -818,7 +840,7 @@ input:focus-visible,[tabindex]:focus-visible{
     <h2>Parole scelte con lentezza, una volta a settimana.</h2>
     <p class="intro intro-nl">Una settimana un pensiero sulla comunicazione &mdash; una tecnica, un errore comune, una domanda utile. La settimana dopo una pagina dai miei libri, con quello che c'&egrave; dietro. Nient'altro.</p>
 
-    <form method="post" action="https://sendfox.com/form/1gqrw6/1kp8en" class="sendfox-form modulo-nl" id="1kp8en" data-async="true" data-recaptcha="false">
+    <form method="post" action="https://sendfox.com/form/1gqrw6/1rg672" class="sendfox-form modulo-nl" id="1rg672" data-async="true" data-recaptcha="false">
       <div class="campi-nl">
         <input type="text" name="first_name" placeholder="Il tuo nome" required>
         <input type="email" name="email" placeholder="La tua email" required id="email-nl" aria-label="Il tuo indirizzo email">
@@ -826,15 +848,28 @@ input:focus-visible,[tabindex]:focus-visible{
       </div>
       <label class="consenso-nl">
         <input type="checkbox" name="gdpr" value="1" required>
-        <span>Acconsento a ricevere le email della newsletter. Mi cancello con un clic, quando voglio.</span>
+        <span>Acconsento a ricevere gli ebook gratuiti e le email de La Parola Giusta. Mi cancello con un clic, quando voglio.</span>
       </label>
       <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="a_password" tabindex="-1" value="" autocomplete="off"></div>
     </form>
 
-    <p class="nota nota-nl">Nessuno spam, nessuna cessione dei dati. La prima email arriva subito dopo l'iscrizione.</p>
+    <p class="nota nota-nl">Con la prima email ricevi in regalo l'ebook «Cosa dire quando non sai cosa dire». Nessuno spam, nessuna cessione dei dati.</p>
   </div>
 </section>
 <script src="https://sendfox.com/js/form.js"></script>
+<script>
+// Dopo l'iscrizione porta alla pagina di grazie e traduce il messaggio inglese di SendFox.
+(function () {
+  var form = document.getElementById("1rg672");
+  if (!form || !window.MutationObserver) return;
+  new MutationObserver(function () {
+    var ok = form.querySelector(".sendfox-message.success");
+    if (!ok) return;
+    ok.textContent = "Fatto. Controlla la posta: la prima email sta arrivando.";
+    window.location.href = "grazie-ebook.html";
+  }).observe(form, { childList: true });
+})();
+</script>
 <footer>
   <div class="wrap piede">
     <div class="marchio piede-marchio"><img decoding="async" width="440" height="386" class="piede-logo" src="img/c5acd835.webp" alt="" loading="lazy"><span>La parola giusta</span></div>
