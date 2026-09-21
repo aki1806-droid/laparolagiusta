@@ -335,6 +335,20 @@ input:focus-visible,[tabindex]:focus-visible{
     animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
+.collana{margin-top:40px;padding:28px 26px;border:1px solid var(--linea);border-radius:3px;background:var(--bianco);display:grid;gap:20px;align-items:center}
+.collana h3{font-size:26px;margin-bottom:8px}
+.collana p{font-size:15.5px;color:var(--tenue);margin:0;max-width:52ch}
+@media(min-width:880px){.collana{grid-template-columns:1fr auto;gap:36px;padding:32px 34px}}
+.formati{display:grid;gap:22px;margin-top:44px}
+.formato-card{background:var(--bianco);border:1px solid var(--linea);border-radius:3px;padding:28px 24px;display:flex;flex-direction:column;position:relative}
+.formato-card.carta{border-color:var(--oro)}
+.formato-card .tipo{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);margin-bottom:12px}
+.formato-card h3{font-size:25px;margin-bottom:10px}
+.formato-card p{font-size:15.5px;color:var(--tenue);margin:0 0 18px}
+.formato-prezzo{font-family:var(--serif);font-size:34px;color:var(--blu);margin-bottom:18px;line-height:1}
+.formato-card .btn{margin-top:auto;text-align:center}
+.bollino{position:absolute;top:-11px;right:20px;background:var(--oro);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
+@media(min-width:880px){.formati{grid-template-columns:repeat(3,1fr);gap:26px}}
 </style>
 
 <link rel="canonical" href="https://laparolagiusta.it/convinceresenzamanipolare.html">
@@ -376,7 +390,7 @@ input:focus-visible,[tabindex]:focus-visible{
       <a href="https://laparolagiusta.it/#corsi">Corsi</a>
       <a href="https://laparolagiusta.it/#ebook">Ebook</a>
       <a href="#indice">Indice</a>
-      <a class="nav-btn" href="#acquista">Acquista</a>
+      <a class="nav-btn" href="#formati">Acquista</a>
     </div>
   </div>
 </nav>
@@ -390,7 +404,7 @@ input:focus-visible,[tabindex]:focus-visible{
       <p class="occhio">Due persone ottengono lo stesso sì nello stesso pomeriggio. Da fuori i risultati sono identici. Tre mesi dopo, una ha ancora un rapporto e l'altra un cliente che non risponde più al telefono.</p>
       <div class="hero-azioni">
         <div class="prezzo">6,99€</div>
-        <a class="btn btn-blu" href="https://corsi.laparolagiusta.it/download/convincere-senza-manipolare-larte-di-farsi-ascoltare-senza-usare-nessuno">Acquista l'ebook</a>
+        <a class="btn btn-blu" href="#formati">Scegli il formato</a>
       </div>
       <div class="dati">
         <span>12 capitoli</span>
@@ -567,6 +581,52 @@ input:focus-visible,[tabindex]:focus-visible{
         <summary>Come lo ricevo?</summary>
         <p>Subito dopo il pagamento ricevi il link di download via email. È un PDF illustrato, leggibile su computer, tablet, telefono ed ereader.</p>
       </details>
+    </div>
+  </div>
+</section>
+
+<section id="formati">
+  <div class="wrap">
+    <div class="etichetta">Tre modi di leggerlo</div>
+    <h2>Scegli il formato che fa per te</h2>
+    <p class="intro">Stesso libro, tre supporti diversi. Il contenuto non cambia: cambia come ti trovi a leggerlo.</p>
+
+    <div class="formati">
+      <article class="formato-card">
+        <div class="tipo">PDF · da questo sito</div>
+        <h3>Lo scarichi subito</h3>
+        <p>Ricevi il link via email nel giro di pochi minuti. Impaginazione curata con le immagini di apertura, leggibile su computer, tablet e telefono. Stampabile, se preferisci lavorarci sopra con la matita.</p>
+        <div class="formato-prezzo">6,99€</div>
+        <a class="btn btn-blu" href="https://corsi.laparolagiusta.it/download/convincere-senza-manipolare-larte-di-farsi-ascoltare-senza-usare-nessuno">Scarica il PDF</a>
+      </article>
+
+      <article class="formato-card">
+        <div class="tipo">Kindle · su Amazon</div>
+        <h3>Nella tua libreria</h3>
+        <p>Se leggi su Kindle o sull'app, lo trovi insieme a tutti gli altri tuoi libri: testo che si adatta allo schermo, segnalibri, evidenziazioni e sincronizzazione fra dispositivi.</p>
+        <div class="formato-prezzo">6,99€</div>
+        <a class="btn btn-linea" href="https://www.amazon.it/dp/B0HKC54DK8">Vai su Amazon</a>
+      </article>
+
+      <article class="formato-card carta">
+        <span class="bollino">Per chi ama la carta</span>
+        <div class="tipo">Cartaceo · su Amazon</div>
+        <h3>Il profumo della carta</h3>
+        <p>Perché certi libri si sottolineano a penna, si prestano, si ritrovano sul comodino mesi dopo. E perché leggere su carta è ancora il modo in cui le cose restano meglio in testa.</p>
+        <div class="formato-prezzo">13,00€</div>
+        <a class="btn btn-oro" href="https://www.amazon.it/dp/B0HKHMBJT6">Ordina la copia</a>
+      </article>
+    </div>
+
+    <p class="nota" style="margin-top:26px">Il PDF arriva subito dopo il pagamento. Kindle e cartaceo seguono i tempi e le condizioni di Amazon.</p>
+
+    <div class="collana">
+      <div>
+        <div class="etichetta" style="margin-bottom:10px">Ne vuoi più di uno?</div>
+        <h3>La collana completa</h3>
+        <p>Questo titolo fa parte di una serie di guide brevi sulla comunicazione, una per ogni problema. Su Amazon le trovi tutte insieme, in edizione Kindle e cartacea.</p>
+      </div>
+      <a class="btn btn-linea" href="https://www.amazon.it/dp/B0HKD9KQHT">Vedi la collana su Amazon</a>
     </div>
   </div>
 </section>
