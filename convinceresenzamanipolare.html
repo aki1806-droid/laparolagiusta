@@ -379,6 +379,18 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <link rel="preload" href="fonts/cormorant-garamond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jost-300-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+.box-corso{background:var(--blu-scuro);color:#DCE3EC}
+.box-corso .bc{display:grid;gap:34px;align-items:center}
+@media(min-width:860px){.box-corso .bc{grid-template-columns:1fr 1.1fr;gap:60px}}
+.box-corso img{width:100%;height:auto;border-radius:6px;display:block}
+.box-corso h2{color:#fff;max-width:22ch}
+.box-corso p{color:#A9B7C9;margin:16px 0 0}
+.box-corso .bc-dati{font-size:14px;letter-spacing:.06em;color:var(--oro-tenue);margin-top:18px}
+.box-corso .bc-az{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:26px}
+.box-corso .bc-prezzo{font-family:var(--serif);font-size:40px;color:#fff;line-height:1}
+.box-corso .btn-oro{background:var(--oro);color:#fff}
+</style>
 </head>
 <body>
 <a class="salta" href="#principale">Vai al contenuto</a>
@@ -649,6 +661,20 @@ input:focus-visible,[tabindex]:focus-visible{
         <a class="btn btn-oro" href="https://corsi.laparolagiusta.it/download/convincere-senza-manipolare-larte-di-farsi-ascoltare-senza-usare-nessuno">Acquista ora</a>
       </div>
       <p class="nota" style="margin-top:20px">Pagamento unico. Ricevi il link di download subito dopo l'acquisto.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="box-corso">
+  <div class="wrap bc">
+    <div><img decoding="async" loading="lazy" width="1400" height="781" src="img/una-persona-parla-davanti-a-una-piccola-platea.webp" alt="Una persona parla davanti a una piccola platea"></div>
+    <div>
+      <div class="etichetta">Se vuoi allenarlo</div>
+      <h2>Persuadere senza manipolare, in video.</h2>
+      <p>«Dire, ascoltare, convincere» è il corso che porta in pratica quello che leggi qui: costruire un discorso persuasivo restando dalla parte giusta, gestire obiezioni e tensioni, parlare davanti agli altri. Esempi commentati, una cosa sola per lezione.</p>
+      <div class="bc-dati">8 moduli · 40 video-lezioni da 10–15 minuti · riassunti PDF · accesso senza scadenza</div>
+      <div class="bc-az"><div class="bc-prezzo">15€</div><a class="btn btn-oro" href="direascoltareconvincere.html?utm_source=convinceresenzamanipolare&utm_medium=sito&utm_campaign=lancio-corso">Guarda il programma</a></div>
     </div>
   </div>
 </section>
