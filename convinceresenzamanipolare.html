@@ -348,7 +348,7 @@ input:focus-visible,[tabindex]:focus-visible{
 .formato-prezzo{font-family:var(--serif);font-size:34px;color:var(--blu);margin-bottom:18px;line-height:1}
 .formato-card .btn{margin-top:auto;text-align:center}
 .bollino{position:absolute;top:-11px;right:20px;background:var(--oro);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
-@media(min-width:880px){.formati{grid-template-columns:repeat(3,1fr);gap:26px}}
+@media(min-width:880px){.formati{grid-template-columns:repeat(2,1fr);gap:26px}}
 </style>
 
 <link rel="canonical" href="https://laparolagiusta.it/convinceresenzamanipolare.html">
@@ -379,8 +379,24 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <link rel="preload" href="fonts/cormorant-garamond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jost-300-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+.box-corso{background:var(--blu-scuro);color:#DCE3EC}
+.box-corso .bc{display:grid;gap:34px;align-items:center}
+@media(min-width:860px){.box-corso .bc{grid-template-columns:1fr 1.1fr;gap:60px}}
+.box-corso img{width:100%;height:auto;border-radius:6px;display:block}
+.box-corso h2{color:#fff;max-width:22ch}
+.box-corso p{color:#A9B7C9;margin:16px 0 0}
+.box-corso .bc-dati{font-size:14px;letter-spacing:.06em;color:var(--oro-tenue);margin-top:18px}
+.box-corso .bc-az{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:26px}
+.box-corso .bc-prezzo{font-family:var(--serif);font-size:40px;color:#fff;line-height:1}
+.box-corso .btn-oro{background:var(--oro);color:#fff}
+</style>
 </head>
 <body>
+
+<!-- LANCIO AUTUNNALE: inizio (togliere dal 1 novembre) -->
+<div class="lancio-fascia" style="background:#042C57;color:#F7F2E7;text-align:center;padding:11px 16px;font-size:14.5px;line-height:1.5;letter-spacing:.02em"><span style="color:#C6A054;font-family:var(--serif,Georgia,serif);font-size:17px">Lancio autunnale</span> &middot; fino al 31 ottobre gli ebook Kindle della collana sono a 2,99&nbsp;€ e i cartacei partono da 7,99&nbsp;€ &middot; <a href="#formati" style="color:#F7F2E7;text-decoration:underline">scegli il formato</a></div>
+<!-- LANCIO AUTUNNALE: fine -->
 <a class="salta" href="#principale">Vai al contenuto</a>
 <nav class="nav">
   <div class="wrap nav-in">
@@ -403,14 +419,14 @@ input:focus-visible,[tabindex]:focus-visible{
       <div class="sottotitolo">L'arte di farsi ascoltare senza usare nessuno</div>
       <p class="occhio">Due persone ottengono lo stesso sì nello stesso pomeriggio. Da fuori i risultati sono identici. Tre mesi dopo, una ha ancora un rapporto e l'altra un cliente che non risponde più al telefono.</p>
       <div class="hero-azioni">
-        <div class="prezzo">6,99€</div>
+        <div class="prezzo">2,99€</div>
         <a class="btn btn-blu" href="#formati">Scegli il formato</a>
       </div>
       <div class="dati">
         <span>12 capitoli</span>
         <span>100 pagine</span>
-        <span>PDF illustrato</span>
-        <span>Download immediato</span>
+        <span>Kindle e cartaceo</span>
+        <span>Prezzo di lancio fino al 31/10</span>
       </div>
     </div>
     <div class="cop"><img decoding="async" width="700" height="992" src="img/copertina-di-convincere-senza-manipolare.webp" alt="Copertina di Convincere senza manipolare"></div>
@@ -579,7 +595,7 @@ input:focus-visible,[tabindex]:focus-visible{
       </details>
       <details>
         <summary>Come lo ricevo?</summary>
-        <p>Subito dopo il pagamento ricevi il link di download via email. È un PDF illustrato, leggibile su computer, tablet, telefono ed ereader.</p>
+        <p>Lo trovi su Amazon, in edizione Kindle e cartacea. L'ebook arriva subito nella tua libreria e si legge su Kindle, oppure con l'app Kindle gratuita su telefono, tablet e computer.</p>
       </details>
     </div>
   </div>
@@ -587,24 +603,17 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <section id="formati">
   <div class="wrap">
-    <div class="etichetta">Tre modi di leggerlo</div>
+    <div class="etichetta">Due modi di leggerlo</div>
     <h2>Scegli il formato che fa per te</h2>
-    <p class="intro">Stesso libro, tre supporti diversi. Il contenuto non cambia: cambia come ti trovi a leggerlo.</p>
+    <p class="intro">Stesso libro, due supporti diversi. Il contenuto non cambia: cambia come ti trovi a leggerlo.</p>
 
     <div class="formati">
-      <article class="formato-card">
-        <div class="tipo">PDF · da questo sito</div>
-        <h3>Lo scarichi subito</h3>
-        <p>Ricevi il link via email nel giro di pochi minuti. Impaginazione curata con le immagini di apertura, leggibile su computer, tablet e telefono. Stampabile, se preferisci lavorarci sopra con la matita.</p>
-        <div class="formato-prezzo">6,99€</div>
-        <a class="btn btn-blu" href="https://corsi.laparolagiusta.it/download/convincere-senza-manipolare-larte-di-farsi-ascoltare-senza-usare-nessuno">Scarica il PDF</a>
-      </article>
 
       <article class="formato-card">
         <div class="tipo">Kindle · su Amazon</div>
         <h3>Nella tua libreria</h3>
         <p>Se leggi su Kindle o sull'app, lo trovi insieme a tutti gli altri tuoi libri: testo che si adatta allo schermo, segnalibri, evidenziazioni e sincronizzazione fra dispositivi.</p>
-        <div class="formato-prezzo">6,99€</div>
+        <div class="formato-prezzo">2,99€<span style="display:block;font-family:var(--sans,inherit);font-size:13px;color:#B09456;margin-top:8px;letter-spacing:.02em">Lancio autunnale, fino al 31 ottobre</span></div>
         <a class="btn btn-linea" href="https://www.amazon.it/dp/B0HKC54DK8">Vai su Amazon</a>
       </article>
 
@@ -613,12 +622,12 @@ input:focus-visible,[tabindex]:focus-visible{
         <div class="tipo">Cartaceo · su Amazon</div>
         <h3>Il profumo della carta</h3>
         <p>Perché certi libri si sottolineano a penna, si prestano, si ritrovano sul comodino mesi dopo. E perché leggere su carta è ancora il modo in cui le cose restano meglio in testa.</p>
-        <div class="formato-prezzo">13,00€</div>
+        <div class="formato-prezzo">7,99€<span style="display:block;font-family:var(--sans,inherit);font-size:13px;color:#B09456;margin-top:8px;letter-spacing:.02em">Lancio autunnale, fino al 31 ottobre</span></div>
         <a class="btn btn-oro" href="https://www.amazon.it/dp/B0HKHMBJT6">Ordina la copia</a>
       </article>
     </div>
 
-    <p class="nota" style="margin-top:26px">Il PDF arriva subito dopo il pagamento. Kindle e cartaceo seguono i tempi e le condizioni di Amazon.</p>
+    <p class="nota" style="margin-top:26px">Kindle e cartaceo seguono i tempi e le condizioni di Amazon.</p>
 
     <div class="collana">
       <div>
@@ -635,20 +644,34 @@ input:focus-visible,[tabindex]:focus-visible{
   <div class="wrap acquisto">
     <div class="cop"><img decoding="async" width="700" height="992" src="img/copertina-di-convincere-senza-manipolare.webp" alt="Copertina di Convincere senza manipolare" loading="lazy"></div>
     <div class="scheda-acquisto">
-      <div class="etichetta">Ebook · download immediato</div>
+      <div class="etichetta">Kindle · su Amazon</div>
       <h3>Convincere senza manipolare</h3>
       <p class="nota">L'arte di farsi ascoltare senza usare nessuno</p>
       <ul class="incluso">
-        <li>12 capitoli, 100 pagine, PDF illustrato</li>
+        <li>12 capitoli, 100 pagine</li>
         <li>Un esercizio pratico alla fine di ogni capitolo</li>
         <li>Le tecniche manipolative descritte per esteso, per difendersi</li>
-        <li>Leggibile su qualsiasi dispositivo, per sempre</li>
+        <li>Si legge su Kindle o con l'app Kindle gratuita, su qualsiasi dispositivo</li>
       </ul>
       <div class="hero-azioni" style="margin-top:0">
-        <div class="prezzo">6,99€</div>
-        <a class="btn btn-oro" href="https://corsi.laparolagiusta.it/download/convincere-senza-manipolare-larte-di-farsi-ascoltare-senza-usare-nessuno">Acquista ora</a>
+        <div class="prezzo">2,99€</div>
+        <a class="btn btn-oro" href="https://www.amazon.it/dp/B0HKC54DK8">Acquista su Amazon</a>
       </div>
-      <p class="nota" style="margin-top:20px">Pagamento unico. Ricevi il link di download subito dopo l'acquisto.</p>
+      <p class="nota" style="margin-top:20px">Prezzo di lancio autunnale valido fino al 31 ottobre. L'edizione cartacea la trovi nella sezione formati.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="box-corso">
+  <div class="wrap bc">
+    <div><img decoding="async" loading="lazy" width="1400" height="781" src="img/una-persona-parla-davanti-a-una-piccola-platea.webp" alt="Una persona parla davanti a una piccola platea"></div>
+    <div>
+      <div class="etichetta">Se vuoi allenarlo</div>
+      <h2>Persuadere senza manipolare, in video.</h2>
+      <p>«Dire, ascoltare, convincere» è il corso che porta in pratica quello che leggi qui: costruire un discorso persuasivo restando dalla parte giusta, gestire obiezioni e tensioni, parlare davanti agli altri. Esempi commentati, una cosa sola per lezione.</p>
+      <div class="bc-dati">8 moduli · 40 video-lezioni da 10–15 minuti · riassunti PDF · accesso senza scadenza</div>
+      <div class="bc-az"><div class="bc-prezzo">15€</div><a class="btn btn-oro" href="direascoltareconvincere.html?utm_source=convinceresenzamanipolare&utm_medium=sito&utm_campaign=lancio-corso">Guarda il programma</a></div>
     </div>
   </div>
 </section>
@@ -690,6 +713,6 @@ input:focus-visible,[tabindex]:focus-visible{
 <script data-goatcounter="https://laparolagiusta.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://laparolagiusta.it/#autore","name":"Achille Pagliaro","url":"https://laparolagiusta.it/achillepagliaro.html","jobTitle":"Autore e formatore in comunicazione","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"Organization","@id":"https://laparolagiusta.it/#marchio","name":"La Parola Giusta","url":"https://laparolagiusta.it/","founder":{"@id":"https://laparolagiusta.it/#autore"},"email":"info@laparolagiusta.it","logo":"https://laparolagiusta.it/img/c5acd835.webp","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"WebPage","@id":"https://laparolagiusta.it/convinceresenzamanipolare.html#pagina","url":"https://laparolagiusta.it/convinceresenzamanipolare.html","name":"Convincere senza manipolare — Achille Pagliaro | La Parola Giusta","description":"L'arte di farsi ascoltare senza usare nessuno: argomenti, obiezioni, il no e il confine con la manipolazione. Un ebook di Achille Pagliaro.","inLanguage":"it-IT","isPartOf":{"@id":"https://laparolagiusta.it/#sito"}},{"@type":"WebSite","@id":"https://laparolagiusta.it/#sito","url":"https://laparolagiusta.it/","name":"La Parola Giusta","inLanguage":"it-IT","publisher":{"@id":"https://laparolagiusta.it/#marchio"}},{"@type":"Book","@id":"https://laparolagiusta.it/convinceresenzamanipolare.html#ebook","name":"Convincere senza manipolare","author":{"@id":"https://laparolagiusta.it/#autore"},"bookFormat":"https://schema.org/EBook","inLanguage":"it","description":"L'arte di farsi ascoltare senza usare nessuno: argomenti, obiezioni, il no e il confine con la manipolazione. Un ebook di Achille Pagliaro.","url":"https://laparolagiusta.it/convinceresenzamanipolare.html","image":"https://laparolagiusta.it/img/social/convinceresenzamanipolare-og.jpg","offers":{"@type":"Offer","price":"7.99","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://laparolagiusta.it/convinceresenzamanipolare.html"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://laparolagiusta.it/#autore","name":"Achille Pagliaro","url":"https://laparolagiusta.it/achillepagliaro.html","jobTitle":"Autore e formatore in comunicazione","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"Organization","@id":"https://laparolagiusta.it/#marchio","name":"La Parola Giusta","url":"https://laparolagiusta.it/","founder":{"@id":"https://laparolagiusta.it/#autore"},"email":"info@laparolagiusta.it","logo":"https://laparolagiusta.it/img/c5acd835.webp","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"WebPage","@id":"https://laparolagiusta.it/convinceresenzamanipolare.html#pagina","url":"https://laparolagiusta.it/convinceresenzamanipolare.html","name":"Convincere senza manipolare — Achille Pagliaro | La Parola Giusta","description":"L'arte di farsi ascoltare senza usare nessuno: argomenti, obiezioni, il no e il confine con la manipolazione. Un ebook di Achille Pagliaro.","inLanguage":"it-IT","isPartOf":{"@id":"https://laparolagiusta.it/#sito"}},{"@type":"WebSite","@id":"https://laparolagiusta.it/#sito","url":"https://laparolagiusta.it/","name":"La Parola Giusta","inLanguage":"it-IT","publisher":{"@id":"https://laparolagiusta.it/#marchio"}},{"@type":"Book","@id":"https://laparolagiusta.it/convinceresenzamanipolare.html#ebook","name":"Convincere senza manipolare","author":{"@id":"https://laparolagiusta.it/#autore"},"bookFormat":"https://schema.org/EBook","inLanguage":"it","description":"L'arte di farsi ascoltare senza usare nessuno: argomenti, obiezioni, il no e il confine con la manipolazione. Un ebook di Achille Pagliaro.","url":"https://laparolagiusta.it/convinceresenzamanipolare.html","image":"https://laparolagiusta.it/img/social/convinceresenzamanipolare-og.jpg","offers":{"@type":"Offer","price":"2.99","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://www.amazon.it/dp/B0HKC54DK8"}}]}</script>
 </body>
 </html>
