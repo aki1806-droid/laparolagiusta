@@ -347,6 +347,17 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   .secondo{grid-template-columns:.5fr 1.5fr;gap:56px}
 }
 
+
+.box-corso{background:var(--blu-scuro);color:#DCE3EC}
+.box-corso .bc{display:grid;gap:34px;align-items:center}
+@media(min-width:860px){.box-corso .bc{grid-template-columns:1fr 1.1fr;gap:60px}}
+.box-corso img{width:100%;height:auto;border-radius:6px;display:block}
+.box-corso h2{color:#fff;max-width:22ch}
+.box-corso p{color:#A9B7C9;margin:16px 0 0}
+.box-corso .bc-dati{font-size:14px;letter-spacing:.06em;color:var(--oro-tenue);margin-top:18px}
+.box-corso .bc-az{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:26px}
+.box-corso .bc-prezzo{font-family:var(--serif);font-size:40px;color:#fff;line-height:1}
+.box-corso .btn-oro{background:var(--oro);color:#fff}
 </style>
 </head>
 <body>
@@ -423,6 +434,20 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
         </div>
         <p class="altro">Se invece hai una conversazione in sospeso, il libro giusto è <a href="conversazionidifficili.html?utm_source=grazie-ebook&utm_medium=sito">Conversazioni difficili</a>. Tutti gli altri titoli sono <a href="./#ebook">nella pagina principale</a>.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="box-corso">
+  <div class="wrap bc">
+    <div><img decoding="async" loading="lazy" width="1400" height="781" src="img/una-persona-parla-davanti-a-una-piccola-platea.webp" alt="Una persona parla davanti a una piccola platea"></div>
+    <div>
+      <div class="etichetta">Il corso in video</div>
+      <h2>Dire, ascoltare, convincere</h2>
+      <p>Gli ebook spiegano cosa dire. Il corso fa vedere come si dice: ascoltare fino in fondo, costruire un messaggio che resta, rispondere a un'obiezione senza trasformarla in un braccio di ferro, parlare davanti agli altri senza recitare una parte. Una cosa sola per lezione.</p>
+      <div class="bc-dati">8 moduli · 40 video-lezioni da 10–15 minuti · riassunti PDF · accesso senza scadenza</div>
+      <div class="bc-az"><div class="bc-prezzo">15€</div><a class="btn btn-oro" href="direascoltareconvincere.html?utm_source=grazie-ebook&utm_medium=sito&utm_campaign=lancio-corso">Guarda il programma</a></div>
     </div>
   </div>
 </section>
