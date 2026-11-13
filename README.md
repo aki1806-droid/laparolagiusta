@@ -6,3 +6,4 @@ su https://aki1806-droid.github.io/laparolagiusta/
 - `index.html` — home: La Parola Giusta (corsi, libri, ebook)
 - `achillepagliaro.html` — i libri: Il Volo delle Radici, Mappe Silenziose, Eredità Invisibili
 - `laparolagiusta.html` — reindirizzamento alla home, per il vecchio indirizzo
+- `biglietto/` — biglietto da visita digitale, separato dal sito: non collegato dalle pagine, fuori dalla sitemap, con noindex
