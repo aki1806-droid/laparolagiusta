@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Achille Pagliaro — I libri</title>
-<meta name="description" content="Il Volo delle Radici e Mappe Silenziose: due libri per chi ha il coraggio di rallentare in un mondo che corre.">
+<meta name="description" content="Il Volo delle Radici, Mappe Silenziose e, dal 20 novembre, Eredità Invisibili: tre libri per chi ha il coraggio di rallentare in un mondo che corre.">
+<script>/* animazioni solo se lo script parte; dal 20 novembre 2026 i testi passano da "in uscita" a "in libreria" */
+(function(h){h.className+=' js';var o=new Date();o.setHours(0,0,0,0);if(o>=new Date(2026,10,20))h.className+=' uscito'})(document.documentElement)</script>
 <style>
 /* La Parola Giusta — font serviti dal dominio, nessuna chiamata a Google */
 
@@ -156,7 +158,9 @@
   --blu:#12294A;--blu-scuro:#0B1B33;--oro:#C39A4E;--oro-tenue:#E2D2B0;
   --panna:#F7F3EA;--panna-2:#EFE9DC;--bianco:#FFFCF6;
   --testo:#1C2B3F;--tenue:#69748A;--linea:#DED5C2;
+  --notte:#081526;--notte-2:#0E2140;--luna:#EEF2F8;--luna-tenue:#A9B8CE;--oro-chiaro:#DDBD7C;
   --serif:"Cormorant Garamond",Georgia,serif;--sans:"Jost",system-ui,sans-serif;
+  --molla:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -164,11 +168,18 @@ body{margin:0;background:var(--panna);color:var(--testo);font-family:var(--sans)
 img{max-width:100%;height:auto;display:block}
 p{margin:0 0 1.1em}
 a{color:inherit}
-h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.14;letter-spacing:-0.01em;margin:0;color:var(--blu)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.14;letter-spacing:-0.01em;margin:0;color:var(--blu);text-wrap:balance}
 .wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 24px}
 .stretto{max-width:740px}
+[id]{scroll-margin-top:118px}
+
+/* testi che cambiano il giorno dell'uscita: la classe "uscito" la mette lo script in testa */
+.dopo{display:none}
+.uscito .prima{display:none}
+.uscito .dopo{display:inline}
 
 .nav{position:sticky;top:0;z-index:60;background:rgba(247,243,234,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+.nav::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--oro);transform-origin:left;transform:scaleX(var(--letto,0))}
 .nav-in{display:flex;align-items:center;flex-wrap:wrap;gap:26px;min-height:64px}
 .marchio{font-family:var(--serif);font-size:22px;color:var(--blu);text-decoration:none;white-space:nowrap}
 .nav-sezioni{display:flex;align-items:center;gap:26px;margin-left:auto}
@@ -185,130 +196,288 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.14;letter-spacin
   .nav-sezioni a{font-size:13px}
 }
 
-.btn{display:inline-block;font-size:15px;letter-spacing:.03em;padding:15px 30px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s}
+.btn{display:inline-block;font-size:15px;letter-spacing:.03em;padding:15px 30px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;
+  transition:background .25s,color .25s,border-color .25s,transform .35s var(--molla),box-shadow .35s var(--molla)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(18,41,74,.18)}
 .btn-blu{background:var(--blu);color:var(--panna)}
 .btn-blu:hover{background:var(--blu-scuro)}
 .btn-oro{background:var(--oro);color:#fff}
 .btn-oro:hover{background:#B08A40}
 .btn-linea{border-color:var(--blu);color:var(--blu)}
 .btn-linea:hover{background:var(--blu);color:var(--panna)}
+.btn-luce{background:var(--panna);color:var(--blu)}
+.btn-luce:hover{background:#fff;box-shadow:0 10px 30px rgba(255,236,190,.22)}
+.btn-linea-chiara{border-color:rgba(238,242,248,.55);color:var(--luna)}
+.btn-linea-chiara:hover{background:var(--luna);color:var(--blu);box-shadow:none}
 
-.hero{position:relative;isolation:isolate;padding:76px 0 84px;text-align:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:-2;background:url("img/sfondo-b665cd05.webp") center 60%/cover no-repeat}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(247,243,234,.94),rgba(247,243,234,.86) 55%,rgba(247,243,234,.97))}
-.hero h1{font-size:clamp(36px,7vw,60px);font-weight:300;max-width:16ch;margin:0 auto}
-.hero h1 em{font-style:italic;color:var(--oro)}
-.hero p.occhio{color:var(--tenue);font-size:19px;max-width:48ch;margin:22px auto 0}
-.hero-azioni{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:32px}
-.copertine{display:flex;gap:22px;justify-content:center;align-items:flex-end;margin-top:46px}
-.copertine img{width:min(38vw,220px);height:auto;box-shadow:0 16px 40px rgba(18,41,74,.24)}
-.copertine img:first-child{transform:rotate(-3deg)}
-.copertine img:last-child{transform:rotate(3deg)}
+/* --- cielo: due strati di stelle che respirano --- */
+.notte{position:relative;isolation:isolate;overflow:hidden;color:var(--luna)}
+.notte h1,.notte h2,.notte h3{color:#fff}
+.notte .etichetta{color:var(--oro-chiaro)}
+.notte .intro{color:var(--luna-tenue)}
+.notte .nota{color:var(--luna-tenue)}
+.cielo{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  -webkit-mask-image:linear-gradient(#000 30%,transparent 96%);mask-image:linear-gradient(#000 30%,transparent 96%)}
+.cielo i{position:absolute;inset:0;display:block}
+.cielo i:first-child{background-size:330px 330px;animation:brilla 7s ease-in-out infinite alternate;
+  background-image:
+    radial-gradient(1.6px 1.6px at 9% 14%,#fff 50%,transparent 52%),
+    radial-gradient(1.3px 1.3px at 27% 71%,#DCE6FF 50%,transparent 52%),
+    radial-gradient(2px 2px at 44% 33%,#FFF6DD 50%,transparent 52%),
+    radial-gradient(1px 1px at 61% 88%,#fff 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 73% 22%,#DCE6FF 50%,transparent 52%),
+    radial-gradient(1px 1px at 88% 57%,#fff 50%,transparent 52%),
+    radial-gradient(.9px .9px at 52% 60%,#fff 50%,transparent 52%)}
+.cielo i:last-child{background-size:510px 510px;animation:brilla 11s ease-in-out -5s infinite alternate;
+  background-image:
+    radial-gradient(2.2px 2.2px at 16% 42%,#FFF6DD 50%,transparent 52%),
+    radial-gradient(1px 1px at 36% 9%,#fff 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 58% 77%,#DCE6FF 50%,transparent 52%),
+    radial-gradient(1px 1px at 79% 39%,#fff 50%,transparent 52%),
+    radial-gradient(1.8px 1.8px at 93% 84%,#fff 50%,transparent 52%),
+    radial-gradient(.9px .9px at 6% 81%,#DCE6FF 50%,transparent 52%)}
+@keyframes brilla{from{opacity:.38}to{opacity:1}}
+/* una stella cadente ogni tanto, solo in apertura */
+.cadente{position:absolute;top:12%;left:58%;width:110px;height:1px;z-index:-1;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.9));transform:rotate(-24deg);
+  animation:cade 17s ease-in 4s infinite}
+@keyframes cade{0%{opacity:0;transform:translate(0,0) rotate(156deg)}2%{opacity:1}7%{opacity:0;transform:translate(-260px,116px) rotate(156deg)}100%{opacity:0;transform:translate(-260px,116px) rotate(156deg)}}
+
+/* --- apertura --- */
+.hero{background:radial-gradient(120% 90% at 80% 6%,#1D3E6E 0%,#0F2444 36%,var(--notte) 78%);padding:54px 0 72px}
+.hero-griglia{display:grid;gap:30px;grid-template-areas:"testa" "figura" "coda"}
+.hero-testa{grid-area:testa}
+.hero-figura{grid-area:figura;position:relative;isolation:isolate;margin:0 14px 10px 0}
+.hero-coda{grid-area:coda}
+.hero h1{font-size:clamp(50px,13.5vw,96px);font-weight:300;line-height:.98;letter-spacing:.005em}
+.hero h1 span{display:block}
+.sottotitolo{font-family:var(--serif);font-style:italic;font-size:clamp(21px,4.6vw,29px);color:var(--oro-chiaro);margin-top:14px}
+.motto{font-family:var(--serif);font-size:clamp(25px,5.4vw,36px);line-height:1.22;color:#fff;margin:0 0 14px}
+.hero p.occhio{color:var(--luna-tenue);font-size:18px;max-width:46ch;margin:0}
+.uscita{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:26px;padding:10px 20px 10px 16px;border:1px solid rgba(221,189,124,.55);border-radius:999px;font-size:14.5px;letter-spacing:.05em;color:var(--luna);background:rgba(8,21,38,.35)}
+.uscita b{font-weight:400;color:var(--oro-chiaro)}
+.uscita-punto{width:8px;height:8px;border-radius:50%;background:var(--oro-chiaro);box-shadow:0 0 0 0 rgba(221,189,124,.6);animation:battito 2.4s ease-out infinite}
+.conto{color:var(--luna-tenue);padding-left:12px;border-left:1px solid rgba(221,189,124,.4)}
+@keyframes battito{0%{box-shadow:0 0 0 0 rgba(221,189,124,.6)}70%,100%{box-shadow:0 0 0 12px rgba(221,189,124,0)}}
+.hero-azioni{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.hero-scheda{font-size:13.5px;letter-spacing:.08em;color:var(--luna-tenue);margin:22px 0 0}
+.cornice{position:relative;overflow:hidden;border-radius:3px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.cornice img{width:100%;animation:respiro 20s ease-in-out infinite alternate;transform-origin:50% 42%}
+.hero-figura::before{content:"";position:absolute;inset:16px -14px -14px 16px;border:1px solid rgba(221,189,124,.5);z-index:-1}
+.hero-figura::after{content:"";position:absolute;inset:-18% -22%;z-index:-2;background:radial-gradient(closest-side,rgba(120,160,225,.22),transparent 70%);pointer-events:none}
+@keyframes respiro{from{transform:scale(1)}to{transform:scale(1.05)}}
+.sale{animation:sale 1.1s var(--molla) both;animation-delay:calc(var(--i,0)*.12s + .1s)}
+@keyframes sale{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
 section{padding:80px 0}
 .tinta{background:var(--panna-2)}
 .etichetta{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);margin-bottom:16px}
 h2{font-size:clamp(28px,5.2vw,42px);max-width:20ch}
 .intro{color:var(--tenue);max-width:58ch;margin-top:18px;font-size:18px}
-.filo{width:56px;height:1px;background:var(--oro);margin:26px 0}
+.filo{width:56px;height:1px;background:var(--oro);margin:26px 0;transform-origin:left;transition:transform 1.1s var(--molla) .2s}
+.js .r:not(.visto) .filo{transform:scaleX(0)}
 .citazione{font-family:var(--serif);font-style:italic;font-size:clamp(24px,4.2vw,34px);line-height:1.36;color:var(--blu);max-width:26ch}
 .centro{text-align:center}
 .centro h2,.centro .intro,.centro .citazione{margin-left:auto;margin-right:auto}
+.centro .intro,.detto p,.motto{text-wrap:balance}
+
+/* --- comparsa allo scorrimento (solo se lo script e' partito) --- */
+.js .r{opacity:0;transform:translateY(26px);transition:opacity .9s var(--molla),transform .9s var(--molla);transition-delay:var(--d,0s)}
+.js .r.visto{opacity:1;transform:none}
+@media print{.js .r{opacity:1;transform:none}}
+
+/* --- tre soglie, tre copertine --- */
+.trittico{display:grid;gap:44px;align-items:center}
+.ventaglio{display:flex;justify-content:center;align-items:flex-end;padding:18px 0 4px}
+.ventaglio img{width:min(29vw,186px);margin:0 -7px;box-shadow:0 18px 44px rgba(18,41,74,.3);transition:transform 1.1s var(--molla),box-shadow .5s}
+.ventaglio img:nth-child(1){transform:rotate(-7deg);z-index:1}
+.ventaglio img:nth-child(2){transform:translateY(-16px) scale(1.04);z-index:3}
+.ventaglio img:nth-child(3){transform:rotate(7deg);z-index:2}
+.js .ventaglio:not(.visto) img:nth-child(1){transform:translateX(60%) rotate(0)}
+.js .ventaglio:not(.visto) img:nth-child(2){transform:none}
+.js .ventaglio:not(.visto) img:nth-child(3){transform:translateX(-60%) rotate(0)}
+.soglie{list-style:none;padding:0;margin:30px 0 0;display:grid;gap:0;counter-reset:s}
+.soglie li{counter-increment:s;position:relative;padding:18px 0 18px 54px;border-top:1px solid var(--linea)}
+.soglie li:last-child{border-bottom:1px solid var(--linea)}
+.soglie li::before{content:counter(s,upper-roman);position:absolute;left:0;top:17px;width:36px;font-family:var(--serif);font-size:24px;color:var(--oro);text-align:center}
+.soglie b{display:block;font-family:var(--serif);font-weight:400;font-size:23px;color:var(--blu);line-height:1.2}
+.soglie span{color:var(--tenue);font-size:16.5px}
 
 .elenco{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:14px}
 .elenco li{position:relative;padding-left:26px;color:var(--tenue);font-size:16.5px}
 .elenco li::before{content:"";position:absolute;left:0;top:13px;width:12px;height:1px;background:var(--oro)}
 
-.due{display:grid;gap:34px;margin-top:44px}
-.riquadro{background:var(--bianco);border:1px solid var(--linea);border-radius:3px;padding:28px 26px}
+.due,.tre{display:grid;gap:34px;margin-top:44px}
+.riquadro{background:var(--bianco);border:1px solid var(--linea);border-radius:3px;padding:28px 26px;transition:transform .5s var(--molla),box-shadow .5s var(--molla),border-color .5s}
+.riquadro:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(18,41,74,.1);border-color:var(--oro-tenue)}
 .riquadro h3{font-size:24px;margin-bottom:12px}
 
-.libro{display:grid;gap:32px;align-items:start;padding:44px 0;border-top:1px solid var(--linea)}
-.libro-cop{position:relative}
-.libro-cop img{box-shadow:0 16px 40px rgba(18,41,74,.2)}
+/* --- i tre libri lungo un filo --- */
+.cammino{--rientro:30px;--asse:6px;position:relative;margin-top:30px;padding-left:var(--rientro)}
+.cammino::before{content:"";position:absolute;left:var(--asse);top:0;bottom:0;width:1px;background:var(--linea)}
+.cammino-filo{position:absolute;left:calc(var(--asse) - 1px);top:0;bottom:0;width:3px;border-radius:2px;background:linear-gradient(var(--oro),var(--oro-chiaro));transform-origin:top;transform:scaleY(var(--filo,1))}
+.js .cammino-filo{--filo:0}
+.libro{position:relative;display:grid;gap:32px;align-items:start;padding:44px 0}
+.libro::before{content:"";position:absolute;left:calc(var(--asse) - var(--rientro) - 7px);top:50px;width:15px;height:15px;border-radius:50%;background:var(--panna);border:1px solid var(--oro);transition:background .6s,box-shadow .6s}
+.libro.visto::before,html:not(.js) .libro::before{background:var(--oro);box-shadow:0 0 0 6px rgba(195,154,78,.16)}
+.libro-cop{position:relative;isolation:isolate;max-width:250px}
+.libro-cop img{box-shadow:0 16px 40px rgba(18,41,74,.2);transition:transform .7s var(--molla),box-shadow .7s var(--molla)}
+.libro-cop:hover img{transform:translateY(-8px) rotate(-1.2deg);box-shadow:0 30px 60px rgba(18,41,74,.28)}
 .libro-cop::before{content:"";position:absolute;inset:18px -18px -18px 18px;border:1px solid var(--oro-tenue);z-index:-1}
 .libro h3{font-size:clamp(28px,5vw,38px);margin-bottom:8px}
 .movimento{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);margin-bottom:16px}
 .libro p{color:var(--tenue)}
+.libro .scheda{font-size:13.5px;letter-spacing:.08em;color:var(--blu);margin:0 0 16px}
 .ideale{background:var(--panna-2);border-left:2px solid var(--oro);padding:16px 20px;margin:24px 0;font-size:16px;color:var(--testo)}
 .ideale b{font-weight:400;font-family:var(--serif);font-size:18px}
-.attesa{aspect-ratio:2/3;border:1px dashed var(--oro);display:flex;align-items:center;justify-content:center;background:var(--bianco)}
-.attesa span{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--oro)}
+.novita{display:inline-block;margin:4px 0 0 10px;padding:3px 12px;border-radius:999px;background:var(--blu);color:var(--panna);font-size:11px;letter-spacing:.14em;vertical-align:2px}
+
+/* --- le sei stanze: un cerchio di pietre --- */
+.stanze-sez{background:linear-gradient(180deg,var(--notte) 0%,#0D1F3C 52%,var(--notte) 100%)}
+.stanze{display:grid;gap:34px;margin-top:46px;align-items:center}
+.cerchio{display:none;position:relative;width:min(100%,410px);aspect-ratio:1;margin:0 auto}
+.js .cerchio{display:block}
+.cerchio-anello{position:absolute;inset:11%;border-radius:50%;border:1px dashed rgba(221,189,124,.38);animation:gira 120s linear infinite}
+.cerchio-anello::before{content:"";position:absolute;inset:-9%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,232,180,.13),transparent 72%)}
+@keyframes gira{to{transform:rotate(360deg)}}
+.pietra{position:absolute;width:20.5%;aspect-ratio:1.28;padding:0;border:0;cursor:pointer;transform:translate(-50%,-50%);
+  font-family:var(--serif);font-size:clamp(16px,4.4vw,20px);color:#22314A;
+  background:radial-gradient(120% 120% at 32% 24%,#DCE4EE 0%,#9AA9BD 42%,#5F7089 78%,#46566E 100%);
+  box-shadow:0 10px 18px rgba(0,0,0,.5),inset 0 -6px 10px rgba(20,32,52,.45),inset 0 3px 5px rgba(255,255,255,.35);
+  transition:transform .6s var(--molla),box-shadow .6s,filter .6s}
+.pietra:nth-of-type(1){left:50%;top:12%;border-radius:58% 42% 52% 48%/56% 50% 50% 44%}
+.pietra:nth-of-type(2){left:82.9%;top:31%;border-radius:48% 52% 44% 56%/52% 58% 42% 48%}
+.pietra:nth-of-type(3){left:82.9%;top:69%;border-radius:54% 46% 58% 42%/48% 52% 48% 52%}
+.pietra:nth-of-type(4){left:50%;top:88%;border-radius:44% 56% 48% 52%/58% 46% 54% 42%}
+.pietra:nth-of-type(5){left:17.1%;top:69%;border-radius:56% 44% 46% 54%/50% 54% 46% 50%}
+.pietra:nth-of-type(6){left:17.1%;top:31%;border-radius:50% 50% 56% 44%/46% 56% 44% 54%}
+.pietra:hover{filter:brightness(1.1);transform:translate(-50%,-50%) scale(1.06)}
+.pietra[aria-selected="true"]{transform:translate(-50%,-50%) scale(1.16);filter:brightness(1.16);color:#101B2E;
+  box-shadow:0 0 0 1px rgba(255,244,214,.7),0 0 28px 8px rgba(255,236,190,.5),0 10px 18px rgba(0,0,0,.5),inset 0 -6px 10px rgba(20,32,52,.35),inset 0 3px 5px rgba(255,255,255,.5)}
+.notte .pietra:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:5px}
+.cuore{position:absolute;left:50%;top:50%;width:43%;aspect-ratio:1.42;transform:translate(-50%,-50%);border-radius:50%/56% 56% 44% 44%;
+  background:radial-gradient(110% 110% at 40% 28%,#FFFDF6 0%,#F6ECD2 38%,#DCC896 74%,#B9A067 100%);
+  box-shadow:0 0 40px 10px rgba(255,238,196,.34),0 0 110px 40px rgba(255,226,160,.15),inset 0 -8px 14px rgba(120,96,48,.35);
+  display:grid;place-items:center;text-align:center;padding:0 8%;animation:pulsa 5s ease-in-out infinite alternate}
+.cuore span{font-family:var(--serif);font-size:clamp(19px,5.2vw,26px);line-height:1.05;color:#2A2415;transition:opacity .3s}
+.cuore span.cambia{opacity:0}
+@keyframes pulsa{from{box-shadow:0 0 30px 6px rgba(255,238,196,.26),0 0 90px 30px rgba(255,226,160,.1),inset 0 -8px 14px rgba(120,96,48,.35)}
+  to{box-shadow:0 0 48px 14px rgba(255,238,196,.42),0 0 130px 50px rgba(255,226,160,.2),inset 0 -8px 14px rgba(120,96,48,.35)}}
+.tocca{display:none;text-align:center;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--luna-tenue);margin:18px 0 0}
+.js .tocca{display:block}
+.stanza + .stanza{margin-top:38px;padding-top:34px;border-top:1px solid rgba(221,189,124,.22)}
+.js .stanza{display:none;margin:0;padding:0;border:0}
+.js .stanza.attiva{display:block;animation:sale .7s var(--molla) both}
+.js .stanze-testi{min-height:322px}
+.stanza-num{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro-chiaro)}
+.stanza h3{font-size:clamp(32px,6.4vw,46px);margin:10px 0 14px}
+.stanza p{color:var(--luna-tenue);font-size:17.5px;max-width:50ch;margin:0}
+.capitoli{list-style:none;padding:0;margin:24px 0 0;display:flex;flex-wrap:wrap;gap:8px 10px}
+.capitoli li{font-family:var(--serif);font-style:italic;font-size:17.5px;line-height:1.3;color:var(--luna);border:1px solid rgba(221,189,124,.38);border-radius:999px;padding:5px 15px}
+.detto{margin:64px auto 0;max-width:780px;text-align:center;position:relative;padding-top:54px}
+.detto::before{content:"\201C";position:absolute;left:50%;top:-6px;transform:translateX(-50%);font-family:var(--serif);font-size:110px;line-height:1;color:var(--oro-chiaro);opacity:.75}
+.detto p{font-family:var(--serif);font-style:italic;font-size:clamp(25px,4.8vw,38px);line-height:1.3;color:#fff;margin:0}
+.detto cite{display:block;margin-top:18px;font-style:normal;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--luna-tenue)}
 
 .profili{display:grid;gap:28px;margin-top:46px}
-.profilo{padding-top:22px;border-top:1px solid var(--linea)}
+.profilo{padding-top:22px;border-top:1px solid var(--linea);position:relative}
+.profilo::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--oro);transform-origin:left;transform:scaleX(0);transition:transform .9s var(--molla)}
+.profilo:hover::before{transform:scaleX(1)}
 .profilo h3{font-size:23px;margin-bottom:10px}
 .profilo p{color:var(--tenue);font-size:16px;margin:0 0 12px}
 .profilo .trova{font-size:15.5px;color:var(--testo)}
 
 .bio{display:grid;gap:40px;align-items:center}
-.bio-foto{position:relative}
+.bio-foto{position:relative;isolation:isolate}
 .bio-foto img{aspect-ratio:4/5;object-fit:cover;object-position:center 18%}
 .bio-foto::before{content:"";position:absolute;inset:16px -16px -16px 16px;border:1px solid var(--oro-tenue);z-index:-1}
 .firma{font-family:var(--serif);font-style:italic;font-size:27px;color:var(--blu);margin-top:20px}
 
+.assaggi{display:grid;gap:0;margin-top:30px}
+.assaggio{padding:22px 0;border-top:1px solid var(--linea)}
+.assaggio:last-child{border-bottom:1px solid var(--linea)}
+.assaggio h3{font-size:24px;margin-bottom:6px}
+.assaggio p{color:var(--tenue);font-size:16px;margin:0 0 16px}
+.assaggi-foto{overflow:hidden;border-radius:2px}
+.assaggi-foto img{transition:transform 1.4s var(--molla)}
+.assaggi-foto:hover img{transform:scale(1.04)}
+
 .voci{display:grid;gap:26px;margin-top:46px}
-.voce{background:var(--bianco);border:1px solid var(--linea);padding:26px 24px;border-radius:3px}
+.voce{background:var(--bianco);border:1px solid var(--linea);padding:26px 24px;border-radius:3px;position:relative;transition:transform .5s var(--molla),box-shadow .5s var(--molla)}
+.voce:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(18,41,74,.1)}
+.voce::before{content:"\201C";display:block;font-family:var(--serif);font-size:58px;line-height:.6;color:var(--oro);margin:8px 0 6px}
 .voce p{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.55;color:var(--blu)}
 .voce .chi{font-family:var(--sans);font-style:normal;font-size:13.5px;color:var(--tenue);margin:0}
 
 details{border-bottom:1px solid var(--linea)}
-summary{font-family:var(--serif);font-size:22px;color:var(--blu);padding:20px 40px 20px 0;cursor:pointer;list-style:none;position:relative}
+summary{font-family:var(--serif);font-size:22px;color:var(--blu);padding:20px 40px 20px 0;cursor:pointer;list-style:none;position:relative;transition:color .25s}
+summary:hover{color:var(--oro)}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"";position:absolute;right:8px;top:29px;width:11px;height:11px;border-right:1px solid var(--oro);border-bottom:1px solid var(--oro);transform:rotate(45deg);transition:transform .2s}
+summary::after{content:"";position:absolute;right:8px;top:29px;width:11px;height:11px;border-right:1px solid var(--oro);border-bottom:1px solid var(--oro);transform:rotate(45deg);transition:transform .3s var(--molla)}
 details[open] summary::after{transform:rotate(-135deg);top:33px}
 details p{color:var(--tenue);font-size:16px;padding-right:30px;margin-top:-6px}
+details[open] p{animation:sale .5s var(--molla) both}
 
+/* --- chiusura --- */
+.chiusura{background:radial-gradient(120% 90% at 50% 100%,#1B3A66 0%,#0F2444 38%,var(--notte) 80%)}
+.chiusura .cielo{-webkit-mask-image:linear-gradient(#000 20%,transparent 90%);mask-image:linear-gradient(#000 20%,transparent 90%)}
 .scelte{display:grid;gap:22px;margin-top:44px}
-.scelta{background:var(--bianco);border:1px solid var(--linea);border-radius:3px;padding:28px 24px;text-align:center;display:flex;flex-direction:column}
-.scelta h3{font-size:24px;margin-bottom:8px}
-.scelta p{color:var(--tenue);font-size:15.5px}
+.scelta{background:rgba(238,242,248,.05);border:1px solid rgba(221,189,124,.3);border-radius:3px;padding:30px 24px;text-align:center;display:flex;flex-direction:column;
+  transition:transform .5s var(--molla),background .5s,border-color .5s}
+.scelta:hover{transform:translateY(-5px);background:rgba(238,242,248,.09);border-color:rgba(221,189,124,.7)}
+.scelta h3{font-size:25px;margin-bottom:8px}
+.scelta p{color:var(--luna-tenue);font-size:15.5px}
+.scelta .quando{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--oro-chiaro);margin:0 0 14px}
 .scelta a{margin-top:auto}
 
 .nota{font-size:13.5px;color:var(--tenue)}
 footer{border-top:1px solid var(--linea);padding:44px 0;font-size:14px;color:var(--tenue)}
-.piede{display:grid;gap:22px}
-.piede a{text-decoration:none;margin-right:18px}
-.piede a:hover{color:var(--oro)}
-:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
-
-@media(min-width:880px){
-  section{padding:104px 0}
-  .hero{padding:100px 0 96px}
-  .due{grid-template-columns:1fr 1fr}
-  .libro{grid-template-columns:.8fr 1.2fr;gap:56px;padding:60px 0}
-  .libro.rovescio .libro-cop{order:2}
-  .libro.rovescio .libro-cop::before{inset:18px 18px -18px -18px}
-  .profili{grid-template-columns:1fr 1fr;gap:38px}
-  .bio{grid-template-columns:.85fr 1.15fr;gap:60px}
-  .voci{grid-template-columns:repeat(3,1fr)}
-  .scelte{grid-template-columns:1fr 1fr;max-width:760px;margin-left:auto;margin-right:auto}
-  .piede{grid-template-columns:1.4fr 1fr 1fr;gap:44px}
-}
-
-/* --- correzioni: piede, stati ebook, accessibilita' --- */
-.piede{grid-template-columns:auto 1fr;gap:34px 44px}
-.piede-col{display:flex;flex-direction:column;gap:7px}
-.piede-nav{display:flex;flex-wrap:wrap;gap:8px 22px}
 .piede a{text-decoration:none}
 .piede a:hover,.piede a:focus-visible{color:var(--blu);text-decoration:underline}
+.piede{display:grid;grid-template-columns:auto 1fr;gap:34px 44px}
+.piede-marchio{display:flex;align-items:center;gap:12px}
+.piede-logo{height:46px;width:auto}
+.piede-marchio span{font-size:22px}
+.piede-visite[hidden]{display:none}
+.piede-col{display:flex;flex-direction:column;gap:7px}
+.piede-nav{display:flex;flex-wrap:wrap;gap:8px 22px}
 .piede-social{display:flex;gap:18px;flex-wrap:wrap}
 .piede-basso{grid-column:1/-1;border-top:1px solid var(--linea);padding-top:20px;
   display:flex;flex-wrap:wrap;gap:6px 26px;font-size:13px;line-height:1.6}
 .piede-dati{color:var(--tenue)}
 @media(max-width:700px){.piede{grid-template-columns:1fr;gap:26px}}
 
-/* ebook annunciati ma non ancora in vendita */
-.ebook.in-arrivo{opacity:.72}
-.ebook-attesa{display:inline-block;margin-top:4px;font-size:13px;letter-spacing:.06em;
-  color:var(--tenue);border:1px solid var(--linea);border-radius:999px;padding:5px 14px}
+@media(min-width:880px){
+  [id]{scroll-margin-top:84px}
+  section{padding:104px 0}
+  .hero{padding:78px 0 104px}
+  .hero-griglia{grid-template-columns:1.06fr .94fr;grid-template-areas:"testa figura" "coda figura";column-gap:70px;row-gap:26px;align-items:center}
+  .hero-testa{align-self:end}
+  .hero-coda{align-self:start}
+  .hero-figura{margin:0 14px 0 0}
+  .trittico{grid-template-columns:.9fr 1.1fr;gap:70px}
+  .due{grid-template-columns:1fr 1fr}
+  .tre{grid-template-columns:repeat(3,1fr);gap:26px}
+  .cammino{--rientro:68px;--asse:14px}
+  .libro{grid-template-columns:.74fr 1.26fr;gap:56px;padding:60px 0}
+  .libro-cop{max-width:none}
+  .libro::before{top:68px}
+  .libro.rovescio .libro-cop{order:2}
+  .libro.rovescio .libro-cop::before{inset:18px 18px -18px -18px}
+  .stanze{grid-template-columns:minmax(0,430px) 1fr;gap:76px}
+  .js .stanze-testi{min-height:290px}
+  .profili{grid-template-columns:1fr 1fr;gap:38px}
+  .bio{grid-template-columns:.85fr 1.15fr;gap:60px}
+  .voci{grid-template-columns:repeat(3,1fr)}
+  .scelte{grid-template-columns:repeat(3,1fr)}
+}
 
 /* focus visibile da tastiera su tutti gli elementi interattivi */
 a:focus-visible,button:focus-visible,summary:focus-visible,
 input:focus-visible,[tabindex]:focus-visible{
   outline:2px solid var(--blu);outline-offset:3px;border-radius:3px}
+.notte a:focus-visible{outline-color:var(--oro-chiaro)}
 
-/* etichetta del campo email della newsletter, letta dagli screen reader */
 .solo-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
@@ -319,8 +488,9 @@ input:focus-visible,[tabindex]:focus-visible{
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;
-    animation-iteration-count:1!important;transition-duration:.01ms!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;
+    animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .cornice img{animation:none}
 }
 
 </style>
@@ -335,7 +505,7 @@ input:focus-visible,[tabindex]:focus-visible{
 <meta property="og:locale" content="it_IT">
 <meta property="og:url" content="https://laparolagiusta.it/achillepagliaro.html">
 <meta property="og:title" content="Achille Pagliaro — I libri">
-<meta property="og:description" content="Il Volo delle Radici e Mappe Silenziose: due libri per chi ha il coraggio di rallentare in un mondo che corre.">
+<meta property="og:description" content="Il Volo delle Radici, Mappe Silenziose e, dal 20 novembre, Eredità Invisibili: tre libri per chi ha il coraggio di rallentare in un mondo che corre.">
 <meta property="og:image" content="https://laparolagiusta.it/img/social/achillepagliaro-og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -343,7 +513,7 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Achille Pagliaro — I libri">
-<meta name="twitter:description" content="Il Volo delle Radici e Mappe Silenziose: due libri per chi ha il coraggio di rallentare in un mondo che corre.">
+<meta name="twitter:description" content="Il Volo delle Radici, Mappe Silenziose e, dal 20 novembre, Eredità Invisibili: tre libri per chi ha il coraggio di rallentare in un mondo che corre.">
 <meta name="twitter:image" content="https://laparolagiusta.it/img/social/achillepagliaro-og.jpg">
 
 <link rel="icon" href="favicon.ico" sizes="48x48">
@@ -351,8 +521,9 @@ input:focus-visible,[tabindex]:focus-visible{
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 
-<link rel="preload" href="fonts/cormorant-garamond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/cormorant-garamond-300-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jost-300-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/eredita-invisibili-sulla-riva.webp" as="image" fetchpriority="high">
 </head>
 <body>
 <a class="salta" href="#principale">Vai al contenuto</a>
@@ -363,7 +534,7 @@ input:focus-visible,[tabindex]:focus-visible{
     <div class="nav-sezioni">
       <a href="#libri">I libri</a>
       <a href="#chi">Chi sono</a>
-      <a href="#estratto">Estratto gratuito</a>
+      <a href="#estratto">Estratti gratuiti</a>
       <a href="index.html">La Parola Giusta</a>
     </div>
     <div class="nav-azioni">
@@ -372,32 +543,58 @@ input:focus-visible,[tabindex]:focus-visible{
   </div>
 </nav>
 
-<header class="hero" id="top">
-  <div class="hero-bg"></div>
-  <div class="wrap">
-    <div class="etichetta">Due libri, un unico viaggio</div>
-    <h1>Radici, mappe, silenzi: un viaggio per <em>non perdersi più</em></h1>
-    <p class="occhio">Se senti che stai correndo troppo, forse è il momento di cambiare mappa. Due libri per chi ha il coraggio di rallentare in un mondo che corre.</p>
-    <div class="hero-azioni">
-      <a class="btn btn-blu" href="#libri">Scopri i due libri</a>
-      <a class="btn btn-linea" href="#estratto">Scarica un estratto</a>
+<header class="hero notte" id="top">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <span class="cadente" aria-hidden="true"></span>
+  <div class="wrap hero-griglia">
+    <div class="hero-testa">
+      <div class="etichetta sale" style="--i:0">Il nuovo libro di Achille Pagliaro</div>
+      <h1 class="sale" style="--i:1"><span>Eredità</span><span>Invisibili</span></h1>
+      <p class="sottotitolo sale" style="--i:2">i maestri che non sapevo di avere</p>
     </div>
-    <div class="copertine">
-      <img decoding="async" width="700" height="1244" src="img/copertina-di-il-volo-delle-radici.webp" alt="Copertina di Il Volo delle Radici">
-      <img decoding="async" width="700" height="974" src="img/copertina-di-mappe-silenziose.webp" alt="Copertina di Mappe Silenziose">
+    <figure class="hero-figura sale" style="--i:3">
+      <div class="cornice"><img fetchpriority="high" decoding="async" width="1122" height="1140" src="img/eredita-invisibili-sulla-riva.webp" alt="Il libro Eredità Invisibili appoggiato su un tronco in riva al mare, al crepuscolo"></div>
+    </figure>
+    <div class="hero-coda">
+      <p class="motto sale" style="--i:4">Credevo di crescerli. Mi stavano ricrescendo.</p>
+      <p class="occhio sale" style="--i:5">Il racconto di un padre che si scopre allievo dei propri figli, e ritrova una per una le cose che sapeva fare prima di disimpararle.</p>
+      <div class="uscita sale" style="--i:6">
+        <span class="uscita-punto" aria-hidden="true"></span>
+        <span class="prima">In uscita il <b>20 novembre</b></span><span class="dopo">In libreria dal <b>20 novembre</b></span>
+        <span class="conto" id="conto" hidden></span>
+      </div>
+      <div class="hero-azioni sale" style="--i:7">
+        <a class="btn btn-luce" href="https://sendfox.com/form/1gqrw6/m8wkz2">Leggi 9 estratti in anteprima</a>
+        <a class="btn btn-linea-chiara" href="#libri">Scopri i tre libri</a>
+      </div>
+      <p class="hero-scheda sale" style="--i:8">Edizioni Il Saggio · 20 €</p>
     </div>
   </div>
 </header>
 
-<div id="principale"></div><section class="tinta">
-  <div class="wrap centro">
-    <div class="citazione">Il primo ti aiuta a fare pace con le tue radici. Il secondo ti insegna a navigare il presente senza perderti.</div>
-    <p class="nota" style="margin-top:20px">Achille Pagliaro</p>
+<main id="principale">
+
+<section class="tinta">
+  <div class="wrap trittico">
+    <div class="ventaglio r">
+      <img decoding="async" width="700" height="1244" src="img/copertina-di-il-volo-delle-radici.webp" alt="Copertina di Il Volo delle Radici" loading="lazy">
+      <img decoding="async" width="700" height="994" src="img/copertina-di-eredita-invisibili.webp" alt="Copertina di Eredità Invisibili" loading="lazy">
+      <img decoding="async" width="700" height="974" src="img/copertina-di-mappe-silenziose.webp" alt="Copertina di Mappe Silenziose" loading="lazy">
+    </div>
+    <div class="r" style="--d:.15s">
+      <div class="etichetta">Tre libri, un unico viaggio</div>
+      <h2>Una scrittura che procede per soglie</h2>
+      <ol class="soglie">
+        <li><b>Il Volo delle Radici</b><span>Da dove veniamo: l'appartenenza, la memoria di famiglia.</span></li>
+        <li><b>Mappe Silenziose</b><span>Come non perdersi mentre si va: la lentezza e l'ascolto.</span></li>
+        <li><b>Eredità Invisibili</b><span>Chi ci cammina accanto: i più piccoli, che ci rimettono al mondo.</span></li>
+      </ol>
+    </div>
   </div>
 </section>
 
 <section>
-  <div class="wrap stretto">
+  <div class="wrap stretto r">
     <div class="etichetta">Ti riconosci?</div>
     <h2>La vita che corre senza di te</h2>
     <div class="filo"></div>
@@ -415,11 +612,13 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <section class="tinta">
   <div class="wrap">
-    <div class="etichetta">La promessa</div>
-    <h2>Non ti prometto di cambiare la vita in sette giorni</h2>
-    <p class="intro">Ti offro parole, immagini e mappe interiori per ritrovare il tuo ritmo: fare pace con le tue radici e difendere il tuo tempo nel quotidiano.</p>
+    <div class="r">
+      <div class="etichetta">La promessa</div>
+      <h2>Non ti prometto di cambiare la vita in sette giorni</h2>
+      <p class="intro">Ti offro parole, immagini e mappe interiori per ritrovare il tuo ritmo: fare pace con le tue radici, difendere il tuo tempo nel quotidiano, accorgerti di chi ti cammina accanto.</p>
+    </div>
     <div class="due">
-      <div class="riquadro">
+      <div class="riquadro r">
         <h3>Cosa succede dentro di te</h3>
         <ul class="elenco" style="margin-top:18px">
           <li>Ti senti visto, finalmente compreso</li>
@@ -428,7 +627,7 @@ input:focus-visible,[tabindex]:focus-visible{
           <li>Ritrovi le parole per dire ciò che sentivi e non sapevi nominare</li>
         </ul>
       </div>
-      <div class="riquadro">
+      <div class="riquadro r" style="--d:.12s">
         <h3>Cosa cambia nelle giornate</h3>
         <ul class="elenco" style="margin-top:18px">
           <li>Dire «non ora» al mondo e «sì» a te stesso</li>
@@ -443,100 +642,179 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <section id="libri">
   <div class="wrap">
-    <div class="etichetta">I libri</div>
-    <h2>Un viaggio in due tappe</h2>
-    <p class="intro">Il primo movimento va dal basso verso l'alto, dalle radici al cielo. Il secondo va dall'alto verso l'orizzontale, nel quotidiano che abitiamo ogni giorno.</p>
+    <div class="r">
+      <div class="etichetta">I libri</div>
+      <h2>Un viaggio in tre tappe</h2>
+      <p class="intro">Il primo movimento va dal basso verso l'alto, dalle radici al cielo. Il secondo va dall'alto verso l'orizzontale, nel quotidiano che abitiamo ogni giorno. Il terzo rovescia la direzione: dai figli ai padri.</p>
+    </div>
 
-    <article class="libro">
-      <div class="libro-cop"><img decoding="async" width="700" height="1244" src="img/copertina-di-il-volo-delle-radici.webp" alt="Copertina di Il Volo delle Radici" loading="lazy"></div>
-      <div>
-        <div class="movimento">Primo movimento · dal basso verso l'alto</div>
-        <h3>Il Volo delle Radici</h3>
-        <p>Nasce da una domanda antica: come si fa a volare senza tradire le proprie radici? Come si trova il proprio posto nel mondo senza sentirsi incastrati?</p>
-        <p>Parla di appartenenza e libertà, famiglia e futuro, memorie e scelte. Si muove tra storie di nonni, genitori, campi, mare, e la tensione fra restare e partire.</p>
-        <ul class="elenco">
-          <li>Storie di famiglia che non sono favole, ma luoghi in cui riconoscersi</li>
-          <li>Il coraggio di guardare le tue radici senza idealizzarle né rinnegarle</li>
-          <li>Una libertà che non rompe i legami, ma li rinnova</li>
-          <li>Domande scomode e liberanti su chi sei e dove vuoi andare</li>
-        </ul>
-        <div class="ideale"><b>Ideale per chi</b> si sente diviso tra ciò che dovrebbe fare e ciò che desidera davvero, e cerca il coraggio di spiccare il volo senza tradire da dove viene.</div>
-        <a class="btn btn-blu" href="https://www.amazon.it/Volo-delle-Radici-trasformazione-spirituale-ebook/dp/B0CY9Y987M">Acquista su Amazon</a>
-      </div>
-    </article>
+    <div class="cammino" id="cammino">
+      <div class="cammino-filo" aria-hidden="true"></div>
 
-    <article class="libro rovescio">
-      <div class="libro-cop"><img decoding="async" width="700" height="974" src="img/copertina-di-mappe-silenziose.webp" alt="Copertina di Mappe Silenziose" loading="lazy"></div>
-      <div>
-        <div class="movimento">Secondo movimento · nel quotidiano</div>
-        <h3>Mappe Silenziose</h3>
-        <p>Nasce da una domanda di mio figlio: «Papà, hai scritto di dove veniamo. Ma come facciamo a non perderci mentre andiamo?»</p>
-        <p>Questo libro è la risposta: un manuale di navigazione per il presente. Venticinque tappe brevi come le venticinque ore di un giorno pieno.</p>
-        <ul class="elenco">
-          <li>Il territorio del rumore che ti allontana da te stesso</li>
-          <li>Il tempo dell'anima, diverso dall'orologio e dalle scadenze</li>
-          <li>Il silenzio come prima frontiera di una rivoluzione personale</li>
-          <li>Isole di presenza nella vita digitale e familiare</li>
-          <li>Storie di corsia, di famiglie, di nonni e di bambini</li>
-        </ul>
-        <div class="ideale"><b>Ideale per chi</b> è stanco di notifiche e urgenze, vuole imparare a dire «non ora» al mondo, o sente che il burnout è già cominciato.</div>
-        <a class="btn btn-blu" href="https://www.amazon.it/Mappe-silenziose-Ritrovare-proprio-tempo/dp/8893606143">Acquista su Amazon</a>
-      </div>
-    </article>
+      <article class="libro nodo">
+        <div class="libro-cop r"><img decoding="async" width="700" height="1244" src="img/copertina-di-il-volo-delle-radici.webp" alt="Copertina di Il Volo delle Radici" loading="lazy"></div>
+        <div class="r" style="--d:.12s">
+          <div class="movimento">Primo movimento · dal basso verso l'alto</div>
+          <h3>Il Volo delle Radici</h3>
+          <p>Nasce da una domanda antica: come si fa a volare senza tradire le proprie radici? Come si trova il proprio posto nel mondo senza sentirsi incastrati?</p>
+          <p>Parla di appartenenza e libertà, famiglia e futuro, memorie e scelte. Si muove tra storie di nonni, genitori, campi, mare, e la tensione fra restare e partire.</p>
+          <ul class="elenco">
+            <li>Storie di famiglia che non sono favole, ma luoghi in cui riconoscersi</li>
+            <li>Il coraggio di guardare le tue radici senza idealizzarle né rinnegarle</li>
+            <li>Una libertà che non rompe i legami, ma li rinnova</li>
+            <li>Domande scomode e liberanti su chi sei e dove vuoi andare</li>
+          </ul>
+          <div class="ideale"><b>Ideale per chi</b> si sente diviso tra ciò che dovrebbe fare e ciò che desidera davvero, e cerca il coraggio di spiccare il volo senza tradire da dove viene.</div>
+          <a class="btn btn-blu" href="https://www.amazon.it/Volo-delle-Radici-trasformazione-spirituale-ebook/dp/B0CY9Y987M">Acquista su Amazon</a>
+        </div>
+      </article>
 
-    <article class="libro">
-      <div class="libro-cop"><div class="attesa"><span>In arrivo</span></div></div>
-      <div>
-        <div class="movimento">Terzo movimento &middot; in arrivo</div>
-        <h3>Eredit&agrave; Invisibili</h3>
-        <p>Credevo di essere io a insegnare. Poi li ho guardati costruire qualcosa con rami e sassi, dentro un tempo che non era il mio, e ho capito che mentre pensavo di trasmettere stavo ricevendo.</p>
-        <p>&Egrave; il libro che chiude il cerchio: dopo le radici e le mappe, quello che passa di mano senza che nessuno se ne accorga.</p>
-        <ul class="elenco">
-          <li>Quello che eredit&agrave; senza averlo chiesto, e quello che lasci senza saperlo</li>
-          <li>Il tempo dei bambini, che non coincide mai con il nostro</li>
-          <li>Gesti minimi che pesano pi&ugrave; di qualsiasi discorso</li>
-          <li>L&rsquo;eredit&agrave; che va in due direzioni, dai figli ai padri</li>
-        </ul>
-        <div class="ideale"><b>Ideale per chi</b> ha smesso di fare domande e sospetta che le risposte fossero gi&agrave; l&igrave;, in qualcuno che gli sta accanto.</div>
-        <a class="btn btn-blu" href="https://sendfox.com/form/1gqrw6/m8wkz2">Ricevi 9 estratti in anteprima</a>
+      <article class="libro rovescio nodo">
+        <div class="libro-cop r"><img decoding="async" width="700" height="974" src="img/copertina-di-mappe-silenziose.webp" alt="Copertina di Mappe Silenziose" loading="lazy"></div>
+        <div class="r" style="--d:.12s">
+          <div class="movimento">Secondo movimento · nel quotidiano</div>
+          <h3>Mappe Silenziose</h3>
+          <p>Nasce da una domanda di mio figlio: «Papà, hai scritto di dove veniamo. Ma come facciamo a non perderci mentre andiamo?»</p>
+          <p>Questo libro è la risposta: un manuale di navigazione per il presente. Venticinque tappe brevi come le venticinque ore di un giorno pieno.</p>
+          <ul class="elenco">
+            <li>Il territorio del rumore che ti allontana da te stesso</li>
+            <li>Il tempo dell'anima, diverso dall'orologio e dalle scadenze</li>
+            <li>Il silenzio come prima frontiera di una rivoluzione personale</li>
+            <li>Isole di presenza nella vita digitale e familiare</li>
+            <li>Storie di corsia, di famiglie, di nonni e di bambini</li>
+          </ul>
+          <div class="ideale"><b>Ideale per chi</b> è stanco di notifiche e urgenze, vuole imparare a dire «non ora» al mondo, o sente che il burnout è già cominciato.</div>
+          <a class="btn btn-blu" href="https://www.amazon.it/Mappe-silenziose-Ritrovare-proprio-tempo/dp/8893606143">Acquista su Amazon</a>
+        </div>
+      </article>
+
+      <article class="libro nodo" id="eredita">
+        <div class="libro-cop r"><img decoding="async" width="700" height="994" src="img/copertina-di-eredita-invisibili.webp" alt="Copertina di Eredità Invisibili" loading="lazy"></div>
+        <div class="r" style="--d:.12s">
+          <div class="movimento">Terzo movimento · dai figli ai padri <span class="novita">Novità</span></div>
+          <h3>Eredità Invisibili</h3>
+          <p class="scheda">Edizioni Il Saggio · 20 € · dal 20 novembre</p>
+          <p>Credevo di crescerli. Mi stavano ricrescendo. I bambini non insegnano: non si siedono davanti a noi a spiegare. Fanno qualcosa di più sottile e più potente. Vivono. E vivendo ci mostrano ciò che siamo stati, ciò che abbiamo dimenticato, ciò che è ancora possibile.</p>
+          <p>È il racconto di un ribaltamento, quello di un padre che si scopre allievo. Ma la domanda che apre riguarda chiunque: cosa sapevi fare naturalmente, prima di disimparare?</p>
+          <ul class="elenco">
+            <li>Il tempo dei bambini, che non coincide mai con il nostro</li>
+            <li>La verità detta senza filtri, la meraviglia davanti alle cose di tutti i giorni</li>
+            <li>Il perdono rapido, la fiducia che si getta tra le braccia senza calcolare la distanza</li>
+            <li>L'eredità che va in due direzioni, dai figli ai padri</li>
+          </ul>
+          <div class="ideale"><b>Ideale per chi</b> ha smesso di fare domande e sospetta che le risposte fossero già lì, in qualcuno che gli sta accanto.</div>
+          <a class="btn btn-blu" href="https://sendfox.com/form/1gqrw6/m8wkz2">Ricevi 9 estratti in anteprima</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="stanze-sez notte" id="stanze">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <div class="wrap">
+    <div class="r">
+      <div class="etichetta">Dentro Eredità Invisibili</div>
+      <h2>Sei stanze di una casa a cui fai ritorno</h2>
+      <p class="intro">Il libro è diviso in sei parti. In ognuna c'è una cosa che da bambino sapevi fare, e che crescendo ti sei lasciato indietro.</p>
+    </div>
+
+    <div class="stanze">
+      <div class="r">
+        <div class="cerchio" role="tablist" aria-label="Le sei parti del libro">
+          <div class="cerchio-anello" aria-hidden="true"></div>
+          <div class="cuore" aria-hidden="true"><span id="cuore-testo">Il tempo</span></div>
+          <button class="pietra" type="button" role="tab" id="p1" aria-controls="s1" aria-selected="true" aria-label="Parte prima: il tempo">I</button>
+          <button class="pietra" type="button" role="tab" id="p2" aria-controls="s2" aria-selected="false" aria-label="Parte seconda: la verità">II</button>
+          <button class="pietra" type="button" role="tab" id="p3" aria-controls="s3" aria-selected="false" aria-label="Parte terza: la meraviglia">III</button>
+          <button class="pietra" type="button" role="tab" id="p4" aria-controls="s4" aria-selected="false" aria-label="Parte quarta: la resilienza">IV</button>
+          <button class="pietra" type="button" role="tab" id="p5" aria-controls="s5" aria-selected="false" aria-label="Parte quinta: le relazioni">V</button>
+          <button class="pietra" type="button" role="tab" id="p6" aria-controls="s6" aria-selected="false" aria-label="Parte sesta: la libertà">VI</button>
+        </div>
+        <p class="tocca" aria-hidden="true">Tocca una pietra</p>
       </div>
-    </article>
+
+      <div class="stanze-testi r" style="--d:.15s">
+        <article class="stanza attiva" id="s1" role="tabpanel" aria-labelledby="p1">
+          <div class="stanza-num">Parte prima</div>
+          <h3>Il tempo</h3>
+          <p>Non quello dell'orologio e dell'agenda: quello dei sassi e delle lumache. Il tempo circolare dei bambini, che non hanno ancora imparato a correre verso il domani.</p>
+          <ul class="capitoli"><li>Il tempo dei sassi</li><li>Geografie dell'istante</li><li>I ritmi dimenticati</li><li>La febbre della lentezza</li></ul>
+        </article>
+        <article class="stanza" id="s2" role="tabpanel" aria-labelledby="p2">
+          <div class="stanza-num">Parte seconda</div>
+          <h3>La verità</h3>
+          <p>Quella nuda, scomoda, meravigliosa, che i bambini pronunciano senza filtri e che noi adulti abbiamo imparato a vestire con strati di diplomazia e finzione.</p>
+          <ul class="capitoli"><li>Parole senza velo</li><li>Il corpo che grida</li><li>Lacrime senza vergogna</li></ul>
+        </article>
+        <article class="stanza" id="s3" role="tabpanel" aria-labelledby="p3">
+          <div class="stanza-num">Parte terza</div>
+          <h3>La meraviglia</h3>
+          <p>La capacità di vedere miracoli nell'ordinario, che i bambini possiedono come un senso in più e che noi abbiamo atrofizzato nella ripetizione.</p>
+          <ul class="capitoli"><li>Stelle sul marciapiede</li><li>Le domande impossibili</li><li>Il fortino di rami</li></ul>
+        </article>
+        <article class="stanza" id="s4" role="tabpanel" aria-labelledby="p4">
+          <div class="stanza-num">Parte quarta</div>
+          <h3>La resilienza</h3>
+          <p>Non quella muscolare della forza di volontà: quella gentile del bambino che cade e si rialza senza trasformare la caduta in una sentenza su chi è.</p>
+          <ul class="capitoli"><li>Cadere mille volte</li><li>Perdonare in due minuti</li><li>Ridere per niente</li></ul>
+        </article>
+        <article class="stanza" id="s5" role="tabpanel" aria-labelledby="p5">
+          <div class="stanza-num">Parte quinta</div>
+          <h3>Le relazioni</h3>
+          <p>L'empatia che precede le parole, la fiducia che precede il controllo, l'amore che non chiede prove.</p>
+          <ul class="capitoli"><li>L'empatia prima delle parole</li><li>Fiducia cieca</li><li>Amare senza condizioni</li><li>Tenere con mano aperta</li></ul>
+        </article>
+        <article class="stanza" id="s6" role="tabpanel" aria-labelledby="p6">
+          <div class="stanza-num">Parte sesta</div>
+          <h3>La libertà</h3>
+          <p>Quella essenziale, che nasce dalla semplicità, dai confini sani, dalla capacità di lasciar andare e di continuare a diventare.</p>
+          <ul class="capitoli"><li>Dire no senza sensi di colpa</li><li>La semplicità essenziale</li><li>Diventare sempre</li></ul>
+        </article>
+      </div>
+    </div>
+
+    <blockquote class="detto r">
+      <p>Questo non è un libro su come educare i figli. Questo è un libro su come lasciarsi rieducare.</p>
+      <cite>Dall'introduzione</cite>
+    </blockquote>
   </div>
 </section>
 
 <section class="tinta">
-  <div class="wrap centro">
+  <div class="wrap centro r">
     <div class="etichetta">Il percorso completo</div>
     <h2>Perché insieme</h2>
-    <p class="intro">Il primo libro ti aiuta a fare pace con il passato. Il secondo con il presente. Insieme aprono spazio a un futuro gentile.</p>
+    <p class="intro">Il primo libro ti aiuta a fare pace con il passato. Il secondo con il presente. Il terzo ti restituisce quello che avevi disimparato. Insieme aprono spazio a un futuro gentile.</p>
     <div class="hero-azioni" style="justify-content:center;margin-top:34px">
       <a class="btn btn-oro" href="#acquista">Scegli da dove partire</a>
     </div>
-    <p class="nota" style="margin-top:18px">Disponibili in formato cartaceo ed ebook</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="etichetta">A chi parla questo viaggio</div>
-    <h2>Forse stai cercando proprio queste mappe</h2>
+    <div class="r">
+      <div class="etichetta">A chi parla questo viaggio</div>
+      <h2>Forse stai cercando proprio queste mappe</h2>
+    </div>
     <div class="profili">
-      <div class="profilo">
+      <div class="profilo r">
         <h3>Lavori nella cura</h3>
         <p>Ami il tuo mestiere, ma senti di esserti perso per strada: turni infiniti, gesti automatici, il peso del dolore altrui che porti a casa.</p>
         <div class="trova">Trovi storie di corsia che parlano di te, e pratiche per tornare a respirare anche dentro l'ospedale.</div>
       </div>
-      <div class="profilo">
+      <div class="profilo r" style="--d:.1s">
         <h3>Sei un genitore che fatica a tenere insieme tutto</h3>
         <p>Lavoro, famiglia, e il tempo per te che non c'è mai. Non vuoi crescere figli abituati solo alla fretta e agli schermi.</p>
         <div class="trova">Trovi rituali di lentezza da vivere in famiglia e il coraggio di dire «non ora» al mondo.</div>
       </div>
-      <div class="profilo">
+      <div class="profilo r">
         <h3>Hai fatto tutto come si deve, e non basta</h3>
         <p>Hai studiato, lavorato, costruito. Ma una voce continua a chiederti: è davvero questo che volevi?</p>
         <div class="trova">Trovi domande fertili per ascoltare quella voce e il permesso di ricominciare a sognare.</div>
       </div>
-      <div class="profilo">
+      <div class="profilo r" style="--d:.1s">
         <h3>Ti senti anacronistico</h3>
         <p>Sogni una vita più lenta e più gentile, ma ti sembra di essere l'unico, e temi di restare indietro se rallenti.</p>
         <div class="trova">Trovi la conferma che non sei sbagliato, e strumenti per vivere diversamente senza fuggire dal mondo.</div>
@@ -547,8 +825,8 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <section class="tinta" id="chi">
   <div class="wrap bio">
-    <div class="bio-foto"><img decoding="async" width="860" height="834" src="img/achille-pagliaro.webp" alt="Achille Pagliaro" loading="lazy"></div>
-    <div>
+    <div class="bio-foto r"><img decoding="async" width="860" height="834" src="img/achille-pagliaro.webp" alt="Achille Pagliaro" loading="lazy"></div>
+    <div class="r" style="--d:.12s">
       <div class="etichetta">Chi sono</div>
       <h2>Achille Pagliaro</h2>
       <div class="filo"></div>
@@ -564,19 +842,12 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <section>
   <div class="wrap">
-    <div class="etichetta">Struttura e formato</div>
-    <h2>Cosa contengono, concretamente</h2>
-    <div class="due">
-      <div class="riquadro">
-        <h3>Mappe Silenziose</h3>
-        <ul class="elenco" style="margin-top:18px">
-          <li>25 tappe brevi, come 25 ore di un giorno pieno</li>
-          <li>Ogni capitolo si legge in quindici minuti</li>
-          <li>Pensato per il mattino o la sera, come piccole soste</li>
-          <li>Adatto a letture di gruppo ed équipe sanitarie</li>
-        </ul>
-      </div>
-      <div class="riquadro">
+    <div class="r">
+      <div class="etichetta">Struttura e formato</div>
+      <h2>Cosa contengono, concretamente</h2>
+    </div>
+    <div class="tre">
+      <div class="riquadro r">
         <h3>Il Volo delle Radici</h3>
         <ul class="elenco" style="margin-top:18px">
           <li>Capitoli narrativi intrecciati come storie di famiglia</li>
@@ -585,38 +856,66 @@ input:focus-visible,[tabindex]:focus-visible{
           <li>Adatto a percorsi di crescita personale e formazione</li>
         </ul>
       </div>
+      <div class="riquadro r" style="--d:.1s">
+        <h3>Mappe Silenziose</h3>
+        <ul class="elenco" style="margin-top:18px">
+          <li>25 tappe brevi, come 25 ore di un giorno pieno</li>
+          <li>Ogni capitolo si legge in quindici minuti</li>
+          <li>Pensato per il mattino o la sera, come piccole soste</li>
+          <li>Adatto a letture di gruppo ed équipe sanitarie</li>
+        </ul>
+      </div>
+      <div class="riquadro r" style="--d:.2s">
+        <h3>Eredità Invisibili</h3>
+        <ul class="elenco" style="margin-top:18px">
+          <li>Sei parti, come sei stanze di una casa a cui fai ritorno</li>
+          <li>Venti capitoli, dal tempo dei sassi al diventare sempre</li>
+          <li>Nessuna ricetta pedagogica: domande, e un padre che si lascia rieducare</li>
+          <li>Edizioni Il Saggio, 20 euro</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="tinta" id="estratto">
-  <div class="wrap due" style="align-items:center">
-    <div>
-      <div class="etichetta">Estratto gratuito</div>
-      <h2>Vuoi assaggiare le mappe prima di partire?</h2>
-      <p class="intro">Lascia la tua email e ricevi tre estratti scelti da <em>Mappe Silenziose</em>. Niente spam, solo parole scelte con lentezza.</p>
-      <div class="hero-azioni" style="margin-top:28px">
-        <a class="btn btn-blu" href="https://sendfox.com/form/1gqrw6/3ljwrl">Ricevi l'estratto</a>
+  <div class="wrap due" style="align-items:center;margin-top:0">
+    <div class="r">
+      <div class="etichetta">Anteprime gratuite</div>
+      <h2>Vuoi assaggiare prima di partire?</h2>
+      <div class="assaggi">
+        <div class="assaggio">
+          <h3>Nove estratti di Eredità Invisibili</h3>
+          <p>Uno ogni tre giorni, il primo subito.<span class="prima"> All'ultimo saprai per primo quando esce.</span></p>
+          <a class="btn btn-blu" href="https://sendfox.com/form/1gqrw6/m8wkz2">Ricevi i 9 estratti</a>
+        </div>
+        <div class="assaggio">
+          <h3>Tre estratti di Mappe Silenziose</h3>
+          <p>Niente spam, solo parole scelte con lentezza.</p>
+          <a class="btn btn-linea" href="https://sendfox.com/form/1gqrw6/3ljwrl">Ricevi l'estratto</a>
+        </div>
       </div>
     </div>
-    <div><img decoding="async" width="900" height="603" src="img/una-moka-e-una-tazzina-sul-tavolo-al-mattino.webp" alt="Una moka e una tazzina sul tavolo, al mattino" style="border-radius:2px" loading="lazy"></div>
+    <div class="assaggi-foto r" style="--d:.12s"><img decoding="async" width="900" height="603" src="img/una-moka-e-una-tazzina-sul-tavolo-al-mattino.webp" alt="Una moka e una tazzina sul tavolo, al mattino" loading="lazy"></div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="etichetta">Voci dei lettori</div>
-    <h2>Chi ha già iniziato il viaggio</h2>
+    <div class="r">
+      <div class="etichetta">Voci dei lettori</div>
+      <h2>Chi ha già iniziato il viaggio</h2>
+    </div>
     <div class="voci">
-      <div class="voce">
+      <div class="voce r">
         <p>Mi sono sentita per la prima volta meno sola nella mia stanchezza. Ho letto un capitolo in pausa in ospedale e ho pianto, ma erano lacrime che sbloccavano.</p>
         <p class="chi">S. M. — infermiera, Bologna</p>
       </div>
-      <div class="voce">
+      <div class="voce r" style="--d:.1s">
         <p>Abbiamo usato alcuni capitoli per un incontro di équipe: ne è nata una conversazione che non avevamo mai avuto. Finalmente qualcuno che parla di noi senza retorica.</p>
         <p class="chi">L. R. — coordinatore sanitario, Milano</p>
       </div>
-      <div class="voce">
+      <div class="voce r" style="--d:.2s">
         <p>Ho regalato <em>Il Volo delle Radici</em> a mio padre dopo la pensione. Ora ha un orto che è diventato il luogo d'incontro di tutta la famiglia.</p>
         <p class="chi">G. P. — insegnante, Napoli</p>
       </div>
@@ -625,13 +924,21 @@ input:focus-visible,[tabindex]:focus-visible{
 </section>
 
 <section class="tinta">
-  <div class="wrap stretto">
+  <div class="wrap stretto r">
     <div class="etichetta">Domande frequenti</div>
     <h2>Hai qualche dubbio?</h2>
     <div style="margin-top:32px;border-top:1px solid var(--linea)">
       <details open>
-        <summary>Da quale dei due comincio?</summary>
-        <p>Da quello più vicino al tuo momento. Se senti il bisogno di fare pace con la tua storia, parti da <em>Il Volo delle Radici</em>. Se l'urgenza è rallentare e ritrovare il tuo tempo, parti da <em>Mappe Silenziose</em>. Sono autonomi, ma si completano.</p>
+        <summary>Da quale dei tre comincio?</summary>
+        <p>Da quello più vicino al tuo momento. Se senti il bisogno di fare pace con la tua storia, parti da <em>Il Volo delle Radici</em>. Se l'urgenza è rallentare e ritrovare il tuo tempo, parti da <em>Mappe Silenziose</em>. Se accanto a te c'è un bambino e sospetti che abbia qualcosa da insegnarti, parti da <em>Eredità Invisibili</em>. Sono autonomi, ma si completano.</p>
+      </details>
+      <details>
+        <summary>Eredità Invisibili è un libro su come educare i figli?</summary>
+        <p>No. Non ci sono ricette pedagogiche, metodi collaudati o strategie per gestire i capricci. È il racconto di un padre che si scopre allievo, e la domanda che apre riguarda chiunque: cosa sapevi fare naturalmente, prima di disimparare?</p>
+      </details>
+      <details>
+        <summary>Quando esce Eredità Invisibili?</summary>
+        <p><span class="prima">Esce il 20 novembre per Edizioni Il Saggio, a 20 euro. Nel frattempo puoi ricevere gratis nove estratti in anteprima.</span><span class="dopo">È uscito il 20 novembre per Edizioni Il Saggio, a 20 euro. Se vuoi assaggiarlo prima, puoi ricevere gratis nove estratti.</span></p>
       </details>
       <details>
         <summary>Sono già pieno di libri di crescita personale: cosa cambia?</summary>
@@ -643,7 +950,7 @@ input:focus-visible,[tabindex]:focus-visible{
       </details>
       <details>
         <summary>Quanto tempo serve per un capitolo?</summary>
-        <p>Quindici minuti per <em>Mappe Silenziose</em>. <em>Il Volo delle Radici</em> ha capitoli più narrativi, comunque pensati per essere letti con calma. Non sono libri da divorare, ma da assaporare.</p>
+        <p>Quindici minuti per <em>Mappe Silenziose</em>. <em>Il Volo delle Radici</em> ha capitoli più narrativi, e quelli di <em>Eredità Invisibili</em> sono più distesi, una quindicina di pagine l'uno. Non sono libri da divorare, ma da assaporare.</p>
       </details>
       <details>
         <summary>Ci sono esercizi o solo racconti?</summary>
@@ -655,31 +962,44 @@ input:focus-visible,[tabindex]:focus-visible{
       </details>
       <details>
         <summary>Temo che questi temi mi facciano stare peggio.</summary>
-        <p>È una paura legittima. I libri toccano la stanchezza e il senso di perdita, ma lo fanno senza giudizio e non ti lasciano solo con il dolore: offrono mappe per attraversarlo. Se sei in un momento fragile, comincia dall'estratto gratuito e vedi come risuona.</p>
+        <p>È una paura legittima. I libri toccano la stanchezza e il senso di perdita, ma lo fanno senza giudizio e non ti lasciano solo con il dolore: offrono mappe per attraversarlo. Se sei in un momento fragile, comincia da un estratto gratuito e vedi come risuona.</p>
       </details>
     </div>
   </div>
 </section>
 
-<section id="acquista" class="centro">
+<section id="acquista" class="chiusura notte centro">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
   <div class="wrap">
-    <h2>Non ti serve un altro manuale che ti dice di fare di più</h2>
-    <p class="intro">Ti servono parole che ti aiutino a fare meno, ma meglio. A rallentare. A tornare a te.</p>
+    <div class="r">
+      <h2>Non ti serve un altro manuale che ti dice di fare di più</h2>
+      <p class="intro">Ti servono parole che ti aiutino a fare meno, ma meglio. A rallentare. A tornare a te.</p>
+    </div>
     <div class="scelte">
-      <div class="scelta">
+      <div class="scelta r">
+        <p class="quando">Primo movimento</p>
         <h3>Partire dalle radici</h3>
         <p>Fare pace con la tua storia, con <em>Il Volo delle Radici</em></p>
-        <a class="btn btn-blu" href="https://www.amazon.it/Volo-delle-Radici-trasformazione-spirituale-ebook/dp/B0CY9Y987M">Acquista su Amazon</a>
+        <a class="btn btn-luce" href="https://www.amazon.it/Volo-delle-Radici-trasformazione-spirituale-ebook/dp/B0CY9Y987M">Acquista su Amazon</a>
       </div>
-      <div class="scelta">
+      <div class="scelta r" style="--d:.1s">
+        <p class="quando">Secondo movimento</p>
         <h3>Mappe per il presente</h3>
         <p>Ritrovare il tuo tempo, con <em>Mappe Silenziose</em></p>
-        <a class="btn btn-blu" href="https://www.amazon.it/Mappe-silenziose-Ritrovare-proprio-tempo/dp/8893606143">Acquista su Amazon</a>
+        <a class="btn btn-luce" href="https://www.amazon.it/Mappe-silenziose-Ritrovare-proprio-tempo/dp/8893606143">Acquista su Amazon</a>
+      </div>
+      <div class="scelta r" style="--d:.2s">
+        <p class="quando"><span class="prima">In uscita il 20 novembre</span><span class="dopo">Terzo movimento</span></p>
+        <h3>Lasciarsi insegnare</h3>
+        <p>Ritrovare quello che avevi disimparato, con <em>Eredità Invisibili</em></p>
+        <a class="btn btn-linea-chiara" href="https://sendfox.com/form/1gqrw6/m8wkz2">Ricevi 9 estratti</a>
       </div>
     </div>
-    <p class="nota" style="margin-top:26px">Disponibili in formato cartaceo ed ebook</p>
+    <p class="nota" style="margin-top:26px"><em>Il Volo delle Radici</em> e <em>Mappe Silenziose</em> sono disponibili in cartaceo ed ebook. <em>Eredità Invisibili</em> <span class="prima">esce</span><span class="dopo">è uscito</span> il 20 novembre per Edizioni Il Saggio.</p>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="wrap piede">
@@ -707,12 +1027,88 @@ input:focus-visible,[tabindex]:focus-visible{
   </div>
 </footer>
 
+<script>
+/* Comparsa allo scorrimento, filo dei tre libri, cerchio delle sei stanze, conto dei giorni.
+   Senza script la pagina resta tutta leggibile: nulla e' nascosto in partenza. */
+(function(){
+  var d=document,h=d.documentElement,w=window;
+  var fermo=w.matchMedia&&w.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // giorni che mancano all'uscita (20 novembre 2026)
+  var oggi=new Date();oggi.setHours(0,0,0,0);
+  var giorni=Math.round((new Date(2026,10,20)-oggi)/864e5),conto=d.getElementById('conto');
+  if(conto&&giorni>0){conto.textContent=giorni===1?'manca 1 giorno':'mancano '+giorni+' giorni';conto.hidden=false}
+
+  // comparsa
+  var da=[].slice.call(d.querySelectorAll('.r,.nodo'));
+  if('IntersectionObserver' in w){
+    var io=new IntersectionObserver(function(voci){voci.forEach(function(v){
+      if(v.isIntersecting){v.target.classList.add('visto');io.unobserve(v.target)}
+    })},{rootMargin:'0px 0px -10% 0px',threshold:.06});
+    da.forEach(function(e){io.observe(e)});
+  }else{da.forEach(function(e){e.classList.add('visto')})}
+
+  // barra di lettura sotto il menu e filo che scende lungo i tre libri
+  var nav=d.querySelector('.nav'),cam=d.getElementById('cammino'),
+      filo=cam&&cam.querySelector('.cammino-filo'),inAttesa=false;
+  function scorri(){
+    inAttesa=false;
+    var max=h.scrollHeight-w.innerHeight;
+    nav.style.setProperty('--letto',max>0?Math.min(1,w.scrollY/max):0);
+    if(filo){var q=cam.getBoundingClientRect();
+      filo.style.setProperty('--filo',Math.max(0,Math.min(1,(w.innerHeight*.62-q.top)/q.height)))}
+  }
+  w.addEventListener('scroll',function(){if(!inAttesa){inAttesa=true;requestAnimationFrame(scorri)}},{passive:true});
+  w.addEventListener('resize',scorri);
+  scorri();
+
+  // le sei stanze
+  var pietre=[].slice.call(d.querySelectorAll('.pietra')),
+      stanze=[].slice.call(d.querySelectorAll('.stanza')),
+      cuore=d.getElementById('cuore-testo'),cerchio=d.querySelector('.cerchio'),
+      attiva=0,giro=null,toccato=false;
+  function mostra(i,fuoco){
+    attiva=i;
+    pietre.forEach(function(p,k){var s=k===i;p.setAttribute('aria-selected',s?'true':'false');p.tabIndex=s?0:-1;if(s&&fuoco)p.focus()});
+    stanze.forEach(function(s,k){s.classList.toggle('attiva',k===i)});
+    if(cuore){
+      var nome=stanze[i].querySelector('h3').textContent;
+      if(fermo){cuore.textContent=nome}
+      else{cuore.classList.add('cambia');setTimeout(function(){cuore.textContent=nome;cuore.classList.remove('cambia')},260)}
+    }
+  }
+  function fermaGiro(){if(giro){clearInterval(giro);giro=null}}
+  pietre.forEach(function(p,k){
+    p.addEventListener('click',function(){toccato=true;fermaGiro();mostra(k)});
+    p.addEventListener('keydown',function(e){
+      var n=null,t=pietre.length;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(k+1)%t;
+      else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(k+t-1)%t;
+      else if(e.key==='Home')n=0;
+      else if(e.key==='End')n=t-1;
+      if(n!==null){e.preventDefault();toccato=true;fermaGiro();mostra(n,true)}
+    });
+  });
+  if(pietre.length&&stanze.length===pietre.length){
+    pietre.forEach(function(p,k){p.tabIndex=k===0?0:-1});
+    // finche' nessuno tocca, le pietre si accendono una dopo l'altra mentre il cerchio e' a schermo
+    if(!fermo&&cerchio&&'IntersectionObserver' in w){
+      new IntersectionObserver(function(voci){voci.forEach(function(v){
+        if(v.isIntersecting&&!toccato&&!giro){giro=setInterval(function(){mostra((attiva+1)%pietre.length)},5200)}
+        else if(!v.isIntersecting){fermaGiro()}
+      })},{threshold:.45}).observe(cerchio);
+    }
+  }
+})();
+</script>
+
 <!-- Statistiche GoatCounter: senza cookie, nessun dato personale raccolto.
      Il codice sito e' "laparolagiusta": se registri un sottodominio diverso,
      cambia l'indirizzo qui sotto (e in fondo alle altre pagine). -->
 <script data-goatcounter="https://laparolagiusta.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://laparolagiusta.it/#autore","name":"Achille Pagliaro","url":"https://laparolagiusta.it/achillepagliaro.html","jobTitle":"Autore e formatore in comunicazione","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"Organization","@id":"https://laparolagiusta.it/#marchio","name":"La Parola Giusta","url":"https://laparolagiusta.it/","founder":{"@id":"https://laparolagiusta.it/#autore"},"email":"info@laparolagiusta.it","logo":"https://laparolagiusta.it/img/c5acd835.webp","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"WebPage","@id":"https://laparolagiusta.it/achillepagliaro.html#pagina","url":"https://laparolagiusta.it/achillepagliaro.html","name":"Achille Pagliaro — I libri","description":"Il Volo delle Radici e Mappe Silenziose: due libri per chi ha il coraggio di rallentare in un mondo che corre.","inLanguage":"it-IT","isPartOf":{"@id":"https://laparolagiusta.it/#sito"}},{"@type":"WebSite","@id":"https://laparolagiusta.it/#sito","url":"https://laparolagiusta.it/","name":"La Parola Giusta","inLanguage":"it-IT","publisher":{"@id":"https://laparolagiusta.it/#marchio"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://laparolagiusta.it/#autore","name":"Achille Pagliaro","url":"https://laparolagiusta.it/achillepagliaro.html","jobTitle":"Autore e formatore in comunicazione","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"Organization","@id":"https://laparolagiusta.it/#marchio","name":"La Parola Giusta","url":"https://laparolagiusta.it/","founder":{"@id":"https://laparolagiusta.it/#autore"},"email":"info@laparolagiusta.it","logo":"https://laparolagiusta.it/img/c5acd835.webp","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"WebPage","@id":"https://laparolagiusta.it/achillepagliaro.html#pagina","url":"https://laparolagiusta.it/achillepagliaro.html","name":"Achille Pagliaro — I libri","description":"Il Volo delle Radici, Mappe Silenziose e, dal 20 novembre, Eredità Invisibili: tre libri per chi ha il coraggio di rallentare in un mondo che corre.","inLanguage":"it-IT","isPartOf":{"@id":"https://laparolagiusta.it/#sito"}},{"@type":"WebSite","@id":"https://laparolagiusta.it/#sito","url":"https://laparolagiusta.it/","name":"La Parola Giusta","inLanguage":"it-IT","publisher":{"@id":"https://laparolagiusta.it/#marchio"}},{"@type":"Book","@id":"https://laparolagiusta.it/achillepagliaro.html#eredita-invisibili","name":"Eredità Invisibili","alternativeHeadline":"i maestri che non sapevo di avere","author":{"@id":"https://laparolagiusta.it/#autore"},"publisher":{"@type":"Organization","name":"Edizioni Il Saggio"},"datePublished":"2026-11-20","inLanguage":"it","bookFormat":"https://schema.org/Paperback","image":"https://laparolagiusta.it/img/copertina-di-eredita-invisibili.webp","description":"Il racconto di un padre che si scopre allievo dei propri figli: sei parti, venti capitoli, sulle cose che sapevamo fare prima di disimpararle.","url":"https://laparolagiusta.it/achillepagliaro.html#eredita"}]}</script>
+
 </body>
 </html>
