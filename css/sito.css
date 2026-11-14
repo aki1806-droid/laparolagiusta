@@ -34,6 +34,7 @@
 }
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
 ::selection{background:var(--oro);color:#fff}
+[hidden]{display:none!important}
 h1,h2,h3{text-wrap:balance}
 img{height:auto}
 
@@ -72,7 +73,7 @@ body::after{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;op
 .nav a:focus-visible,.nav button:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:3px}
 
 /* pulsante del menu a tutto schermo: lo crea lo script, quindi esiste solo se lo script e' partito */
-.nav-apri{display:none;width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(238,242,248,.3);border-radius:50%;background:transparent;cursor:pointer;
+.nav-apri{display:none;order:9;width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(238,242,248,.3);border-radius:50%;background:transparent;cursor:pointer;
   position:relative;padding:0;color:var(--luna);transition:border-color .25s}
 .nav-apri:hover{border-color:var(--oro-chiaro)}
 .nav .nav-apri:focus-visible{border-radius:50%}
@@ -89,7 +90,14 @@ body::after{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;op
   .nav .nav-azioni,.nav .nav-menu{margin-left:auto;gap:12px}
   .nav .marchio span{display:inline;font-size:19px}
 }
-@media(max-width:380px){.nav .marchio span{display:none}}
+@media(max-width:430px){
+  .nav .wrap{padding-left:16px;padding-right:16px}
+  .nav .marchio{gap:8px}
+  .nav .marchio span{font-size:17px}
+  .nav .nav-btn{padding:8px 14px;font-size:13px}
+  .nav .nav-in,.nav .nav-azioni,.nav .nav-menu{gap:9px}
+}
+@media(max-width:350px){.nav .marchio span{display:none}}
 
 .menu{position:fixed;inset:0;z-index:55;background:radial-gradient(120% 80% at 80% 0%,#17325C 0%,var(--notte) 58%);color:var(--luna);
   display:flex;flex-direction:column;padding:92px 28px 34px;overflow-y:auto;overscroll-behavior:contain;
