@@ -8,152 +8,6 @@
 <script>/* animazioni solo se lo script parte; dal 20 novembre 2026 i testi passano da "in uscita" a "in libreria" */
 (function(h){h.className+=' js';var o=new Date();o.setHours(0,0,0,0);if(o>=new Date(2026,10,20))h.className+=' uscito'})(document.documentElement)</script>
 <style>
-/* La Parola Giusta — font serviti dal dominio, nessuna chiamata a Google */
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:italic;
-  font-weight:300;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-300-italic-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:italic;
-  font-weight:300;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-300-italic-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:italic;
-  font-weight:400;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-400-italic-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:italic;
-  font-weight:400;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-400-italic-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-300-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-300-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-400-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-400-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:normal;
-  font-weight:600;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-600-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Cormorant Garamond';
-  font-style:normal;
-  font-weight:600;
-  font-display:swap;
-  src:url('fonts/cormorant-garamond-600-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Jost';
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url('fonts/jost-300-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Jost';
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url('fonts/jost-300-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Jost';
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url('fonts/jost-400-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Jost';
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url('fonts/jost-400-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face{
-  font-family:'Jost';
-  font-style:normal;
-  font-weight:500;
-  font-display:swap;
-  src:url('fonts/jost-500-latin-ext.woff2') format('woff2');
-  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face{
-  font-family:'Jost';
-  font-style:normal;
-  font-weight:500;
-  font-display:swap;
-  src:url('fonts/jost-500-latin.woff2') format('woff2');
-  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 :root{
   --blu:#12294A;--blu-scuro:#0B1B33;--oro:#C39A4E;--oro-tenue:#E2D2B0;
   --panna:#F7F3EA;--panna-2:#EFE9DC;--bianco:#FFFCF6;
@@ -524,8 +378,9 @@ input:focus-visible,[tabindex]:focus-visible{
 <link rel="preload" href="fonts/cormorant-garamond-300-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jost-300-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/eredita-invisibili-sulla-riva.webp" as="image" fetchpriority="high">
+<link rel="stylesheet" href="css/sito.css">
 </head>
-<body>
+<body class="p-autore">
 <a class="salta" href="#principale">Vai al contenuto</a>
 
 <nav class="nav">
@@ -1001,28 +856,45 @@ input:focus-visible,[tabindex]:focus-visible{
 
 </main>
 
-<footer>
-  <div class="wrap piede">
-    <div class="marchio piede-marchio"><img decoding="async" width="440" height="386" class="piede-logo" src="img/c5acd835.webp" alt="" loading="lazy"><span>La parola giusta</span></div>
-    <div class="piede-col">
-      <nav class="piede-nav" aria-label="Piè di pagina">
-        <a href="./#corsi">Corsi</a>
-        <a href="./#libri">Libri</a>
-        <a href="./#ebook">Ebook</a>
-        <a href="achillepagliaro.html">L'autore</a>
-        <a href="metodo-e-fonti.html">Metodo e fonti</a>
-        <a href="contatti.html">Contatti</a>
-        <a href="termini.html">Termini</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="cookie.html">Cookie</a>
+<footer class="fondo notte">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <div class="wrap">
+    <div class="fondo-scritta" aria-hidden="true">La parola giusta</div>
+    <div class="fondo-griglia">
+      <div>
+        <a class="fondo-marchio" href="index.html"><img decoding="async" width="440" height="386" src="img/c5acd835.webp" alt="" loading="lazy"><span>La parola giusta</span></a>
+        <p class="fondo-motto">Corsi, libri ed ebook di Achille Pagliaro sulla comunicazione e su tutte le sue sfumature.</p>
+      </div>
+      <nav aria-label="Piè di pagina">
+        <h2>Il sito</h2>
+        <ul>
+          <li><a href="index.html#corsi">Corsi</a></li>
+          <li><a href="index.html#libri">Libri</a></li>
+          <li><a href="index.html#ebook">Ebook</a></li>
+          <li><a href="achillepagliaro.html">L'autore</a></li>
+        </ul>
       </nav>
-      <div class="piede-social"><a href="https://www.facebook.com/laparolagiustaofficial" rel="me noopener" target="_blank">Facebook</a><a href="https://www.instagram.com/laparolagiustaofficial" rel="me noopener" target="_blank">Instagram</a><a href="https://www.youtube.com/@laparolagiustaofficial" rel="me noopener" target="_blank">YouTube</a><a href="https://www.tiktok.com/@laparolagiustaofficial" rel="me noopener" target="_blank">TikTok</a></div>
-      <div><a href="mailto:info@laparolagiusta.it">info@laparolagiusta.it</a></div>
+      <nav aria-label="Informazioni">
+        <h2>Informazioni</h2>
+        <ul>
+          <li><a href="metodo-e-fonti.html">Metodo e fonti</a></li>
+          <li><a href="contatti.html">Contatti</a></li>
+          <li><a href="termini.html">Termini</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="cookie.html">Cookie</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2>Altrove</h2>
+        <ul>
+          <li><a href="https://www.facebook.com/laparolagiustaofficial" rel="me noopener" target="_blank">Facebook</a></li><li><a href="https://www.instagram.com/laparolagiustaofficial" rel="me noopener" target="_blank">Instagram</a></li><li><a href="https://www.youtube.com/@laparolagiustaofficial" rel="me noopener" target="_blank">YouTube</a></li><li><a href="https://www.tiktok.com/@laparolagiustaofficial" rel="me noopener" target="_blank">TikTok</a></li>
+          <li><a href="mailto:info@laparolagiusta.it">info@laparolagiusta.it</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="piede-basso">
+    <div class="fondo-basso">
       <div>© 2026 La parola giusta</div>
       <div class="piede-dati">Achille Pagliaro · Corsi ed ebook venduti tramite Skillplate</div>
-      <div class="piede-visite" id="visite" hidden><span class="visite-n"></span> visite</div>
     </div>
   </div>
 </footer>
@@ -1110,5 +982,6 @@ input:focus-visible,[tabindex]:focus-visible{
 
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://laparolagiusta.it/#autore","name":"Achille Pagliaro","url":"https://laparolagiusta.it/achillepagliaro.html","jobTitle":"Autore e formatore in comunicazione","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"Organization","@id":"https://laparolagiusta.it/#marchio","name":"La Parola Giusta","url":"https://laparolagiusta.it/","founder":{"@id":"https://laparolagiusta.it/#autore"},"email":"info@laparolagiusta.it","logo":"https://laparolagiusta.it/img/c5acd835.webp","sameAs":["https://www.facebook.com/laparolagiustaofficial","https://www.instagram.com/laparolagiustaofficial","https://www.youtube.com/@laparolagiustaofficial","https://www.tiktok.com/@laparolagiustaofficial"]},{"@type":"WebPage","@id":"https://laparolagiusta.it/achillepagliaro.html#pagina","url":"https://laparolagiusta.it/achillepagliaro.html","name":"Achille Pagliaro — I libri","description":"Il Volo delle Radici, Mappe Silenziose e, dal 20 novembre, Eredità Invisibili: tre libri per chi ha il coraggio di rallentare in un mondo che corre.","inLanguage":"it-IT","isPartOf":{"@id":"https://laparolagiusta.it/#sito"}},{"@type":"WebSite","@id":"https://laparolagiusta.it/#sito","url":"https://laparolagiusta.it/","name":"La Parola Giusta","inLanguage":"it-IT","publisher":{"@id":"https://laparolagiusta.it/#marchio"}},{"@type":"Book","@id":"https://laparolagiusta.it/achillepagliaro.html#eredita-invisibili","name":"Eredità Invisibili","alternativeHeadline":"i maestri che non sapevo di avere","author":{"@id":"https://laparolagiusta.it/#autore"},"publisher":{"@type":"Organization","name":"Edizioni Il Saggio"},"datePublished":"2026-11-20","inLanguage":"it","bookFormat":"https://schema.org/Paperback","image":"https://laparolagiusta.it/img/copertina-di-eredita-invisibili.webp","description":"Il racconto di un padre che si scopre allievo dei propri figli: sei parti, venti capitoli, sulle cose che sapevamo fare prima di disimpararle.","url":"https://laparolagiusta.it/achillepagliaro.html#eredita"}]}</script>
 
+<script src="js/sito.js" defer></script>
 </body>
 </html>

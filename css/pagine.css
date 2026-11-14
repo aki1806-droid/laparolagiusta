@@ -1,0 +1,274 @@
+/* =====================================================================
+   La Parola Giusta — componenti delle pagine (home, ebook, corsi,
+   omaggi, grazie, informative). Si carica dopo css/sito.css.
+   La pagina autore ha i suoi componenti e non carica questo file.
+   ===================================================================== */
+
+body{font-size:17.5px}
+.wrap{position:relative}
+section{position:relative}
+p{text-wrap:pretty}
+
+/* ---------------------------------------------------------- aperture */
+.notte{background:var(--cielo)}
+.hero{padding:44px 0 62px;border-radius:0 0 34px 34px}
+.hero .wrap{z-index:1}
+.hero h1{font-size:clamp(42px,9.4vw,80px);font-weight:300;line-height:1;letter-spacing:-.022em;max-width:13ch}
+.hero h1 em{font-style:italic;color:var(--oro-chiaro);padding-bottom:.1em;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9c38-5 82-7 126-5 34 1 62 5 94 4 26-1 48-4 74-3' fill='none' stroke='%23DDBD7C' stroke-width='2' stroke-linecap='round' opacity='.75'/%3E%3C/svg%3E") no-repeat 0 100%/100% .22em}
+.hero .sottotitolo{color:var(--oro-chiaro);font-size:clamp(21px,3.8vw,29px);margin-top:16px}
+.hero p.occhio,.hero p.intro{color:var(--luna-tenue);font-size:18.5px}
+.hero p.intro{font-family:var(--serif);font-style:italic;font-size:clamp(21px,3.8vw,28px);color:var(--oro-chiaro);line-height:1.3;margin-top:14px}
+.hero .prezzo{color:#fff;font-size:44px}
+.hero .prezzo s{color:var(--luna-tenue)}
+.hero .dati{color:var(--luna-tenue);gap:9px 10px;margin-top:26px}
+.hero .dati span{padding:5px 14px;border:1px solid rgba(221,189,124,.32);border-radius:999px;font-size:13.5px;letter-spacing:.02em;background:rgba(255,255,255,.03)}
+.hero .dati span::before{display:none}
+.hero p.dati{font-size:14.5px;letter-spacing:.05em}
+.hero-azioni{gap:18px}
+/* le parole del titolo entrano una alla volta (le separa lo script) */
+.js .hero h1.parole{animation:none;opacity:1}
+.hero h1 .pw{display:inline-block;opacity:0;transform:translateY(.55em) rotate(3deg);filter:blur(7px);
+  animation:parola .95s var(--molla) forwards;animation-delay:calc(.12s + var(--i,0) * .075s)}
+@keyframes parola{to{opacity:1;transform:none;filter:blur(0)}}
+
+/* etichette: un tratto d'oro prima del testo */
+.etichetta::before{content:"";display:inline-block;vertical-align:middle;width:30px;height:1px;background:currentColor;margin:-2px 12px 0 0;opacity:.8}
+.centro .etichetta::after{content:"";display:inline-block;vertical-align:middle;width:30px;height:1px;background:currentColor;margin:-2px 0 0 12px;opacity:.8}
+
+/* -------------------------------------------------- il libro, in rilievo */
+.hero .cop{max-width:min(300px,64vw);margin:26px auto 0;animation:libro-entra 1.5s var(--molla) both;
+  transform-style:preserve-3d;transform:perspective(1500px) rotateY(var(--ry,-24deg)) rotateX(var(--rx,4deg));transition:transform .5s var(--molla)}
+.hero .cop img{position:relative;transform:translateZ(20px);border-radius:2px 5px 5px 2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);backface-visibility:hidden}
+.hero .cop::before{content:"";position:absolute;z-index:auto;inset:auto;top:1.1%;bottom:1.1%;right:0;left:auto;width:40px;border:0;
+  transform:translateX(18px) rotateY(90deg);
+  background:repeating-linear-gradient(90deg,#fffdf6 0 1.5px,#ded6c4 1.5px 3px)}
+.hero .cop::after{content:"";position:absolute;inset:0;transform:translateZ(-20px);background:#0a1830;border-radius:2px 5px 5px 2px;
+  box-shadow:34px 44px 70px rgba(0,0,0,.55),0 0 90px rgba(221,189,124,.16)}
+/* niente opacita' sull'elemento che tiene il rilievo: lo appiattirebbe */
+@keyframes libro-entra{from{transform:perspective(1500px) rotateY(-82deg) rotateX(10deg) translateY(60px)}}
+.hero .cop img,.hero .cop::before,.hero .cop::after{animation:appare .5s ease both}
+@keyframes appare{from{opacity:0}}
+@media(min-width:880px){
+  .hero{padding:70px 0 96px;border-radius:0 0 56px 56px}
+  .hero .cop{max-width:370px;margin-top:0}
+}
+/* corsi: l'immagine e' orizzontale, niente libro ma una finestra ad arco */
+.p-corso .hero .cop{transform:none;animation:sale .9s var(--molla) .15s both;max-width:520px;transform-style:flat}
+.p-corso .hero .cop::before,.p-corso .hero .cop::after{display:none}
+.p-corso .hero .cop img,.p-corso .hero .cop video{transform:none;border-radius:999px 999px 18px 18px;aspect-ratio:1/1.06;object-fit:cover;width:100%;
+  box-shadow:0 0 0 1px rgba(221,189,124,.5),0 0 0 12px rgba(221,189,124,.09),0 40px 80px rgba(0,0,0,.5)}
+@keyframes sale{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* copertina finta degli omaggi (un PDF disegnato in CSS) */
+.hero .pdf{transform:perspective(1500px) rotateY(-18deg) rotateX(3deg);transition:transform .5s var(--molla)}
+.hero .pdf:hover{transform:perspective(1500px) rotateY(-8deg) rotateX(1deg)}
+.hero .pdf::before{display:none}
+.hero .pdf-cop{box-shadow:30px 40px 70px rgba(0,0,0,.55),0 0 0 1px rgba(221,189,124,.4);border-radius:2px 6px 6px 2px;background:linear-gradient(160deg,#16305A,#081526)}
+
+/* ------------------------------------------------------------ sezioni */
+h2{font-size:clamp(31px,5.8vw,54px);font-weight:300;letter-spacing:-.018em;line-height:1.06}
+h2 em{font-style:italic;color:var(--oro)}
+.intro{font-size:18.5px}
+.tinta{background:linear-gradient(180deg,var(--panna-2),#ECE4D4)}
+.scura h2,.scura h3{color:#fff}
+
+/* numerone di sezione, appena accennato */
+.p-ebook,.p-corso,.p-omaggio{counter-reset:sez}
+.p-ebook section,.p-corso section,.p-omaggio section{counter-increment:sez}
+.p-ebook section > .wrap::before,.p-corso section > .wrap::before,.p-omaggio section > .wrap::before{
+  content:counter(sez,decimal-leading-zero);position:absolute;right:20px;top:-.8em;z-index:0;pointer-events:none;
+  font-family:var(--serif);font-weight:300;font-size:clamp(64px,10vw,124px);line-height:1;letter-spacing:-.03em;
+  color:transparent;-webkit-text-stroke:1px rgba(195,154,78,.34)}
+.p-ebook section.notte > .wrap::before,.p-corso section.notte > .wrap::before,.p-omaggio section.notte > .wrap::before{-webkit-text-stroke-color:rgba(221,189,124,.3)}
+section > .wrap > *{position:relative;z-index:1}
+
+/* scena d'apertura */
+.scena img,.etica img{border-radius:160px 18px 160px 18px;box-shadow:var(--ombra-alta)}
+.scena-testo p:first-of-type::first-letter{font-size:92px;line-height:.74;padding:10px 14px 0 0;color:var(--oro)}
+.pull,.citazione{font-size:clamp(28px,5.2vw,48px);line-height:1.2;font-weight:300;letter-spacing:-.01em;position:relative}
+.pull::before,.citazione::before{content:"\201C";display:block;font-family:var(--serif);font-style:normal;font-size:2.6em;line-height:.6;height:.42em;color:var(--oro);opacity:.85}
+.chiusura .pull,.chiusura .citazione{max-width:20ch}
+.chiusura.notte{border-radius:56px 56px 0 0;margin-bottom:-1px}
+.chiusura.notte .pull,.chiusura.notte .citazione{color:#fff}
+.chiusura.notte p{color:var(--luna-tenue)}
+
+/* elenchi */
+.elenco li{font-size:17.5px;padding:14px 0 14px 34px;border-bottom:1px solid var(--linea)}
+.elenco{gap:0}
+.elenco li::before{top:27px;width:18px;height:1px}
+.notte .elenco li{border-color:rgba(221,189,124,.18);color:var(--luna-tenue)}
+.incluso li::before,.punti li::before{width:7px;height:7px;border-radius:50%;top:10px;background:var(--oro)}
+
+/* schede */
+.blocco{padding:28px 26px 26px;border:1px solid var(--linea);border-top:1px solid var(--linea);border-radius:var(--raggio);background:rgba(255,252,246,.66);
+  transition:transform .5s var(--molla),box-shadow .5s var(--molla),border-color .3s}
+.notte .blocco{background:rgba(255,255,255,.045);border-color:rgba(221,189,124,.24);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.notte .blocco p{color:var(--luna-tenue)}
+.blocco h3{font-size:26px}
+.profilo,.formato-card,.gruppo,.frase,.corso,.libro,.valore,.collana,.riquadro{border-radius:var(--raggio);box-shadow:var(--ombra);
+  transition:transform .5s var(--molla),box-shadow .5s var(--molla),border-color .3s}
+.blocco:hover,.profilo:hover,.formato-card:hover,.gruppo:hover,.frase:hover,.corso:hover,.libro:hover,.valore:hover{transform:translateY(-7px);box-shadow:var(--ombra-alta);border-color:var(--oro)}
+.profilo,.gruppo,.frase{position:relative;overflow:hidden}
+.profilo::before,.gruppo::before,.frase::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--oro),var(--oro-chiaro));
+  transform:scaleX(0);transform-origin:left;transition:transform .6s var(--molla)}
+.profilo:hover::before,.gruppo:hover::before,.frase:hover::before{transform:scaleX(1)}
+.profilo h3,.gruppo h3{font-size:25px}
+.frase-n{font-size:54px;font-weight:300;color:transparent;-webkit-text-stroke:1px var(--oro)}
+.notte .frase-n{-webkit-text-stroke-color:var(--oro-chiaro)}
+
+/* indice */
+.cap{padding:22px 14px;gap:22px;border-radius:14px;transition:background .3s,padding-left .5s var(--molla)}
+.cap:hover{background:rgba(195,154,78,.09);padding-left:26px}
+.cap-n{font-size:40px;font-weight:300;line-height:1;min-width:58px;color:transparent;-webkit-text-stroke:1px var(--oro);align-self:center}
+.cap-t{font-size:25px}
+
+/* estratto */
+.estratto{border-radius:var(--raggio);border-left:0;padding:44px 34px 38px;box-shadow:var(--ombra-alta);position:relative;overflow:hidden}
+.estratto::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--oro),var(--oro-chiaro))}
+.estratto::after{content:"\201D";position:absolute;right:18px;top:-8px;font-family:var(--serif);font-size:210px;line-height:1;color:var(--oro);opacity:.14;pointer-events:none}
+.estratto p,.estratto dd{font-size:21px}
+
+/* domande */
+details{border:1px solid var(--linea);border-radius:16px;margin-top:12px;padding:0 24px;background:rgba(255,252,246,.6);transition:background .3s,border-color .3s,box-shadow .4s}
+details[open]{background:var(--bianco);border-color:var(--oro);box-shadow:var(--ombra)}
+summary{padding:22px 44px 22px 0;font-size:23px;transition:color .25s}
+summary:hover{color:var(--oro)}
+summary::after{right:4px;top:50%!important;width:26px;height:26px;margin-top:-13px;border:1px solid var(--oro)!important;border-radius:50%;transform:none!important;
+  background:linear-gradient(var(--oro),var(--oro)) center/10px 1px no-repeat,linear-gradient(var(--oro),var(--oro)) center/1px 10px no-repeat;transition:transform .45s var(--molla),background-size .3s}
+details[open] summary::after{transform:rotate(180deg)!important;background-size:10px 1px,1px 0}
+details p{font-size:16.5px;padding-bottom:10px}
+details[open] p{animation:sale .5s var(--molla) both}
+
+/* acquisto */
+.scheda-acquisto,.scheda{border-radius:26px;border:1px solid var(--oro);box-shadow:var(--ombra-alta),0 0 0 8px rgba(195,154,78,.08)}
+.scheda-acquisto::before,.scheda::before{inset:9px;border-radius:19px}
+.scheda-acquisto h3{font-size:32px}
+.prezzo,.formato-prezzo{font-size:42px;font-weight:300}
+.formato-card{padding:34px 28px}
+.formato-card.carta{background:linear-gradient(160deg,#FFFCF6,#F6ECD6)}
+.bollino{background:linear-gradient(135deg,#CFA85C,#B98E3F);box-shadow:0 6px 16px rgba(195,154,78,.4)}
+.acquisto .cop img,.consiglio .cop img,.secondo .cop img{border-radius:3px 7px 7px 3px;transform:perspective(1200px) rotateY(-14deg);transition:transform .7s var(--molla);box-shadow:26px 30px 54px rgba(11,27,51,.34)}
+.acquisto .cop:hover img,.consiglio .cop:hover img,.secondo .cop:hover img{transform:perspective(1200px) rotateY(0)}
+.acquisto .cop::before,.consiglio .cop::before,.secondo .cop::before{display:none}
+
+/* moduli */
+.campi input,.campi-nl input,.campo input{border-radius:14px;padding:16px 20px;transition:border-color .25s,box-shadow .25s,transform .3s var(--molla)}
+.campi input:focus,.campi-nl input:focus,.campo input:focus{transform:translateY(-1px)}
+.notte .scheda{color:var(--testo)}
+.notte .scheda h2{color:var(--blu)}
+.notte .scheda .nota{color:var(--tenue)}
+
+/* box del corso dentro le schede ebook */
+.box-corso img{border-radius:999px 999px 18px 18px;aspect-ratio:1/.92;object-fit:cover;box-shadow:0 0 0 1px rgba(221,189,124,.5),0 0 0 12px rgba(221,189,124,.08),0 40px 80px rgba(0,0,0,.45)}
+.box-corso .bc-prezzo{font-size:52px;font-weight:300}
+.box-corso .bc-dati{color:var(--oro-chiaro)}
+
+/* video */
+.anteprima video,.anteprima-video video{border-radius:20px;box-shadow:var(--ombra-alta)}
+.anteprima-video{border-radius:28px;padding:10px;box-shadow:var(--ombra)}
+
+/* foto ad arco */
+.bio-foto img{border-radius:999px 999px 18px 18px;box-shadow:var(--ombra-alta)}
+.bio-foto::before{inset:-14px;border-radius:999px 999px 26px 26px;border-color:var(--oro)}
+.firma{font-size:34px;color:var(--oro)}
+
+/* --------------------------------------------------------------- home */
+.p-home .hero h1{font-size:clamp(40px,8.4vw,74px);max-width:13ch;line-height:1.02}
+.p-home .hero-marchio{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.p-home .hero-mono{width:62px;margin:0;filter:brightness(0) invert(1)}
+.p-home .hero-nome{width:150px;height:auto;aspect-ratio:820/400;object-fit:cover;filter:brightness(0) invert(1);opacity:.92}
+.p-home .hero-foto{max-width:520px;margin:0 auto;width:100%}
+.p-home .hero-foto img{aspect-ratio:1/1.04;object-fit:cover;width:100%;border-radius:999px 999px 20px 20px;
+  box-shadow:0 0 0 1px rgba(221,189,124,.55),0 0 0 14px rgba(221,189,124,.08),0 44px 90px rgba(0,0,0,.5)}
+.p-home .hero-foto::after{inset:-28px;border:1px dashed rgba(221,189,124,.35);border-radius:999px 999px 34px 34px;z-index:0;animation:respiro 7s ease-in-out infinite alternate;pointer-events:none}
+@keyframes respiro{from{transform:scale(1)}to{transform:scale(1.035)}}
+.p-home .fascia{border-color:rgba(221,189,124,.22);margin-top:64px;padding:26px 0}
+.p-home .fascia-in{color:var(--luna-tenue);gap:14px 60px}
+.p-home .fascia b{color:#fff;font-size:30px;font-weight:300;display:block;line-height:1.1}
+
+/* nastro di parole che scorre */
+.nastro{overflow:hidden;padding:26px 0 30px;margin:-46px 0 -30px;position:relative;z-index:3;pointer-events:none}
+.nastro-fascia{background:linear-gradient(90deg,#B98E3F,#CFA85C 30%,#DDBD7C 50%,#CFA85C 70%,#B98E3F);color:#fff;padding:15px 0;font-family:var(--serif);font-style:italic;font-size:clamp(22px,3.6vw,32px);line-height:1;white-space:nowrap;
+  transform:rotate(-1.2deg) scale(1.04);box-shadow:0 14px 30px rgba(11,27,51,.2)}
+.nastro-in{display:inline-flex;animation:scorre 46s linear infinite}
+.nastro span{padding:0 22px}
+.nastro span::after{content:"✦";font-style:normal;font-size:.5em;margin-left:44px;vertical-align:middle;opacity:.8}
+@keyframes scorre{to{transform:translateX(-50%)}}
+
+.omaggio{overflow:hidden}
+.omaggio-coppia{perspective:1100px;padding:6px 0 22px 8px}
+.omaggio-coppia .omaggio-cop{width:128px;border-radius:2px 5px 5px 2px;transition:transform .7s var(--molla);box-shadow:16px 22px 40px rgba(11,27,51,.3)}
+.omaggio-coppia .omaggio-cop:first-child{transform:rotateY(-18deg) rotate(-4deg)}
+.omaggio-coppia .omaggio-cop:last-child{transform:rotateY(-18deg) rotate(5deg) translateY(12px);margin-left:-22px}
+.omaggio:hover .omaggio-cop:first-child{transform:rotateY(-6deg) rotate(-7deg) translateX(-8px)}
+.omaggio:hover .omaggio-cop:last-child{transform:rotateY(-6deg) rotate(8deg) translate(8px,8px)}
+
+.valori{counter-reset:val}
+.valore{counter-increment:val;padding:30px 26px;border:1px solid var(--linea);background:rgba(255,252,246,.7)}
+.valore::before{content:counter(val,decimal-leading-zero);display:block;font-family:var(--serif);font-size:52px;font-weight:300;line-height:1;margin-bottom:14px;color:transparent;-webkit-text-stroke:1px var(--oro)}
+.corso{border-radius:26px}
+.corso-img{aspect-ratio:16/10}
+.corso-img img{transition:transform 1.2s var(--molla)}
+.corso:hover .corso-img img{transform:scale(1.07)}
+.corso h3{font-size:34px}
+.p-home .libro{border-radius:24px;overflow:hidden}
+.p-home .copertina{background:radial-gradient(90% 70% at 50% 20%,#1B3A6B,#081526);perspective:1000px;padding:28px}
+.p-home .copertina img{transform:rotateY(-16deg);transition:transform .8s var(--molla);box-shadow:18px 22px 40px rgba(0,0,0,.5);border-radius:2px 5px 5px 2px}
+.p-home .libro:hover .copertina img{transform:rotateY(0) scale(1.03)}
+.link-negozio{transition:border-color .25s,background .25s,color .25s}
+.link-negozio:hover{background:var(--blu);color:var(--panna);border-color:var(--blu)}
+
+/* scaffale degli ebook: copertine grandi; scorre col dito su telefono */
+.scaffale{list-style:none;margin:44px -24px 0;padding:10px 24px 34px;display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.scaffale::-webkit-scrollbar{display:none}
+.scaffale .ebook{flex:0 0 min(74vw,270px);scroll-snap-align:center;display:flex;flex-direction:column;gap:0;padding:0;border:0;position:relative}
+.scaffale .ebook-cop-g{display:block;position:relative;border-radius:3px 8px 8px 3px;overflow:hidden;aspect-ratio:700/992;background:var(--blu-scuro);
+  box-shadow:14px 22px 44px rgba(11,27,51,.28);transition:transform .7s var(--molla),box-shadow .7s var(--molla);transform-origin:50% 100%}
+.scaffale .ebook-cop-g img{width:100%;height:100%;object-fit:cover;display:block}
+.scaffale .ebook-cop-g::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(255,255,255,.22) 0,rgba(255,255,255,0) 14%,rgba(0,0,0,.0) 86%,rgba(0,0,0,.18) 100%);pointer-events:none}
+.scaffale .ebook:hover .ebook-cop-g{transform:translateY(-12px) rotate(-1.6deg);box-shadow:22px 34px 60px rgba(11,27,51,.36)}
+.scaffale .ebook-cop-g{order:1}
+.scaffale .ebook-n{order:2;font-size:46px;font-weight:300;line-height:1;min-width:0;padding:0;margin:20px 4px 0;color:transparent;-webkit-text-stroke:1px var(--oro)}
+.scaffale .ebook-testo{order:3;padding:6px 4px 0;display:flex;flex-direction:column;flex:1}
+.scaffale .ebook h3{font-size:24px;margin-bottom:8px}
+.scaffale .ebook p{font-size:15px;margin:0 0 14px}
+.scaffale .ebook .link-negozio,.scaffale .ebook .ebook-azione{margin-top:auto;align-self:flex-start}
+.scaffale-nota{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--tenue);margin-top:4px}
+@media(min-width:880px){
+  .scaffale{margin:60px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:64px 34px;overflow:visible}
+  .scaffale .ebook{flex:none}
+  .scaffale-nota{display:none}
+  .p-home .hero-grid{grid-template-columns:1.1fr .9fr}
+}
+.ebook-foto{border-radius:160px 18px 160px 18px;max-height:none}
+.ebook-foto img{height:260px}
+
+/* -------------------------------------------------- pagine informative */
+.testata-notte{border-radius:0 0 34px 34px;padding:6px 0 46px}
+.testata-notte .testata{padding:56px 24px 8px}
+.testata-notte h1{color:#fff;font-size:clamp(40px,8vw,76px);font-weight:300;letter-spacing:-.02em;line-height:1.02}
+.testata-notte .agg{color:var(--luna-tenue)}
+.p-info main{padding-top:46px}
+.p-info main h2{font-size:clamp(25px,3.8vw,34px);font-weight:400;letter-spacing:-.005em;margin-top:54px;padding-top:26px;border-top:1px solid var(--linea)}
+.p-info main a{text-decoration-color:var(--oro);text-underline-offset:3px;text-decoration-thickness:1px}
+.p-info .riquadro{border-radius:var(--raggio);border-color:var(--oro);box-shadow:var(--ombra)}
+.tabella{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 1.4em;border:1px solid var(--linea);border-radius:14px;background:var(--bianco)}
+.tabella table{margin:0;min-width:520px}
+.tabella tr:last-child td{border-bottom:0}
+.p-info main ul li::marker{color:var(--oro)}
+.p-404 .testata-notte h1{font-size:clamp(46px,10vw,104px)}
+
+/* ------------------------------------------------- omaggi e pagine grazie */
+.p-omaggio .hero h1,.p-grazie .hero h1{font-size:clamp(38px,7.6vw,68px);max-width:16ch;line-height:1.04}
+.p-grazie .hero{padding-bottom:70px}
+.p-grazie .hero h1{max-width:18ch}
+.passi-chiari .blocco .frase-n,.passi .blocco .frase-n{margin-bottom:8px}
+.giorni{counter-reset:none}
+
+@media(prefers-reduced-motion:reduce){
+  .hero h1 .pw{opacity:1;transform:none;filter:none}
+  .nastro-in{animation:none}
+  .hero .cop{animation:none}
+}
+@media print{.nastro,.cielo{display:none}}
