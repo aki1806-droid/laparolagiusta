@@ -5,6 +5,11 @@
 //   node strumenti/blog.mjs --prossimo      prima di costruire, pubblica con la data di oggi il primo post
 //                                           in coda (blog/_coda/NN-titolo-breve.md); se oggi c'e' gia' un post non fa nulla
 //
+//   node strumenti/blog.mjs --settimanale <titolo-breve> [numero]
+//                                           scrive anche l'email della settimana (blog/_email/settimana.html e .json):
+//                                           quel post per intero, e sotto i link agli altri post degli ultimi sette giorni
+//   node strumenti/blog.mjs --con-coda      solo per l'anteprima: mostra anche i post in coda, con le date in cui uscirebbero
+//
 // L'immagine di un post puo' anche solo esistere: se c'e' img/blog/<titolo-breve>.webp viene usata da sola.
 //
 // Un post e' un file  blog/_post/AAAA-MM-GG-titolo-breve.md  fatto cosi':
@@ -144,27 +149,38 @@ if (iProssimo >= 0) {
   }
 }
 
-let post = readdirSync(DIR).filter(f => f.endsWith('.md')).map(f => {
-  const m = f.match(/^(\d{4})-(\d{2})-(\d{2})-([a-z0-9-]+)\.md$/);
-  if (!m) throw new Error(`nome non valido: ${f} (deve essere AAAA-MM-GG-titolo-breve.md, minuscole senza accenti)`);
-  const testo = readFileSync(join(DIR, f), 'utf8');
+function leggi(testo, slug, dataFile, f) {
   const t = testo.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!t) throw new Error(`${f}: manca l'intestazione tra le due righe ---`);
   const dati = {};
   for (const r of t[1].split('\n')) { const k = r.match(/^([a-z]+):\s*(.*)$/); if (k) dati[k[1]] = k[2].trim(); }
   if (!dati.titolo) throw new Error(`${f}: manca il titolo`);
-  const data = dati.data || `${m[1]}-${m[2]}-${m[3]}`;
+  const data = dataFile || dati.data;
   const [a, me, g] = data.split('-').map(Number);
   const parole = t[2].split(/\s+/).filter(Boolean).length;
   const giochi = [];
   const grezzo = corpo(t[2], giochi);
   const html = grezzo.replace(/@@GIOCO(\d+)@@/g, (_, n) => giochi[+n].html);
   const sommario = dati.sommario || t[2].replace(/[#>*_\[\]]/g, '').trim().split(/\n\s*\n/)[0].replace(/\s+/g, ' ').slice(0, 170);
-  const immagine = dati.immagine || (existsSync(join(REPO, 'img', 'blog', m[4] + '.webp')) ? `img/blog/${m[4]}.webp` : '');
-  return { file: f, slug: m[4], titolo: dati.titolo, data, a, me, g, sommario, immagine, esempio: /^(si|sì|true)$/i.test(dati.esempio || ''), html, grezzo, giochi, libro: dati.libro || '', oggetto: dati.oggetto || '', minuti: Math.max(1, Math.round(parole / 200)),
+  const immagine = dati.immagine || (existsSync(join(REPO, 'img', 'blog', slug + '.webp')) ? `img/blog/${slug}.webp` : '');
+  return { file: f, slug, titolo: dati.titolo, data, a, me, g, sommario, immagine, esempio: /^(si|sì|true)$/i.test(dati.esempio || ''), html, grezzo, giochi, libro: dati.libro || '', oggetto: dati.oggetto || '', minuti: Math.max(1, Math.round(parole / 200)),
     giorno: `${g} ${MESI[me - 1]} ${a}` };
+}
+let post = readdirSync(DIR).filter(f => f.endsWith('.md')).map(f => {
+  const m = f.match(/^(\d{4})-(\d{2})-(\d{2})-([a-z0-9-]+)\.md$/);
+  if (!m) throw new Error(`nome non valido: ${f} (deve essere AAAA-MM-GG-titolo-breve.md, minuscole senza accenti)`);
+  return leggi(readFileSync(join(DIR, f), 'utf8'), m[4], `${m[1]}-${m[2]}-${m[3]}`, f);
 });
 if (SENZA_ESEMPI) post = post.filter(p => !p.esempio);
+if (process.argv.includes('--con-coda') && existsSync(CODA)) {
+  // i post in coda prendono, uno al giorno, le date successive all'ultimo pubblicato; valgono come esempi (niente feed, sitemap, email)
+  const ultima = post.map(p => p.data).sort().pop() || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
+  const [ya, ym, yg] = ultima.split('-').map(Number);
+  readdirSync(CODA).filter(f => f.endsWith('.md')).sort().forEach((f, i) => {
+    const d = new Date(Date.UTC(ya, ym - 1, yg + i + 1)).toISOString().slice(0, 10);
+    post.push({ ...leggi(readFileSync(join(CODA, f), 'utf8'), f.replace(/^\d+-/, '').replace(/\.md$/, ''), d, f), esempio: true, inCoda: true });
+  });
+}
 post.sort((x, y) => (x.data < y.data ? 1 : x.data > y.data ? -1 : x.slug < y.slug ? -1 : 1));   // dal piu' recente
 const doppi = post.map(p => p.slug).filter((s, i, v) => v.indexOf(s) !== i);
 if (doppi.length) throw new Error('due post con lo stesso indirizzo: ' + doppi.join(', '));
@@ -318,7 +334,7 @@ const schedaLibro = p => {
 };
 
 // --- la stessa pagina come email (stile delle email "Una pagina alla settimana") ---
-function email(p) {
+function email(p, settimana) {
   const url = `${SITO}blog/${p.slug}.html`;
   const P = 'margin:0 0 22px;';
   let h = p.grezzo
@@ -347,12 +363,12 @@ function email(p) {
   return `<table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F2E7;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;">` +
     `<tr><td style="padding:50px 50px 0;text-align:center;"><div style="font-family:Georgia,serif;font-size:38px;color:#C6A054;line-height:1;">&#10087;</div><div style="font-family:Georgia,serif;font-size:12.5px;letter-spacing:5px;color:#8A8880;padding-top:16px;">LA PAROLA GIUSTA</div></td></tr>` +
     `<tr><td style="padding:40px 50px 0;font-family:Georgia,'Times New Roman',serif;"><div style="font-size:29px;line-height:1.25;color:#042C57;padding-bottom:26px;">${riga(p.titolo)}</div>` +
-    `<div style="font-size:17px;line-height:1.8;color:#3E3D3A;"><p style="margin:0 0 18px;font-size:13px;letter-spacing:2px;color:#8A8880;">IL TACCUINO &middot; ${p.giorno.toUpperCase()}</p>${foto}${h}${daLibro}<p style="margin:0 0 0px;">Achille</p></div></td></tr>` +
+    `<div style="font-size:17px;line-height:1.8;color:#3E3D3A;"><p style="margin:0 0 18px;font-size:13px;letter-spacing:2px;color:#8A8880;">${settimana ? 'UNA PAGINA ALLA SETTIMANA' : 'IL TACCUINO &middot; ' + p.giorno.toUpperCase()}</p>${foto}${h}${daLibro}<p style="margin:0 0 0px;">Achille</p>${settimana && settimana.altri.length ? `<div style="margin-top:34px;padding-top:24px;border-top:1px solid #DDD3BC;"><p style="margin:0 0 14px;font-size:13px;letter-spacing:2px;color:#8A8880;">QUESTA SETTIMANA NEL TACCUINO</p>${settimana.altri.map(a => `<p style="margin:0 0 10px;"><a href="${SITO}blog/${a.slug}.html" style="color:#042C57;">${riga(a.titolo)}</a><span style="color:#8A8880;font-size:14px;"> &middot; ${a.g} ${MESI[a.me - 1]}</span></p>`).join('')}</div>` : ''}</div></td></tr>` +
     `<tr><td style="padding:40px 50px 50px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="height:1px;background:#DDD3BC;font-size:1px;line-height:1px;">&nbsp;</td></tr></table>` +
     `<div style="padding-top:18px;text-align:center;font-family:Georgia,serif;font-size:11.5px;letter-spacing:1px;color:#96938B;">ACHILLE PAGLIARO &middot; AUTORE E NEGOZIATORE<br><a href="${SITO}blog/" style="color:#B09456;text-decoration:none;">laparolagiusta.it/blog</a><br><br><a href="{{unsubscribe_url}}" style="color:#96938B;">Non voglio più ricevere queste email</a></div></td></tr></table></td></tr></table>`;
 }
 
-const bollino = p => (p.esempio ? '<span class="post-esempio">Esempio</span>' : '');
+const bollino = p => (p.inCoda ? '<span class="post-esempio">In coda</span>' : p.esempio ? '<span class="post-esempio">Esempio</span>' : '');
 const foto = (p, radice, classe) => {
   if (!p.immagine) return '';
   const m = misure(p.immagine);
@@ -379,7 +395,7 @@ post.forEach((p, i) => {
 </div>
 <main id="principale">
   <article class="wrap stretto articolo">
-${p.esempio ? '    <p class="avviso-esempio">Post di esempio, composto con un testo già presente sul sito per mostrare come appare il taccuino. Va tolto prima della pubblicazione.</p>\n' : ''}${p.immagine ? '    ' + figura(p.immagine, '', 'articolo-foto') + '\n' : ''}${p.html}
+${p.inCoda ? `    <p class="avviso-esempio">Post in coda: uscirebbe il ${p.giorno}. L'immagine viene creata la mattina in cui esce.</p>\n` : p.esempio ? '    <p class="avviso-esempio">Post di esempio, composto con un testo già presente sul sito per mostrare come appare il taccuino. Va tolto prima della pubblicazione.</p>\n' : ''}${p.immagine ? '    ' + figura(p.immagine, '', 'articolo-foto') + '\n' : ''}${p.html}
     <p class="articolo-firma">Achille Pagliaro</p>
   </article>
   <div class="wrap stretto articolo-coda">
@@ -488,15 +504,23 @@ ${voci}
 `);
 }
 
-// le email: una per ogni post vero, pronta da passare a SendFox (blog/_email/<titolo-breve>.html e .json)
+// l'email della settimana, pronta da passare a SendFox (blog/_email/settimana.html e .json)
 {
   const dir = join(BLOG, '_email'); mkdirSync(dir, { recursive: true });
   const tieni = new Set();
-  for (const p of post.filter(x => !x.esempio)) {
-    writeFileSync(join(dir, p.slug + '.html'), email(p) + '\n');
-    writeFileSync(join(dir, p.slug + '.json'), JSON.stringify({ title: `Il taccuino — ${p.data} — ${p.titolo}`, subject: p.oggetto || p.titolo, preview_text: p.sommario.slice(0, 180), url: `${SITO}blog/${p.slug}.html` }, null, 1) + '\n');
-    tieni.add(p.slug + '.html'); tieni.add(p.slug + '.json');
+  const iS = process.argv.indexOf('--settimanale');
+  if (iS >= 0) {
+    const scelto = post.find(x => x.slug === process.argv[iS + 1] && !x.esempio);
+    if (!scelto) throw new Error('--settimanale: post non trovato tra quelli pubblicati: ' + process.argv[iS + 1]);
+    const num = parseInt(process.argv[iS + 2], 10) || 0;
+    const giorno = t => Date.UTC(...t.split('-').map((x, i) => (i === 1 ? x - 1 : +x)));
+    const recente = post.filter(x => !x.esempio).map(x => x.data).sort().pop();
+    const altri = post.filter(x => !x.esempio && x.slug !== scelto.slug && giorno(recente) - giorno(x.data) < 7 * 864e5).sort((a, b) => (a.data < b.data ? -1 : 1));
+    writeFileSync(join(dir, 'settimana.html'), email(scelto, { altri }) + '\n');
+    writeFileSync(join(dir, 'settimana.json'), JSON.stringify({ title: `Una pagina alla settimana — ${num ? num + ' ' : ''}(${scelto.g}/${scelto.me}) ${scelto.titolo}`, subject: scelto.oggetto || scelto.titolo, preview_text: scelto.sommario.slice(0, 180), url: `${SITO}blog/${scelto.slug}.html`, list_id: 671866, from_name: 'Achille Pagliaro', from_email: 'info@laparolagiusta.it' }, null, 1) + '\n');
+    console.log(`SETTIMANALE: email di "${scelto.titolo}" con ${altri.length} altri post della settimana`);
   }
+  if (existsSync(join(dir, 'settimana.html'))) { tieni.add('settimana.html'); tieni.add('settimana.json'); }
   for (const f of readdirSync(dir)) if (!tieni.has(f)) unlinkSync(join(dir, f));
 }
 

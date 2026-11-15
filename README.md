@@ -45,6 +45,27 @@ I post già scritti aspettano in `blog/_coda/`, numerati (`01-titolo-breve.md`, 
 3. `node strumenti/blog.mjs` ricostruisce il taccuino: l'immagine viene presa da sola se il file esiste.
 4. Si controlla la pagina, si fa il commit e si pubblica.
 
+### L'esercizio dentro il post
+
+Ogni post ha un esercizio interattivo, scritto nel testo come blocco:
+
+```
+:::scegli Che cosa ne fai?
+- Una risposta possibile | Che cosa succede se scegli questa
+- Un'altra risposta | …
+:::
+```
+
+I tipi sono cinque: `scegli` (risposte tra cui scegliere), `carte` (carte da girare: `- davanti | dietro`), `misura` (cursore da 0 a 10: `:::misura Domanda | da | a` e righe `- 0-3 | testo`), `domanda` (campo dove scrivere, resta sul dispositivo di chi legge), `respiro` (un cerchio che conta i secondi: `:::respiro 60 | Invito`, e sotto la frase finale). Nell'intestazione, `libro: eredita | volo | mappe` (o il nome di una scheda ebook) aggiunge in fondo la scheda del libro; `oggetto:` è l'oggetto dell'email.
+
+### L'email della settimana
+
+Ai 40 iscritti della lista SendFox «La Parola Giusta» (id 671866) va una sola email a settimana, il giovedì alle 8:00, mittente Achille Pagliaro <info@laparolagiusta.it>: è la serie «Una pagina alla settimana» (la n. 1 è del 5/11/2026, la n. 2 del 12/11). Le altre liste dell'account sono del lavoro sindacale e non vanno mai usate.
+
+1. Si sceglie il post migliore degli ultimi sette giorni.
+2. `node strumenti/blog.mjs --settimanale <titolo-breve> <numero>` scrive `blog/_email/settimana.html` (il post per intero, l'esercizio come invito a farlo sul sito, i link agli altri post della settimana) e `settimana.json` (titolo interno, oggetto, anteprima, lista, mittente).
+3. In SendFox: si crea la campagna con quei dati e la si programma per il giovedì alle 8:00. Le immagini dell'email sono quelle del sito: il post deve essere già online.
+
 Stile delle immagini: natura morta fotografica in luce calda da finestra, blu notte, panna e oro, nessuna persona, nessuna scritta.
 
 Lo script riscrive `blog/index.html`, le pagine dei post, `blog/feed.xml`, gli ultimi tre post in home e le voci del blog in `sitemap.xml`. Le pagine dentro `blog/` non vanno modificate a mano: si rigenerano. I post con `esempio: si` servono solo per l'anteprima; `node strumenti/blog.mjs --senza-esempi` li lascia fuori.
