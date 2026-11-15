@@ -5,6 +5,7 @@ su https://aki1806-droid.github.io/laparolagiusta/
 
 - `index.html` — home: La Parola Giusta (corsi, libri, ebook)
 - `achillepagliaro.html` — i libri: Il Volo delle Radici, Mappe Silenziose, Eredità Invisibili
+  - *Eredità Invisibili* su Amazon: `https://www.amazon.it/dp/8893606437` (ISBN 9788893606431). Sulla pagina autore il pulsante dice «Ordinalo su Amazon» fino al 19 novembre 2026 e «Acquista su Amazon» dal 20.
 - `laparolagiusta.html` — reindirizzamento alla home, per il vecchio indirizzo
 - `biglietto/` — biglietto da visita digitale, separato dal sito: non collegato dalle pagine, fuori dalla sitemap, con noindex
 

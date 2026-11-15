@@ -221,3 +221,8 @@ footer.fondo{border-top:0;padding:0;font-size:15px;color:var(--luna-tenue);backg
   .cadente,.lanterna{display:none}
   ::view-transition-old(root),::view-transition-new(root){animation:none}
 }
+
+/* pagina autore: il rimando ad Amazon del terzo libro, in apertura e nella scelta finale */
+.p-autore .hero-scheda a{color:var(--oro-chiaro);text-underline-offset:3px}
+.p-autore .scelta .scelta-anche{margin-top:12px;font-size:14px;color:var(--luna-tenue);text-underline-offset:3px}
+.p-autore .scelta .scelta-anche:hover{color:var(--oro-chiaro)}
