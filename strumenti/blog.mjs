@@ -44,11 +44,47 @@ function riga(t) {
   h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
   return h;
 }
-function corpo(md) {
-  const blocchi = md.replace(/\r/g, '').trim().split(/\n\s*\n/);
+// --- esercizi interattivi: blocchi  :::tipo titolo ... :::  dentro il testo del post ---
+//   :::scegli Domanda            - Risposta possibile | Che cosa succede se scegli questa
+//   :::carte Titolo              - Davanti | Dietro
+//   :::misura Domanda | da | a   - 0-3 | Testo per chi sta tra 0 e 3
+//   :::domanda La domanda        (righe seguenti: una nota sotto il campo dove scrivere)
+//   :::respiro 60 | Invito       (righe seguenti: la frase che compare alla fine)
+// Senza JavaScript restano testo leggibile; nell'email diventano un invito a farlo sul sito.
+const NOMI_GIOCO = { scegli: 'Scegli', carte: 'Gira le carte', misura: 'Misurati', domanda: 'Scrivilo', respiro: 'Fermati' };
+function gioco(tipo, titolo, dentro) {
+  const righe = dentro.split('\n').map(r => r.trim()).filter(Boolean);
+  const voci = righe.filter(r => /^[-•]\s+/.test(r)).map(r => r.replace(/^[-•]\s+/, '').split('|').map(x => x.trim()));
+  const libere = righe.filter(r => !/^[-•]\s+/.test(r));
+  const testa = `<div class="gioco-etichetta">Prova tu · ${NOMI_GIOCO[tipo]}</div>`;
+  if (tipo === 'scegli' || tipo === 'carte') {
+    if (voci.length < 2 || voci.some(v => v.length < 2)) throw new Error(`esercizio "${tipo}": servono almeno due righe "- testo | testo"`);
+    return `<div class="gioco g-${tipo}" data-gioco="${tipo}">${testa}<p class="gioco-tit">${riga(titolo)}</p><ul>${voci.map(v => `<li><strong>${riga(v[0])}</strong><span>${riga(v[1])}</span></li>`).join('')}</ul></div>`;
+  }
+  if (tipo === 'misura') {
+    const [dom, da = 'per niente', a = 'moltissimo'] = titolo.split('|').map(x => x.trim());
+    const fasce = voci.map(v => { const m = v[0].match(/^(\d+)\s*-\s*(\d+)$/); if (!m || !v[1]) throw new Error('esercizio "misura": righe "- 0-3 | testo"'); return [m[1], m[2], v[1]]; });
+    return `<div class="gioco g-misura" data-gioco="misura" data-da="${esc(da)}" data-a="${esc(a)}">${testa}<p class="gioco-tit">${riga(dom)}</p><ul>${fasce.map(f => `<li data-min="${f[0]}" data-max="${f[1]}"><strong>Da ${f[0]} a ${f[1]}</strong><span>${riga(f[2])}</span></li>`).join('')}</ul></div>`;
+  }
+  if (tipo === 'domanda') return `<div class="gioco g-domanda" data-gioco="domanda">${testa}<p class="gioco-tit">${riga(titolo)}</p>${libere.length ? `<p class="gioco-nota">${riga(libere.join(' '))}</p>` : ''}</div>`;
+  if (tipo === 'respiro') {
+    const [sec, invito = 'Un minuto, senza fare altro.'] = titolo.split('|').map(x => x.trim());
+    return `<div class="gioco g-respiro" data-gioco="respiro" data-secondi="${parseInt(sec, 10) || 60}">${testa}<p class="gioco-tit">${riga(invito)}</p>${libere.length ? `<p class="gioco-fine">${riga(libere.join(' '))}</p>` : ''}</div>`;
+  }
+  throw new Error('esercizio sconosciuto: ' + tipo);
+}
+function corpo(md, giochi = []) {
+  md = md.replace(/\r/g, '').replace(/^:::(\w+)[ \t]*(.*)\n([\s\S]*?)^:::[ \t]*$/gm, (_, tipo, titolo, dentro) => { const parti = titolo.split('|').map(x => x.trim());
+    const invito = tipo === 'misura' ? parti[0] : tipo === 'respiro' ? (parti[1] || 'Un minuto, senza fare altro.') : titolo.trim();
+    let html = gioco(tipo, titolo, dentro);
+    if (!giochi.length) html = html.replace('<div class="gioco ', '<div id="esercizio" class="gioco ');
+    giochi.push({ tipo, invito, html }); return `\n\n@@GIOCO${giochi.length - 1}@@\n\n`; });
+  const blocchi = md.trim().split(/\n\s*\n/);
   return blocchi.map(b => {
     const righe = b.split('\n').map(r => r.trim()).filter(Boolean);
     if (!righe.length) return '';
+    const g = righe.length === 1 && righe[0].match(/^@@GIOCO(\d+)@@$/);
+    if (g) return righe[0];   // resta un segnaposto: pagina ed email lo riempiono ognuna a modo suo
     if (/^###\s+/.test(righe[0])) return `<h3>${riga(righe[0].replace(/^###\s+/, ''))}</h3>`;
     if (/^##\s+/.test(righe[0])) return `<h2>${riga(righe[0].replace(/^##\s+/, ''))}</h2>`;
     if (/^-{3,}$/.test(righe[0])) return '<hr>';
@@ -120,10 +156,12 @@ let post = readdirSync(DIR).filter(f => f.endsWith('.md')).map(f => {
   const data = dati.data || `${m[1]}-${m[2]}-${m[3]}`;
   const [a, me, g] = data.split('-').map(Number);
   const parole = t[2].split(/\s+/).filter(Boolean).length;
-  const html = corpo(t[2]);
+  const giochi = [];
+  const grezzo = corpo(t[2], giochi);
+  const html = grezzo.replace(/@@GIOCO(\d+)@@/g, (_, n) => giochi[+n].html);
   const sommario = dati.sommario || t[2].replace(/[#>*_\[\]]/g, '').trim().split(/\n\s*\n/)[0].replace(/\s+/g, ' ').slice(0, 170);
   const immagine = dati.immagine || (existsSync(join(REPO, 'img', 'blog', m[4] + '.webp')) ? `img/blog/${m[4]}.webp` : '');
-  return { file: f, slug: m[4], titolo: dati.titolo, data, a, me, g, sommario, immagine, esempio: /^(si|sì|true)$/i.test(dati.esempio || ''), html, minuti: Math.max(1, Math.round(parole / 200)),
+  return { file: f, slug: m[4], titolo: dati.titolo, data, a, me, g, sommario, immagine, esempio: /^(si|sì|true)$/i.test(dati.esempio || ''), html, grezzo, giochi, libro: dati.libro || '', oggetto: dati.oggetto || '', minuti: Math.max(1, Math.round(parole / 200)),
     giorno: `${g} ${MESI[me - 1]} ${a}` };
 });
 if (SENZA_ESEMPI) post = post.filter(p => !p.esempio);
@@ -257,6 +295,63 @@ ${ld ? `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n` : '
 </html>
 `;
 }
+// il libro da cui viene la pagina: "libro: eredita | volo | mappe" oppure il nome di una scheda ebook (es. "ilvoltononmente")
+const LIBRI = {
+  eredita: { titolo: 'Eredità Invisibili', href: 'achillepagliaro.html#eredita', img: 'img/copertina-di-eredita-invisibili.webp', riga: 'In libreria dal 20 novembre 2026' },
+  volo: { titolo: 'Il Volo delle Radici', href: 'ilvolodelleradici.html', img: 'img/copertina-di-il-volo-delle-radici.webp', riga: 'Come si fa a volare senza tradire le proprie radici' },
+  mappe: { titolo: 'Mappe Silenziose', href: 'mappesilenziose.html', img: 'img/copertina-di-mappe-silenziose.webp', riga: 'Ritrovare il proprio tempo nel mondo che corre' },
+};
+function libroDi(chiave) {
+  if (!chiave) return null;
+  if (LIBRI[chiave]) return LIBRI[chiave];
+  const f = join(REPO, chiave + '.html');
+  if (existsSync(f)) {
+    const h = readFileSync(f, 'utf8'), t = h.match(/<h1>([\s\S]*?)<\/h1>/), c = h.match(/<div class="cop"><img[^>]*src="([^"]+)"/), st = h.match(/<div class="sottotitolo">([^<]*)</);
+    if (t && c) return { titolo: t[1].replace(/<[^>]+>/g, '').trim(), href: chiave + '.html', img: c[1], riga: st ? st[1] : '' };
+  }
+  throw new Error('libro sconosciuto: ' + chiave);
+}
+const schedaLibro = p => {
+  const l = libroDi(p.libro); if (!l) return '';
+  const m = misure(l.img);
+  return `<a class="libro-del-post" href="../${l.href}"><img decoding="async" loading="lazy"${m ? ` width="${m[0]}" height="${m[1]}"` : ''} src="../${l.img}" alt=""><span><i>È una pagina di</i><strong>${esc(l.titolo)}</strong><em>${esc(l.riga)}</em></span></a>\n    `;
+};
+
+// --- la stessa pagina come email (stile delle email "Una pagina alla settimana") ---
+function email(p) {
+  const url = `${SITO}blog/${p.slug}.html`;
+  const P = 'margin:0 0 22px;';
+  let h = p.grezzo
+    .replace(/<figure[^>]*>[\s\S]*?<\/figure>\n?/g, '')
+    .replace(/href="\.\.\//g, `href="${SITO}`)
+    .replace(/<a /g, '<a style="color:#042C57;" ')
+    .replace(/<blockquote><p>([\s\S]*?)<\/p><\/blockquote>/g, '<div style="border-left:3px solid #C6A054;padding:4px 0 4px 22px;margin:0 0 30px;font-style:italic;font-size:21px;line-height:1.5;color:#042C57;">$1</div>')
+    .replace(/<h2>/g, '<p style="margin:10px 0 14px;font-size:22px;line-height:1.3;color:#042C57;">').replace(/<\/h2>/g, '</p>')
+    .replace(/<h3>/g, '<p style="margin:10px 0 12px;font-size:19px;line-height:1.3;color:#042C57;">').replace(/<\/h3>/g, '</p>')
+    .replace(/<hr>/g, '<div style="width:56px;height:1px;background:#C6A054;margin:8px 0 26px;font-size:1px;line-height:1px;">&nbsp;</div>')
+    .replace(/<(ul|ol)>/g, '<$1 style="margin:0 0 22px;padding-left:22px;">').replace(/<li>/g, '<li style="margin:0 0 8px;">')
+    .replace(/<p>/g, `<p style="${P}">`);
+  h = h.replace(/<p style="[^"]*">@@GIOCO(\d+)@@<\/p>|@@GIOCO(\d+)@@/g, (_, a, b) => {
+    const g = p.giochi[+(a || b)];
+    return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 30px;"><tr><td style="background:#0B1B33;border-radius:14px;padding:28px 26px;text-align:center;font-family:Georgia,'Times New Roman',serif;">` +
+      `<div style="font-size:12px;letter-spacing:3px;color:#DDBD7C;padding-bottom:12px;">PROVA TU</div>` +
+      `<div style="font-size:21px;line-height:1.4;color:#FFFFFF;padding-bottom:20px;">${riga(g.invito)}</div>` +
+      `<a href="${url}#esercizio" style="display:inline-block;background:#C6A054;color:#0B1B33;text-decoration:none;font-size:15px;letter-spacing:1px;padding:13px 28px;border-radius:999px;">Fallo sul sito</a></td></tr></table>`;
+  });
+  // capolettera sul primo paragrafo, come nelle altre email
+  h = h.replace(new RegExp(`<p style="${P}">([A-ZÀ-Ü]['’]?)`), `<p style="${P}"><span style="font-size:44px;line-height:0.9;float:left;padding:4px 10px 0 0;color:#C6A054;">$1</span>`);
+  const jpg = p.immagine && existsSync(join(REPO, p.immagine.replace(/\.webp$/, '.jpg'))) ? p.immagine.replace(/\.webp$/, '.jpg') : p.immagine;
+  const foto = jpg ? `<a href="${url}"><img src="${SITO}${jpg}" width="500" alt="" style="display:block;width:100%;max-width:500px;height:auto;border-radius:10px;margin:0 0 28px;"></a>` : '';
+  const l = libroDi(p.libro);
+  const daLibro = l ? `<p style="${P}">È una pagina di <a href="${SITO}${l.href}" style="color:#042C57;">${esc(l.titolo)}</a>.</p>` : '';
+  return `<table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F2E7;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;">` +
+    `<tr><td style="padding:50px 50px 0;text-align:center;"><div style="font-family:Georgia,serif;font-size:38px;color:#C6A054;line-height:1;">&#10087;</div><div style="font-family:Georgia,serif;font-size:12.5px;letter-spacing:5px;color:#8A8880;padding-top:16px;">LA PAROLA GIUSTA</div></td></tr>` +
+    `<tr><td style="padding:40px 50px 0;font-family:Georgia,'Times New Roman',serif;"><div style="font-size:29px;line-height:1.25;color:#042C57;padding-bottom:26px;">${riga(p.titolo)}</div>` +
+    `<div style="font-size:17px;line-height:1.8;color:#3E3D3A;"><p style="margin:0 0 18px;font-size:13px;letter-spacing:2px;color:#8A8880;">IL TACCUINO &middot; ${p.giorno.toUpperCase()}</p>${foto}${h}${daLibro}<p style="margin:0 0 0px;">Achille</p></div></td></tr>` +
+    `<tr><td style="padding:40px 50px 50px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="height:1px;background:#DDD3BC;font-size:1px;line-height:1px;">&nbsp;</td></tr></table>` +
+    `<div style="padding-top:18px;text-align:center;font-family:Georgia,serif;font-size:11.5px;letter-spacing:1px;color:#96938B;">ACHILLE PAGLIARO &middot; AUTORE E NEGOZIATORE<br><a href="${SITO}blog/" style="color:#B09456;text-decoration:none;">laparolagiusta.it/blog</a><br><br><a href="{{unsubscribe_url}}" style="color:#96938B;">Non voglio più ricevere queste email</a></div></td></tr></table></td></tr></table>`;
+}
+
 const bollino = p => (p.esempio ? '<span class="post-esempio">Esempio</span>' : '');
 const foto = (p, radice, classe) => {
   if (!p.immagine) return '';
@@ -288,7 +383,7 @@ ${p.esempio ? '    <p class="avviso-esempio">Post di esempio, composto con un te
     <p class="articolo-firma">Achille Pagliaro</p>
   </article>
   <div class="wrap stretto articolo-coda">
-    <nav class="vicini" aria-label="Altri post">
+    ${schedaLibro(p)}<nav class="vicini" aria-label="Altri post">
       ${piuVecchio ? `<a class="vicino" href="${piuVecchio.slug}.html"><span>← Il giorno prima</span><strong>${riga(piuVecchio.titolo)}</strong></a>` : '<span></span>'}
       ${piuNuovo ? `<a class="vicino dopo" href="${piuNuovo.slug}.html"><span>Il giorno dopo →</span><strong>${riga(piuNuovo.titolo)}</strong></a>` : '<span></span>'}
     </nav>
@@ -391,6 +486,18 @@ ${altri.map(p => `        <li><a class="post-riga${p.immagine ? ' con-foto' : ''
 ${voci}
 </channel></rss>
 `);
+}
+
+// le email: una per ogni post vero, pronta da passare a SendFox (blog/_email/<titolo-breve>.html e .json)
+{
+  const dir = join(BLOG, '_email'); mkdirSync(dir, { recursive: true });
+  const tieni = new Set();
+  for (const p of post.filter(x => !x.esempio)) {
+    writeFileSync(join(dir, p.slug + '.html'), email(p) + '\n');
+    writeFileSync(join(dir, p.slug + '.json'), JSON.stringify({ title: `Il taccuino — ${p.data} — ${p.titolo}`, subject: p.oggetto || p.titolo, preview_text: p.sommario.slice(0, 180), url: `${SITO}blog/${p.slug}.html` }, null, 1) + '\n');
+    tieni.add(p.slug + '.html'); tieni.add(p.slug + '.json');
+  }
+  for (const f of readdirSync(dir)) if (!tieni.has(f)) unlinkSync(join(dir, f));
 }
 
 // pagine di post tolti: via

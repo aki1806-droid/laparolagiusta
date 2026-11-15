@@ -79,7 +79,7 @@
     '.profili > *, .formati > *, .collana, .gruppi > *, .frasi > *, .giorni > *, .scheda-acquisto, .acquisto > *, details, .pull, .citazione, .bio > *, .valori > *, ' +
     '.corsi > *, .griglia-3 > *, .scaffale, .omaggio-in > *, .bc > *, .consiglio > *, .secondo > *, .anteprima, .anteprima-video, .news > *, .modulo-nl, ' +
     '.fondo-griglia > *, .fondo-scritta, main > .wrap > h2, main > .wrap > .riquadro, .chiusura p, .chiusura .btn, ' +
-    '.cost, .quadrante, .rotte > li, .volto-cerchio, .volto-detto, .albero-scena, .silenzio-scena, .trilogia > *, .post-primo, .post-lista > *, .calendario, .dal-taccuino > *, .articolo-coda > *';
+    '.gioco, .libro-del-post, .cost, .quadrante, .rotte > li, .volto-cerchio, .volto-detto, .albero-scena, .silenzio-scena, .trilogia > *, .post-primo, .post-lista > *, .calendario, .dal-taccuino > *, .articolo-coda > *';
   function comparse() {
     if (d.body.classList.contains('p-autore')) return;   // la pagina autore ha le sue
     var els = tutti(DA_MOSTRARE).filter(function (e) { return !e.closest('.hero') && !e.closest('.menu') && !e.closest('[hidden]') && !e.classList.contains('r'); });
@@ -575,6 +575,83 @@
     pulizie.push(function () { if (anim) cancelAnimationFrame(anim); cerchio.remove(); detto.remove(); lista.hidden = false; v.classList.remove('viva'); });
   }
 
+  /* ---- taccuino: l'esercizio dentro il post (scegli, carte, misura, domanda, respiro) ---- */
+  function esercizi() {
+    tutti('.gioco[data-gioco]').forEach(function (g, quale) {
+      if (g.classList.contains('vivo')) return;
+      var tipo = g.getAttribute('data-gioco'), lista = g.querySelector('ul'), voci = lista ? tutti('li', lista) : [], aggiunti = [];
+      function metti(el, prima) { g.insertBefore(el, prima || null); aggiunti.push(el); return el; }
+      var esito = crea('div', 'gioco-esito'); esito.setAttribute('aria-live', 'polite');
+
+      if (tipo === 'scegli') {
+        var scelte = metti(crea('div', 'gioco-scelte'), lista);
+        var bottoni = voci.map(function (li, i) {
+          var b = crea('button', 'gioco-scelta', li.querySelector('strong').innerHTML); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+          ascolta(b, 'click', function () {
+            bottoni.forEach(function (x, k) { x.classList.toggle('scelta', k === i); x.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+            esito.innerHTML = '<p>' + li.querySelector('span').innerHTML + '</p>'; g.classList.add('risposto');
+          });
+          scelte.appendChild(b); return b;
+        });
+        metti(esito, lista); lista.hidden = true;
+      } else if (tipo === 'carte') {
+        var mazzo = metti(crea('div', 'gioco-mazzo'), lista);
+        voci.forEach(function (li) {
+          var c = crea('button', 'carta', '<span class="carta-dentro"><span class="carta-fronte">' + li.querySelector('strong').innerHTML + '</span><span class="carta-retro">' + li.querySelector('span').innerHTML + '</span></span>');
+          c.type = 'button'; c.setAttribute('aria-pressed', 'false');
+          ascolta(c, 'click', function () { var s = c.classList.toggle('girata'); c.setAttribute('aria-pressed', s ? 'true' : 'false'); });
+          mazzo.appendChild(c);
+        });
+        metti(crea('p', 'gioco-aiuto', 'Tocca una carta per girarla.'), lista); lista.hidden = true;
+      } else if (tipo === 'misura') {
+        var riga = metti(crea('div', 'gioco-misura'), lista), id = 'misura-' + quale;
+        riga.innerHTML = '<label class="solo-sr" for="' + id + '">' + g.querySelector('.gioco-tit').textContent + '</label><span>' + g.getAttribute('data-da') + '</span><input type="range" id="' + id + '" min="0" max="10" step="1" value="5"><span>' + g.getAttribute('data-a') + '</span><output for="' + id + '">5</output>';
+        var cursore = riga.querySelector('input'), numero = riga.querySelector('output');
+        var aggiorna = function () {
+          var v = +cursore.value; numero.textContent = v; cursore.style.setProperty('--v', (v * 10) + '%');
+          var li = voci.filter(function (x) { return v >= +x.getAttribute('data-min') && v <= +x.getAttribute('data-max'); })[0];
+          esito.innerHTML = li ? '<p>' + li.querySelector('span').innerHTML + '</p>' : '';
+        };
+        ascolta(cursore, 'input', function () { g.classList.add('risposto'); aggiorna(); });
+        metti(esito, lista); lista.hidden = true; aggiorna(); esito.innerHTML = '<p class="gioco-aiuto">Sposta il cursore.</p>';
+      } else if (tipo === 'domanda') {
+        var chiave = 'lpg-taccuino:' + location.pathname.split('/').pop() + location.hash.replace(/^#p-blog--/, ':') + ':' + quale, idc = 'domanda-' + quale;
+        var campo = crea('textarea', 'gioco-campo'); campo.id = idc; campo.rows = 4; campo.setAttribute('aria-label', g.querySelector('.gioco-tit').textContent); campo.placeholder = 'Scrivi qui…';
+        var stato = crea('p', 'gioco-aiuto', 'Resta solo su questo dispositivo: non viene inviato a nessuno.');
+        try { var salvato = localStorage.getItem(chiave); if (salvato) { campo.value = salvato; stato.textContent = 'Ritrovato quello che avevi scritto. Resta solo su questo dispositivo.'; } } catch (e) {}
+        var attesa = null;
+        ascolta(campo, 'input', function () {
+          clearTimeout(attesa); attesa = setTimeout(function () { try { localStorage.setItem(chiave, campo.value); stato.textContent = campo.value ? 'Salvato su questo dispositivo. Non viene inviato a nessuno.' : 'Resta solo su questo dispositivo: non viene inviato a nessuno.'; } catch (e) { stato.textContent = 'Non riesco a salvarlo qui: copialo altrove se vuoi tenerlo.'; } }, 500);
+        });
+        var nota = g.querySelector('.gioco-nota'); metti(campo, nota ? nota.nextSibling : null); metti(stato, campo.nextSibling);
+      } else if (tipo === 'respiro') {
+        var durata = +g.getAttribute('data-secondi') || 60, fine = g.querySelector('.gioco-fine');
+        var cerchio = crea('button', 'respiro-cerchio', '<span class="respiro-alone"></span><span class="respiro-testo"><b>Comincia</b><i>' + durata + ' secondi</i></span>'); cerchio.type = 'button';
+        var b = cerchio.querySelector('b'), sec = cerchio.querySelector('i'), timer = null, t0 = 0;
+        if (fine) fine.hidden = true;
+        var ferma = function (completo) {
+          clearInterval(timer); timer = null; g.classList.remove('respira');
+          if (completo) { g.classList.add('risposto'); b.textContent = 'Fatto'; sec.textContent = 'ricomincia quando vuoi'; if (fine) fine.hidden = false; }
+          else { b.textContent = 'Comincia'; sec.textContent = durata + ' secondi'; }
+        };
+        ascolta(cerchio, 'click', function () {
+          if (timer) { ferma(false); return; }
+          if (fine) fine.hidden = true; g.classList.remove('risposto'); g.classList.add('respira'); t0 = Date.now();
+          var passo = function () {
+            var trascorsi = (Date.now() - t0) / 1000, resto = Math.max(0, Math.ceil(durata - trascorsi));
+            b.textContent = (trascorsi % 10) < 4 ? 'Inspira' : 'Espira'; sec.textContent = resto + (resto === 1 ? ' secondo' : ' secondi');
+            if (trascorsi >= durata) ferma(true);
+          };
+          passo(); timer = setInterval(passo, 250);
+        });
+        metti(cerchio, fine);
+        pulizie.push(function () { clearInterval(timer); if (fine) fine.hidden = false; });
+      }
+      g.classList.add('vivo');
+      pulizie.push(function () { aggiunti.forEach(function (x) { x.remove(); }); if (lista) lista.hidden = false; g.classList.remove('vivo', 'risposto', 'respira'); });
+    });
+  }
+
   /* ---- taccuino: il calendario mostra un mese alla volta ---- */
   function calendario() {
     var c = d.querySelector('.calendario'); if (!c) return;
@@ -593,7 +670,7 @@
   function avvia() {
     pulizie.forEach(function (f) { try { f(); } catch (e) {} }); pulizie = [];
     if (h.className.indexOf(' js') < 0 && !h.classList.contains('js')) h.classList.add('js');
-    menu(); lettura(); titolo(); costellazione(); indice(); bussola(); volto(); albero(); silenzio(); calendario(); comparse(); apertura(); conta(); barra(); puntatore(); stelle();
+    menu(); lettura(); titolo(); costellazione(); indice(); bussola(); volto(); albero(); silenzio(); esercizi(); calendario(); comparse(); apertura(); conta(); barra(); puntatore(); stelle();
   }
   window.LPG = { avvia: avvia };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', avvia); else avvia();

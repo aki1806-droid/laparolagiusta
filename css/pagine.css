@@ -593,6 +593,63 @@ a:hover > .post-foto img{transform:scale(1.06)}
 .invito h2{font-size:28px;font-weight:400;max-width:22ch;letter-spacing:0}
 .invito .etichetta{margin-bottom:10px}
 @media(min-width:700px){.vicini{grid-template-columns:1fr 1fr}.invito{grid-template-columns:1fr auto;padding:32px 36px}}
+/* l'esercizio dentro il post: una scheda notturna in mezzo alla carta */
+.gioco{position:relative;clear:both;overflow:hidden;margin:2em -6px;padding:34px 26px 32px;border-radius:26px;background:var(--cielo);color:var(--luna);font-family:var(--sans);font-size:17px;line-height:1.6;box-shadow:var(--ombra-alta);scroll-margin-top:96px}
+.gioco::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.7;background-image:radial-gradient(1.4px 1.4px at 12% 18%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 78% 30%,#DCE6FF 50%,transparent 52%),radial-gradient(1.6px 1.6px at 90% 82%,#FFF6DD 50%,transparent 52%),radial-gradient(1px 1px at 34% 86%,#fff 50%,transparent 52%),radial-gradient(1.2px 1.2px at 58% 12%,#fff 50%,transparent 52%)}
+.gioco > *{position:relative}
+.gioco-etichetta{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro-chiaro);margin-bottom:12px}
+.articolo .gioco-tit{font-family:var(--serif);font-size:clamp(25px,4.6vw,32px);line-height:1.2;color:#fff;margin:0 0 20px}
+.gioco ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.gioco li{margin:0}
+.gioco li strong{display:block;font-weight:400;color:#fff;font-family:var(--serif);font-size:21px}
+.gioco li span{display:block;color:var(--luna-tenue);font-size:16px;margin-top:3px}
+.gioco-aiuto,.articolo .gioco-nota{font-size:13.5px;color:var(--luna-tenue);margin:14px 0 0;font-family:var(--sans)}
+.articolo .gioco-nota{font-size:16px;margin:-8px 0 16px}
+.gioco-esito{min-height:84px;margin-top:20px}
+.gioco-esito p{font-family:var(--serif);font-size:21px;line-height:1.45;color:#fff;margin:0;padding-left:18px;border-left:2px solid var(--oro-chiaro);animation:sale .5s var(--molla) both}
+.gioco-esito .gioco-aiuto{border:0;padding:0;font-family:var(--sans);font-size:13.5px;color:var(--luna-tenue)}
+.gioco-scelte{display:grid;gap:10px}
+.gioco-scelta{text-align:left;background:rgba(255,255,255,.05);border:1px solid rgba(221,189,124,.35);border-radius:16px;color:var(--luna);font-family:var(--serif);font-size:20px;line-height:1.3;padding:14px 18px;cursor:pointer;transition:background .3s,border-color .3s,transform .4s var(--molla),opacity .3s}
+.gioco-scelta:hover{border-color:var(--oro-chiaro);transform:translateX(4px)}
+.gioco-scelta.scelta{background:var(--oro-chiaro);border-color:var(--oro-chiaro);color:var(--notte)}
+.risposto .gioco-scelta:not(.scelta){opacity:.55}
+.gioco-mazzo{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.carta{background:none;border:0;padding:0;cursor:pointer;perspective:900px;min-height:176px;font-family:var(--serif);color:inherit}
+.carta-dentro{position:relative;display:block;width:100%;height:100%;min-height:176px;transform-style:preserve-3d;transition:transform .8s var(--molla)}
+.carta.girata .carta-dentro{transform:rotateY(180deg)}
+.carta-fronte,.carta-retro{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px 14px;border-radius:16px;-webkit-backface-visibility:hidden;backface-visibility:hidden;line-height:1.3}
+.carta-fronte{background:rgba(255,255,255,.06);border:1px solid rgba(221,189,124,.4);color:#fff;font-size:21px;font-style:italic}
+.carta-retro{background:var(--panna);color:var(--blu);font-size:17.5px;transform:rotateY(180deg)}
+.carta:hover .carta-fronte{border-color:var(--oro-chiaro)}
+.gioco-misura{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--luna-tenue)}
+.gioco-misura output{grid-column:1/-1;justify-self:center;font-family:var(--serif);font-size:54px;font-weight:300;line-height:1;color:var(--oro-chiaro);letter-spacing:0;order:-1;font-variant-numeric:tabular-nums}
+.gioco-misura input{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer;margin:0}
+.gioco-misura input::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--oro-chiaro) var(--v,50%),rgba(238,242,248,.22) var(--v,50%))}
+.gioco-misura input::-moz-range-track{height:4px;border-radius:2px;background:rgba(238,242,248,.22)}
+.gioco-misura input::-moz-range-progress{height:4px;border-radius:2px;background:var(--oro-chiaro)}
+.gioco-misura input::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:#FFF3D2;border:0;box-shadow:0 0 0 6px rgba(255,238,196,.14),0 0 22px rgba(255,226,160,.5)}
+.gioco-misura input::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#FFF3D2;border:0;box-shadow:0 0 0 6px rgba(255,238,196,.14),0 0 22px rgba(255,226,160,.5)}
+.gioco-misura input:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:4px;border-radius:8px}
+.gioco-campo{display:block;width:100%;font-family:var(--serif);font-size:20px;line-height:1.5;color:var(--testo);background:var(--bianco);border:1px solid var(--oro-tenue);border-radius:16px;padding:16px 18px;resize:vertical;min-height:120px}
+.gioco-campo:focus{outline:none;border-color:var(--oro-chiaro);box-shadow:0 0 0 4px rgba(221,189,124,.3)}
+.respiro-cerchio{display:grid;place-items:center;width:190px;height:190px;margin:10px auto 6px;border-radius:50%;border:0;cursor:pointer;color:#fff;font-family:var(--sans);position:relative;background:radial-gradient(circle at 50% 40%,#1D3E6E,#081526 74%);box-shadow:0 0 0 1px rgba(221,189,124,.5)}
+.respiro-alone{position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(221,189,124,.5);pointer-events:none}
+.respira .respiro-alone{animation:respiro-onda 10s ease-in-out infinite}
+.respira .respiro-cerchio{animation:respiro-corpo 10s ease-in-out infinite}
+@keyframes respiro-corpo{0%,100%{transform:scale(.86)}40%{transform:scale(1.08)}}
+@keyframes respiro-onda{0%,100%{transform:scale(1);opacity:.7}40%{transform:scale(1.34);opacity:0}}
+.respiro-testo b{display:block;font-family:var(--serif);font-weight:400;font-size:27px}
+.respiro-testo i{display:block;font-style:normal;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--oro-chiaro);margin-top:6px}
+.articolo .gioco-fine{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.4;color:#fff;text-align:center;margin:18px auto 0;max-width:24ch;animation:sale .8s var(--molla) both}
+.g-respiro .gioco-tit,.g-respiro .gioco-etichetta{text-align:center}
+@media(min-width:700px){.gioco{padding:42px 44px 40px;margin:2.2em -34px}}
+/* il libro da cui viene la pagina */
+.libro-del-post{display:grid;grid-template-columns:74px 1fr;gap:20px;align-items:center;text-decoration:none;margin-bottom:22px;border:1px solid var(--linea);border-radius:20px;padding:16px 20px;background:rgba(255,252,246,.7);transition:border-color .3s,transform .5s var(--molla),box-shadow .5s}
+.libro-del-post:hover{border-color:var(--oro);transform:translateY(-4px);box-shadow:var(--ombra)}
+.libro-del-post img{border-radius:2px 5px 5px 2px;box-shadow:8px 10px 20px rgba(11,27,51,.24)}
+.libro-del-post i{display:block;font-style:normal;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--oro)}
+.libro-del-post strong{display:block;font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.16;color:var(--blu);margin:4px 0 3px}
+.libro-del-post em{display:block;font-style:normal;font-size:14.5px;color:var(--tenue)}
 /* gli ultimi tre in home */
 .dal-taccuino{display:grid;gap:20px;margin-top:44px}
 .post-carta{display:flex;flex-direction:column;text-decoration:none;color:var(--luna);border:1px solid rgba(221,189,124,.26);border-radius:24px;padding:28px 26px;background:rgba(255,255,255,.045);
