@@ -15,6 +15,8 @@ su https://aki1806-droid.github.io/laparolagiusta/
 - `css/pagine.css` — componenti di home, ebook, corsi, omaggi, taccuino (la pagina autore ha i suoi)
 - `js/sito.js` — menu su telefono, comparse, sezioni interattive (bussola, costellazione, volto, calendario)
 
+Le pagine sono state ricavate da quelle del sito precedente con `strumenti/trasforma.mjs`: serve solo se bisogna rifarle tutte da capo, perché cancella i ritocchi fatti a mano. `strumenti/guarda.mjs` apre le pagine a due larghezze (computer e telefono) e segnala i difetti.
+
 ## Le pagine dei libri
 
 `ilvolodelleradici.html` e `mappesilenziose.html` le scrive `node strumenti/libri.mjs` (testi e dati sono dentro lo script). Le venticinque tappe di *Mappe Silenziose*, una per capitolo, ognuna con il suo esercizio, stanno in `strumenti/tappe-mappe.mjs`: per cambiarne una si modifica lì e si rilancia lo script.
@@ -48,7 +50,7 @@ I post già scritti aspettano in `blog/_coda/`, numerati (`01-titolo-breve.md`, 
 1. `node strumenti/blog.mjs --prossimo` sposta il primo della coda tra i post con la data di oggi (ora italiana) e stampa il nome dell'immagine e il suo prompt. Se oggi c'è già un post non fa nulla; se la coda è vuota lo dice.
 2. Si genera l'immagine con Higgsfield (modello `gpt_image_2_6`, formato 3:2) dal prompt, la si salva come `img/blog/<titolo-breve>.webp` (larghezza massima 1400 px).
 3. `node strumenti/blog.mjs` ricostruisce il taccuino: l'immagine viene presa da sola se il file esiste.
-4. Si controlla la pagina, si fa il commit e si pubblica.
+4. Si controlla la pagina (`node strumenti/guarda.mjs <indirizzo di prova> <cartella schermate> controlla index.html blog/index.html blog/<titolo-breve>.html`, con il sito servito in locale), si fa il commit e si pubblica su `main`.
 
 ### L'esercizio dentro il post
 
