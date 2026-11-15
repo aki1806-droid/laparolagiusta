@@ -3,6 +3,7 @@ titolo: Tre segnali in otto minuti
 data: 2026-11-14
 sommario: Un uomo dice che sta bene. Il sorriso si ferma alla bocca, le sopracciglia si sollevano, il pollice sfrega il lenzuolo.
 esempio: si
+immagine: img/blog/tre-segnali-in-otto-minuti.webp
 ---
 Un uomo di sessantatré anni è steso su una barella, nel locale che precede la sala operatoria. Tra otto minuti dormirà. Gli chiedo come va e risponde che sta bene, che è tranquillo, che facciamo questa cosa e ce ne andiamo a casa.
 

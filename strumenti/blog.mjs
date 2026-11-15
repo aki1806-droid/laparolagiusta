@@ -2,6 +2,10 @@
 //
 //   node strumenti/blog.mjs                 costruisce tutto
 //   node strumenti/blog.mjs --senza-esempi  come sopra, ma ignora i post con "esempio: si"
+//   node strumenti/blog.mjs --prossimo      prima di costruire, pubblica con la data di oggi il primo post
+//                                           in coda (blog/_coda/NN-titolo-breve.md); se oggi c'e' gia' un post non fa nulla
+//
+// L'immagine di un post puo' anche solo esistere: se c'e' img/blog/<titolo-breve>.webp viene usata da sola.
 //
 // Un post e' un file  blog/_post/AAAA-MM-GG-titolo-breve.md  fatto cosi':
 //
@@ -83,6 +87,27 @@ function figura(file, alt, classe = '') {
 // ------------------------------------------------------------------ post
 const DIR = join(REPO, 'blog', '_post');
 mkdirSync(DIR, { recursive: true });
+// --- la coda: i post gia' scritti che aspettano il loro giorno ---
+const CODA = join(REPO, 'blog', '_coda');
+const iProssimo = process.argv.indexOf('--prossimo');
+if (iProssimo >= 0) {
+  const arg = process.argv[iProssimo + 1];
+  const oggi = /^\d{4}-\d{2}-\d{2}$/.test(arg || '') ? arg : new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
+  const inCoda = existsSync(CODA) ? readdirSync(CODA).filter(f => f.endsWith('.md')).sort() : [];
+  if (readdirSync(DIR).some(f => f.startsWith(oggi + '-'))) console.log(`PROSSIMO: per il ${oggi} c'è già un post, la coda resta com'è (${inCoda.length} in attesa)`);
+  else if (!inCoda.length) console.log('PROSSIMO: CODA VUOTA, nessun post da pubblicare');
+  else {
+    const f = inCoda[0], slug = f.replace(/^\d+-/, '').replace(/\.md$/, '');
+    let t = readFileSync(join(CODA, f), 'utf8');
+    t = /^data:.*$/m.test(t) ? t.replace(/^data:.*$/m, 'data: ' + oggi) : t.replace(/^(titolo:.*)$/m, '$1\ndata: ' + oggi);
+    writeFileSync(join(DIR, `${oggi}-${slug}.md`), t);
+    unlinkSync(join(CODA, f));
+    const prompt = (t.match(/^prompt:\s*(.*)$/m) || [])[1];
+    console.log(`PROSSIMO: pubblicato "${slug}" con data ${oggi} · restano ${inCoda.length - 1} in coda`);
+    console.log(`IMMAGINE: img/blog/${slug}.webp` + (prompt ? ` · prompt: ${prompt}` : ''));
+  }
+}
+
 let post = readdirSync(DIR).filter(f => f.endsWith('.md')).map(f => {
   const m = f.match(/^(\d{4})-(\d{2})-(\d{2})-([a-z0-9-]+)\.md$/);
   if (!m) throw new Error(`nome non valido: ${f} (deve essere AAAA-MM-GG-titolo-breve.md, minuscole senza accenti)`);
@@ -97,7 +122,8 @@ let post = readdirSync(DIR).filter(f => f.endsWith('.md')).map(f => {
   const parole = t[2].split(/\s+/).filter(Boolean).length;
   const html = corpo(t[2]);
   const sommario = dati.sommario || t[2].replace(/[#>*_\[\]]/g, '').trim().split(/\n\s*\n/)[0].replace(/\s+/g, ' ').slice(0, 170);
-  return { file: f, slug: m[4], titolo: dati.titolo, data, a, me, g, sommario, immagine: dati.immagine || '', esempio: /^(si|sì|true)$/i.test(dati.esempio || ''), html, minuti: Math.max(1, Math.round(parole / 200)),
+  const immagine = dati.immagine || (existsSync(join(REPO, 'img', 'blog', m[4] + '.webp')) ? `img/blog/${m[4]}.webp` : '');
+  return { file: f, slug: m[4], titolo: dati.titolo, data, a, me, g, sommario, immagine, esempio: /^(si|sì|true)$/i.test(dati.esempio || ''), html, minuti: Math.max(1, Math.round(parole / 200)),
     giorno: `${g} ${MESI[me - 1]} ${a}` };
 });
 if (SENZA_ESEMPI) post = post.filter(p => !p.esempio);
@@ -232,6 +258,11 @@ ${ld ? `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n` : '
 `;
 }
 const bollino = p => (p.esempio ? '<span class="post-esempio">Esempio</span>' : '');
+const foto = (p, radice, classe) => {
+  if (!p.immagine) return '';
+  const m = misure(p.immagine);
+  return `<span class="${classe}"><img decoding="async" loading="lazy"${m ? ` width="${m[0]}" height="${m[1]}"` : ''} src="${radice}${esc(p.immagine)}" alt=""></span>`;
+};
 const dataGrande = p => `<div class="post-data"><b>${p.g}</b><span>${MESI[p.me - 1]} ${p.a}</span></div>`;
 
 // ---------------------------------------------------------------- uscita
@@ -312,7 +343,7 @@ function calendario() {
 </div>
 <main id="principale">
   <div class="wrap">
-${primo ? `    <a class="post-primo" href="${primo.slug}.html">
+${primo ? `    <a class="post-primo${primo.immagine ? ' con-foto' : ''}" href="${primo.slug}.html">
       ${dataGrande(primo)}
       <div class="post-primo-testo">
         <div class="etichetta">L'ultima pagina ${bollino(primo)}</div>
@@ -320,6 +351,7 @@ ${primo ? `    <a class="post-primo" href="${primo.slug}.html">
         <p>${riga(primo.sommario)}</p>
         <span class="post-leggi">Leggi · ${primo.minuti} min →</span>
       </div>
+      ${foto(primo, '../', 'post-foto')}
     </a>
     <div class="blog-due">
       <section class="calendario" aria-label="Calendario del taccuino">
@@ -327,9 +359,10 @@ ${calendario()}
         <p class="calendario-nota">Ogni stella è una pagina: toccala per leggerla.</p>
       </section>
       <ol class="post-lista">
-${altri.map(p => `        <li><a class="post-riga" href="${p.slug}.html">
+${altri.map(p => `        <li><a class="post-riga${p.immagine ? ' con-foto' : ''}" href="${p.slug}.html">
           ${dataGrande(p)}
           <div><h2>${riga(p.titolo)} ${bollino(p)}</h2><p>${riga(p.sommario)}</p><span class="post-leggi">Leggi · ${p.minuti} min →</span></div>
+          ${foto(p, '../', 'post-foto')}
         </a></li>`).join('\n')}
       </ol>
     </div>` : '    <p class="blog-vuoto">La prima pagina arriva presto.</p>'}
@@ -379,6 +412,7 @@ for (const f of readdirSync(BLOG)) if (f.endsWith('.html') && !scritti.has(f)) u
     <p class="intro">Appunti brevi su come ci parliamo. Si leggono in un paio di minuti.</p>
     <div class="dal-taccuino">
 ${ultimi.map(p => `      <a class="post-carta" href="blog/${p.slug}.html">
+        ${foto(p, '', 'post-foto')}
         ${dataGrande(p)}
         <h3>${riga(p.titolo)}</h3>
         <p>${riga(p.sommario)}</p>

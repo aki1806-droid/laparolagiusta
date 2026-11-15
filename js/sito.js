@@ -79,7 +79,7 @@
     '.profili > *, .formati > *, .collana, .gruppi > *, .frasi > *, .giorni > *, .scheda-acquisto, .acquisto > *, details, .pull, .citazione, .bio > *, .valori > *, ' +
     '.corsi > *, .griglia-3 > *, .scaffale, .omaggio-in > *, .bc > *, .consiglio > *, .secondo > *, .anteprima, .anteprima-video, .news > *, .modulo-nl, ' +
     '.fondo-griglia > *, .fondo-scritta, main > .wrap > h2, main > .wrap > .riquadro, .chiusura p, .chiusura .btn, ' +
-    '.cost, .quadrante, .rotte > li, .volto-cerchio, .volto-detto, .post-primo, .post-lista > *, .calendario, .dal-taccuino > *, .articolo-coda > *';
+    '.cost, .quadrante, .rotte > li, .volto-cerchio, .volto-detto, .albero-scena, .silenzio-scena, .trilogia > *, .post-primo, .post-lista > *, .calendario, .dal-taccuino > *, .articolo-coda > *';
   function comparse() {
     if (d.body.classList.contains('p-autore')) return;   // la pagina autore ha le sue
     var els = tutti(DA_MOSTRARE).filter(function (e) { return !e.closest('.hero') && !e.closest('.menu') && !e.closest('[hidden]') && !e.classList.contains('r'); });
@@ -228,6 +228,53 @@
     return basta;
   }
 
+  /* ---- un sentiero di punti da toccare: lo usano la costellazione dei libri e la mappa dei territori ---- */
+  function sentiero(voci, opz) {
+    var n = voci.length, punti = opz.punti, seme = opz.seme || 7;
+    function caso() { seme = (seme * 1664525 + 1013904223) >>> 0; return seme / 4294967296; }
+    if (!punti) {
+      punti = []; var su = caso() > 0.5;
+      for (var i = 0; i < n; i++) {
+        var x = 8 + (84 * i) / (n - 1) + (caso() - 0.5) * 5, y = (su ? 30 : 70) + (caso() - 0.5) * 30; su = !su;
+        punti.push([Math.max(6, Math.min(94, x)), Math.max(16, Math.min(84, y))]);
+      }
+    }
+    var cost = crea('div', 'cost' + (opz.classe ? ' ' + opz.classe : ''));
+    var cielo = crea('div', 'cost-cielo', '<svg aria-hidden="true"><polyline class="cost-linea"/><polyline class="cost-fatta" pathLength="1"/></svg>');
+    cielo.setAttribute('role', 'tablist'); cielo.setAttribute('aria-label', opz.aria);
+    var idT = 'testo-' + (opz.classe || 'cost');
+    var testo = crea('div', 'cost-testo'); testo.setAttribute('role', 'tabpanel'); testo.setAttribute('aria-live', 'polite'); testo.id = idT;
+    var bottoni = voci.map(function (v, i) {
+      var bt = crea('button', 'stella' + (punti[i][1] < 50 ? ' sotto' : ' sopra'), '<i>' + (opz.numeri ? opz.numeri[i] : '') + '</i><span>' + v.titolo + '</span>');
+      bt.type = 'button'; bt.style.left = punti[i][0] + '%'; bt.style.top = punti[i][1] + '%'; bt.setAttribute('aria-controls', idT);
+      cielo.appendChild(bt); return bt;
+    });
+    var fatta = cielo.querySelector('.cost-fatta'), svg = cielo.querySelector('svg'), tratto = cielo.querySelector('.cost-linea'), lung = [0], s = null;
+    // la linea si disegna nelle misure vere del riquadro, e si ridisegna se cambia
+    function disponi() {
+      var W = cielo.clientWidth, H = cielo.clientHeight; if (!W || !H) return;
+      var px = punti.map(function (p) { return [p[0] * W / 100, p[1] * H / 100]; });
+      var pt = px.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); tratto.setAttribute('points', pt); fatta.setAttribute('points', pt);
+      lung = [0]; for (var j = 1; j < n; j++) lung.push(lung[j - 1] + Math.hypot(px[j][0] - px[j - 1][0], px[j][1] - px[j - 1][1]));
+      if (s && s.quale() >= 0) fatta.style.strokeDashoffset = (1 - lung[s.quale()] / lung[n - 1]).toFixed(4);
+    }
+    s = schede(bottoni, function (i) {
+      testo.innerHTML = '<div class="cost-n">' + (opz.numeri ? opz.numeri[i] : i + 1) + ' <span>di ' + (opz.numeri ? opz.numeri[n - 1] : n) + '</span></div><h3>' + voci[i].titolo + '</h3>' + voci[i].testo;
+      if (lung.length === n) fatta.style.strokeDashoffset = (1 - lung[i] / lung[n - 1]).toFixed(4);
+      bottoni.forEach(function (x, k) { x.classList.toggle('passata', k < i); });
+    });
+    var frecce = crea('div', 'cost-frecce', '<button type="button" aria-label="Precedente">←</button><button type="button" aria-label="Successivo">→</button>');
+    ascolta(frecce.children[0], 'click', function () { s.scegli(s.quale() - 1); });
+    ascolta(frecce.children[1], 'click', function () { s.scegli(s.quale() + 1); });
+    cost.appendChild(cielo); cost.appendChild(testo); cost.appendChild(frecce);
+    ascolta(window, 'resize', disponi);
+    return { el: cost, schede: s, disponi: disponi };
+  }
+  function vociDa(elementi) {
+    return elementi.map(function (b) { var t = b.querySelector('h3'); return { titolo: t ? t.innerHTML : '', testo: tutti('p', b).map(function (p) { return '<p>' + p.innerHTML + '</p>'; }).join('') }; });
+  }
+
   /* ---- schede ebook: i sei argomenti diventano una costellazione ---- */
   function costellazione() {
     var g = d.querySelector('.p-ebook .griglia'); if (!g || g.dataset.viva) return;
@@ -236,51 +283,167 @@
     // ogni libro ha la sua costellazione: la forma nasce dal titolo
     var seme = 0, titolo = (d.querySelector('h1') || {}).textContent || 'x';
     for (var k = 0; k < titolo.length; k++) seme = (seme * 31 + titolo.charCodeAt(k)) >>> 0;
-    function caso() { seme = (seme * 1664525 + 1013904223) >>> 0; return seme / 4294967296; }
-    var n = blocchi.length, punti = [], su = caso() > 0.5;
-    for (var i = 0; i < n; i++) {
-      var x = 8 + (84 * i) / (n - 1) + (caso() - 0.5) * 5;
-      var y = (su ? 30 : 70) + (caso() - 0.5) * 30; su = !su;
-      punti.push([Math.max(6, Math.min(94, x)), Math.max(16, Math.min(84, y))]);
-    }
-    var cost = crea('div', 'cost');
-    var cielo = crea('div', 'cost-cielo', '<svg aria-hidden="true"><polyline class="cost-linea"/><polyline class="cost-fatta" pathLength="1"/></svg>');
-    cielo.setAttribute('role', 'tablist'); cielo.setAttribute('aria-label', 'Gli argomenti del libro');
-    var testo = crea('div', 'cost-testo'); testo.setAttribute('role', 'tabpanel'); testo.setAttribute('aria-live', 'polite'); testo.id = 'cost-testo';
-    var bottoni = blocchi.map(function (b, i) {
-      var t = b.querySelector('h3'), bt = crea('button', 'stella' + (punti[i][1] < 50 ? ' sotto' : ' sopra'), '<i></i><span>' + (t ? t.innerHTML : i + 1) + '</span>');
-      bt.type = 'button'; bt.style.left = punti[i][0] + '%'; bt.style.top = punti[i][1] + '%'; bt.setAttribute('aria-controls', 'cost-testo');
-      cielo.appendChild(bt); return bt;
-    });
-    var fatta = cielo.querySelector('.cost-fatta');
-    var lung = [0], svg = cielo.querySelector('svg'), tratto = cielo.querySelector('.cost-linea');
-    // la linea si disegna nelle misure vere del riquadro, e si ridisegna se cambia
-    function disponi() {
-      var W = cielo.clientWidth, H = cielo.clientHeight; if (!W || !H) return;
-      var px = punti.map(function (p) { return [p[0] * W / 100, p[1] * H / 100]; });
-      var pt = px.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
-      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); tratto.setAttribute('points', pt); fatta.setAttribute('points', pt);
-      lung = [0]; for (var j = 1; j < n; j++) lung.push(lung[j - 1] + Math.hypot(px[j][0] - px[j - 1][0], px[j][1] - px[j - 1][1]));
-      if (s) fatta.style.strokeDashoffset = (1 - lung[s.quale()] / lung[n - 1]).toFixed(4);
-    }
-    var s = null;
-    s = schede(bottoni, function (i) {
-      var b = blocchi[i];
-      testo.innerHTML = '<div class="cost-n">' + (i + 1) + ' <span>di ' + n + '</span></div><h3>' + (b.querySelector('h3') || b).innerHTML + '</h3>' + tutti('p', b).map(function (p) { return '<p>' + p.innerHTML + '</p>'; }).join('');
-      if (lung.length === n) fatta.style.strokeDashoffset = (1 - lung[i] / lung[n - 1]).toFixed(4);
-      bottoni.forEach(function (x, k) { x.classList.toggle('passata', k < i); });
-    });
-    var frecce = crea('div', 'cost-frecce', '<button type="button" aria-label="Argomento precedente">←</button><button type="button" aria-label="Argomento successivo">→</button>');
-    ascolta(frecce.children[0], 'click', function () { s.scegli(s.quale() - 1); });
-    ascolta(frecce.children[1], 'click', function () { s.scegli(s.quale() + 1); });
-    cost.appendChild(cielo); cost.appendChild(testo); cost.appendChild(frecce);
-    g.parentNode.insertBefore(cost, g); g.hidden = true; g.dataset.viva = '1';
-    disponi(); ascolta(window, 'resize', disponi);
+    var c = sentiero(vociDa(blocchi), { seme: seme, aria: 'Gli argomenti del libro' });
+    g.parentNode.insertBefore(c.el, g); g.hidden = true; g.dataset.viva = '1';
     var eraNotte = sez.classList.contains('notte');
     if (!eraNotte) { sez.classList.add('notte', 'cost-sez'); sez.classList.remove('tinta'); sez.insertBefore(crea('div', 'cielo', '<i></i><i></i>'), sez.firstChild); sez.firstChild.setAttribute('aria-hidden', 'true'); }
-    s.scegli(0);
-    giro(cost, 5200, function () { s.scegli(s.quale() + 1); });
-    pulizie.push(function () { cost.remove(); g.hidden = false; delete g.dataset.viva; if (!eraNotte) { sez.classList.remove('notte', 'cost-sez'); var c = sez.querySelector(':scope > .cielo'); if (c) c.remove(); } });
+    c.disponi(); c.schede.scegli(0);
+    giro(c.el, 5200, function () { c.schede.scegli(c.schede.quale() + 1); });
+    pulizie.push(function () { c.el.remove(); g.hidden = false; delete g.dataset.viva; if (!eraNotte) { sez.classList.remove('notte', 'cost-sez'); var x = sez.querySelector(':scope > .cielo'); if (x) x.remove(); } });
+  }
+
+  /* ---- Il Volo delle Radici: ogni radice che scende fa salire un ramo ---- */
+  function albero() {
+    var a = d.querySelector('.albero'); if (!a || a.classList.contains('viva')) return;
+    var voci = tutti('.radici-elenco > li', a); if (voci.length !== 6) return;
+    var TERRA = 300, punte = [[62, 432], [150, 512], [246, 462], [356, 520], [452, 448], [540, 500]], cime = [[70, 196], [150, 96], [248, 44], [352, 40], [450, 92], [530, 190]];
+    var seme = 20240317; function caso() { seme = (seme * 1664525 + 1013904223) >>> 0; return seme / 4294967296; }
+    var svg = '<svg viewBox="0 0 600 560" aria-hidden="true"><line class="a-terra" x1="0" y1="' + TERRA + '" x2="600" y2="' + TERRA + '"/>' +
+      '<path class="a-tronco" pathLength="1" d="M300 ' + TERRA + ' C297 276 303 250 300 214"/>';
+    punte.forEach(function (p, i) {
+      var dx = p[0] - 300, c = cime[i], ex = c[0] - 300;
+      svg += '<g class="a-coppia" data-i="' + i + '">' +
+        '<path class="a-radice" pathLength="1" d="M300 ' + TERRA + ' C' + (300 + dx * 0.18) + ' ' + (TERRA + 46) + ' ' + (p[0] - dx * 0.34) + ' ' + (p[1] - 74) + ' ' + p[0] + ' ' + p[1] + '"/>' +
+        '<path class="a-radichetta" pathLength="1" d="M' + (300 + dx * 0.62) + ' ' + (TERRA + (p[1] - TERRA) * 0.58) + ' q' + (dx > 0 ? 16 : -16) + ' 26 ' + (dx > 0 ? 6 : -6) + ' 50"/>' +
+        '<path class="a-ramo" pathLength="1" d="M300 ' + (232 - Math.abs(i - 2.5) * 4) + ' C' + (300 + ex * 0.12) + ' ' + (190 - (214 - c[1]) * 0.1) + ' ' + (c[0] - ex * 0.42) + ' ' + (c[1] + 78) + ' ' + c[0] + ' ' + c[1] + '"/>' +
+        '<path class="a-rametto" pathLength="1" d="M' + (300 + ex * 0.66) + ' ' + (c[1] + (214 - c[1]) * 0.42) + ' q' + (ex > 0 ? 10 : -10) + ' -30 ' + (ex > 0 ? 34 : -34) + ' -40"/><g class="a-foglie">';
+      for (var k = 0; k < 9; k++) {
+        var fx = c[0] + (caso() - 0.5) * 92 - ex * 0.08, fy = c[1] + (caso() - 0.5) * 70 + 8;
+        svg += '<ellipse cx="' + fx.toFixed(1) + '" cy="' + fy.toFixed(1) + '" rx="' + (5 + caso() * 5).toFixed(1) + '" ry="' + (2.6 + caso() * 2).toFixed(1) + '" transform="rotate(' + Math.round(caso() * 180) + ' ' + fx.toFixed(1) + ' ' + fy.toFixed(1) + ')" style="transition-delay:' + (1.5 + k * 0.09).toFixed(2) + 's"/>';
+      }
+      svg += '</g></g>';
+    });
+    svg += '<g class="a-uccelli">';
+    [[250, 150, 0], [330, 120, .5], [290, 90, 1], [380, 160, 1.4], [215, 110, 1.9]].forEach(function (u) { svg += '<path d="M' + u[0] + ' ' + u[1] + ' q8 -9 16 0 q8 -9 16 0" style="animation-delay:' + u[2] + 's"/>'; });
+    svg += '</g></svg>';
+    var scena = crea('div', 'albero-scena', svg);
+    scena.setAttribute('role', 'tablist'); scena.setAttribute('aria-label', 'Le sei radici');
+    var testo = crea('div', 'albero-testo'); testo.id = 'albero-testo'; testo.setAttribute('role', 'tabpanel'); testo.setAttribute('aria-live', 'polite');
+    var conto = crea('div', 'albero-conto'), detto = a.querySelector('.albero-volo'), cresciute = 0, fatte = {};
+    testo.innerHTML = '<p class="albero-invito">Tocca un seme sotto terra. Ogni radice che scende fa salire un ramo.</p>';
+    var coppie = tutti('.a-coppia', scena);
+    var bottoni = voci.map(function (li, i) {
+      var bt = crea('button', 'seme', '<i></i><span>' + li.querySelector('h3').innerHTML + '</span>'); bt.type = 'button';
+      bt.style.left = (punte[i][0] / 6) + '%'; bt.style.top = (punte[i][1] / 5.6) + '%'; bt.setAttribute('aria-controls', 'albero-testo');
+      scena.appendChild(bt); return bt;
+    });
+    function conta() { conto.innerHTML = '<b>' + cresciute + '</b> ' + (cresciute === 1 ? 'radice' : 'radici') + ' su 6'; }
+    var s = schede(bottoni, function (i) {
+      if (!fatte[i]) { fatte[i] = 1; cresciute++; coppie[i].classList.add('cresciuta'); bottoni[i].classList.add('cresciuto'); scena.classList.add('nata'); }
+      testo.innerHTML = '<h3>' + voci[i].querySelector('h3').innerHTML + '</h3>' + tutti('p', voci[i]).map(function (p) { return '<p>' + p.innerHTML + '</p>'; }).join('');
+      conta();
+      if (cresciute === 6 && !a.classList.contains('in-volo')) setTimeout(function () { a.classList.add('in-volo'); }, 1900);
+    });
+    conta();
+    var lista = a.querySelector('.radici-elenco');
+    a.insertBefore(scena, lista); a.insertBefore(conto, lista); a.insertBefore(testo, lista); lista.hidden = true; a.classList.add('viva');
+    pulizie.push(function () { scena.remove(); conto.remove(); testo.remove(); lista.hidden = false; a.classList.remove('viva', 'in-volo'); });
+  }
+
+  /* ---- Mappe Silenziose: tieni premuto, il rumore si spegne e compare la mappa ---- */
+  function silenzio() {
+    var z = d.querySelector('.silenzio'); if (!z || z.classList.contains('viva')) return;
+    var terr = tutti('.territori li', z); if (terr.length < 3) return;
+    var AVVISI = ['3 nuove email', 'Riunione tra 10 minuti', 'Scadenza oggi', 'Chiamata persa', 'Urgente', 'Rispondi subito', '12 messaggi nel gruppo', 'Promemoria', 'Sei in ritardo', 'Aggiornamento disponibile',
+      'Ti hanno menzionato', 'Entro stasera', 'Nuovo commento', 'Da approvare', 'Richiamami', 'Ultimo avviso', 'In attesa di risposta', 'Batteria al 9%'];
+    var N = 37, seme = 37; function caso() { seme = (seme * 1664525 + 1013904223) >>> 0; return seme / 4294967296; }
+    var rumore = crea('div', 'rumore'); rumore.setAttribute('aria-hidden', 'true');
+    var avvisi = [];
+    // sparsi su una griglia mossa, lasciando libero il centro per il tasto
+    var celle = [];
+    for (var cy = 0; cy < 6; cy++) for (var cx = 0; cx < 8; cx++) if (!((cx === 3 || cx === 4) && (cy === 2 || cy === 3))) celle.push([cx, cy]);
+    celle.sort(function () { return caso() - 0.5; });
+    for (var i = 0; i < N; i++) {
+      var x = 7 + (celle[i][0] + 0.15 + caso() * 0.7) * 10.9, y = 6 + (celle[i][1] + 0.15 + caso() * 0.7) * 14.8;
+      var e = crea('span', 'avviso-finto', AVVISI[i % AVVISI.length]);
+      e.style.cssText = 'left:' + x.toFixed(1) + '%;top:' + y.toFixed(1) + '%;--g:' + ((caso() - 0.5) * 16).toFixed(1) + 'deg;--t:' + (0.5 + caso() * 0.9).toFixed(2) + 's;--r:' + (caso() * 2).toFixed(2) + 's;font-size:' + (11 + caso() * 5).toFixed(1) + 'px';
+      rumore.appendChild(e); avvisi.push(e);
+    }
+    var ordine = avvisi.map(function (_, k) { return k; }).sort(function () { return caso() - 0.5; });
+    var tasto = crea('button', 'silenzio-tasto', '<span class="st-anello"></span><span class="st-testo"><b>Tieni premuto</b><i>per fare silenzio</i></span>'); tasto.type = 'button';
+    tasto.setAttribute('aria-label', 'Tieni premuto per fare silenzio');
+    var conto = crea('p', 'silenzio-conto'); conto.setAttribute('aria-live', 'polite');
+    var scena = crea('div', 'silenzio-scena'); scena.appendChild(rumore); scena.appendChild(tasto);
+    var detto = z.querySelector('.silenzio-detto'), casaDetto = detto ? detto.nextSibling : null;
+    if (detto) scena.appendChild(detto);
+    var salta = crea('button', 'silenzio-salta', 'Vai subito alla mappa'); salta.type = 'button';
+    var p = 0, giu = false, fatto = false, raf = null, ultimo = 0, DURATA = 5200;
+    function mostra() {
+      var spenti = Math.round(p * N);
+      ordine.forEach(function (k, j) { avvisi[k].classList.toggle('via', j < spenti); });
+      tasto.style.setProperty('--p', p.toFixed(3));
+      conto.innerHTML = fatto ? '' : '<b>' + (N - spenti) + '</b> notifiche';
+    }
+    function passo(t) {
+      var dt = Math.min(60, t - ultimo); ultimo = t;
+      p = Math.max(0, Math.min(1, p + (giu ? dt / DURATA : -dt / 1400)));
+      mostra();
+      if (p >= 1) { quiete(); return; }
+      if (giu || p > 0) raf = requestAnimationFrame(passo); else raf = null;
+    }
+    function premi(e) { if (fatto) return; if (e && e.preventDefault && e.type !== 'keydown') e.preventDefault(); giu = true; z.classList.add('premuto'); if (!raf) { ultimo = performance.now(); raf = requestAnimationFrame(passo); } }
+    function lascia() { giu = false; z.classList.remove('premuto'); }
+    var mappa = null;
+    function quiete() {
+      if (fatto) return; fatto = true; giu = false; raf = null; p = 1; mostra();
+      z.classList.remove('premuto'); z.classList.add('quiete');
+      var voci = vociDa(terr);
+      mappa = sentiero(voci, { classe: 'mappa', aria: 'I cinque territori', numeri: ['I', 'II', 'III', 'IV', 'V'].slice(0, voci.length), punti: [[9, 70], [29, 28], [50, 64], [71, 24], [91, 60]].slice(0, voci.length) });
+      z.insertBefore(mappa.el, z.querySelector('.territori'));
+      setTimeout(function () { mappa.disponi(); mappa.schede.scegli(0); z.classList.add('mappata'); }, fermo ? 0 : 1500);
+    }
+    ascolta(tasto, 'pointerdown', premi); ascolta(window, 'pointerup', lascia); ascolta(tasto, 'pointercancel', lascia); ascolta(tasto, 'pointerleave', lascia);
+    ascolta(tasto, 'contextmenu', function (e) { e.preventDefault(); });
+    ascolta(tasto, 'keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!e.repeat) premi(e); } });
+    ascolta(tasto, 'keyup', function (e) { if (e.key === ' ' || e.key === 'Enter') lascia(); });
+    ascolta(salta, 'click', function () { p = 1; quiete(); });
+    var lista = z.querySelector('.territori');
+    z.insertBefore(scena, z.firstChild); z.insertBefore(conto, scena.nextSibling); z.insertBefore(salta, lista); lista.hidden = true; z.classList.add('viva'); mostra();
+    pulizie.push(function () { if (raf) cancelAnimationFrame(raf); if (detto) z.insertBefore(detto, casaDetto); scena.remove(); conto.remove(); salta.remove(); if (mappa) mappa.el.remove(); lista.hidden = false; z.classList.remove('viva', 'quiete', 'mappata', 'premuto'); });
+  }
+
+  /* ---- su computer: un anello segue il puntatore, i pulsanti lo attirano, le schede si inclinano ---- */
+  function puntatore() {
+    if (fermo || !(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches)) return;
+    var anello = crea('div', 'anello'); anello.setAttribute('aria-hidden', 'true'); anello.style.transform = 'translate(-100px,-100px)'; d.body.appendChild(anello);
+    var x = -100, y = -100, ax = -100, ay = -100, vivo = false, raf = null;
+    function gira() {
+      ax += (x - ax) * 0.2; ay += (y - ay) * 0.2;
+      anello.style.transform = 'translate(' + ax.toFixed(1) + 'px,' + ay.toFixed(1) + 'px)';
+      raf = (Math.abs(x - ax) > 0.3 || Math.abs(y - ay) > 0.3) ? requestAnimationFrame(gira) : null;
+    }
+    var SCHEDE = '.corso, .p-home .libro, .post-carta, .formato-card, .profilo, .post-primo, .gruppo, .valore, .vicino';
+    var ultima = null;
+    ascolta(d, 'pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      x = e.clientX; y = e.clientY;
+      if (!vivo) { vivo = true; ax = x; ay = y; anello.classList.add('vivo'); }
+      if (!raf) raf = requestAnimationFrame(gira);
+      var t = e.target.closest ? e.target : null; if (!t) return;
+      anello.classList.toggle('su', !!t.closest('a, button, summary, input, label, .stella, [role="tab"]'));
+      var b = t.closest('.btn');
+      if (b) { var q = b.getBoundingClientRect(); b.style.setProperty('--mx', ((x - q.left - q.width / 2) * 0.16).toFixed(1) + 'px'); b.style.setProperty('--my', ((y - q.top - q.height / 2) * 0.3).toFixed(1) + 'px'); }
+      var c = t.closest(SCHEDE);
+      if (ultima && ultima !== c) { ultima.style.removeProperty('--ix'); ultima.style.removeProperty('--iy'); ultima.classList.remove('inclinata'); }
+      if (c) { var r = c.getBoundingClientRect(); c.classList.add('inclinata'); c.style.setProperty('--iy', (((x - r.left) / r.width - 0.5) * 7).toFixed(2) + 'deg'); c.style.setProperty('--ix', ((0.5 - (y - r.top) / r.height) * 6).toFixed(2) + 'deg'); }
+      ultima = c;
+    }, { passive: true });
+    ascolta(d.documentElement, 'pointerleave', function () { vivo = false; anello.classList.remove('vivo'); });
+    pulizie.push(function () { if (raf) cancelAnimationFrame(raf); anello.remove(); });
+  }
+
+  /* ---- un tocco sul cielo d'apertura accende una stella ---- */
+  function stelle() {
+    var cielo = d.querySelector('.hero.notte, .testata-notte'); if (!cielo || fermo) return;
+    var nate = [];
+    ascolta(cielo, 'click', function (e) {
+      if (e.target.closest('a, button, input, label, form, summary, img, .cop, .scheda')) return;
+      var q = cielo.getBoundingClientRect(), st = crea('i', 'stella-nata');
+      st.style.left = (e.clientX - q.left) + 'px'; st.style.top = (e.clientY - q.top) + 'px'; st.style.setProperty('--s', (0.6 + Math.random() * 1.1).toFixed(2));
+      st.setAttribute('aria-hidden', 'true'); cielo.appendChild(st); nate.push(st);
+      if (nate.length > 40) nate.shift().remove();
+    });
+    pulizie.push(function () { nate.forEach(function (x) { x.remove(); }); });
   }
 
   /* ---- schede ebook: l'indice si accende mentre lo scorri ---- */
@@ -430,7 +593,7 @@
   function avvia() {
     pulizie.forEach(function (f) { try { f(); } catch (e) {} }); pulizie = [];
     if (h.className.indexOf(' js') < 0 && !h.classList.contains('js')) h.classList.add('js');
-    menu(); lettura(); titolo(); costellazione(); indice(); bussola(); volto(); calendario(); comparse(); apertura(); conta(); barra();
+    menu(); lettura(); titolo(); costellazione(); indice(); bussola(); volto(); albero(); silenzio(); calendario(); comparse(); apertura(); conta(); barra(); puntatore(); stelle();
   }
   window.LPG = { avvia: avvia };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', avvia); else avvia();

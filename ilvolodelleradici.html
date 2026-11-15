@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il Volo delle Radici — Achille Pagliaro</title>
+<meta name="description" content="Il Volo delle Radici di Achille Pagliaro: appartenenza e libertà, famiglia e futuro, tra storie di nonni, genitori, campi e mare. Su Amazon in Kindle e cartaceo.">
+<link rel="canonical" href="https://laparolagiusta.it/ilvolodelleradici.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#12294A">
+<meta name="author" content="Achille Pagliaro">
+<meta property="og:type" content="book">
+<meta property="og:site_name" content="La Parola Giusta">
+<meta property="og:locale" content="it_IT">
+<meta property="og:url" content="https://laparolagiusta.it/ilvolodelleradici.html">
+<meta property="og:title" content="Il Volo delle Radici — Achille Pagliaro">
+<meta property="og:description" content="Il Volo delle Radici di Achille Pagliaro: appartenenza e libertà, famiglia e futuro, tra storie di nonni, genitori, campi e mare. Su Amazon in Kindle e cartaceo.">
+<meta property="og:image" content="https://laparolagiusta.it/img/social/achillepagliaro-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preload" href="fonts/cormorant-garamond-300-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/jost-300-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+:root{
+  --blu:#12294A;--blu-scuro:#0B1B33;--oro:#C39A4E;--oro-tenue:#E2D2B0;
+  --panna:#F7F3EA;--panna-2:#EFE9DC;--bianco:#FFFCF6;
+  --testo:#1C2B3F;--tenue:#69748A;--linea:#DED5C2;
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:"Jost",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--panna);color:var(--testo);font-family:var(--sans);font-weight:300;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+p{margin:0 0 1.1em}
+a{color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.14;letter-spacing:-.01em;margin:0;color:var(--blu)}
+.wrap{width:100%;max-width:1140px;margin:0 auto;padding:0 24px}
+.stretto{max-width:720px}
+
+.nav{position:sticky;top:0;z-index:60;background:rgba(247,243,234,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.marchio{display:flex;align-items:center;gap:11px;text-decoration:none}
+.marchio img{height:34px;width:auto}
+.marchio span{font-family:var(--serif);font-size:20px;color:var(--blu);white-space:nowrap}
+.nav-menu{display:flex;align-items:center;gap:24px}
+.nav-menu a{color:var(--blu);text-decoration:none;font-size:14px;letter-spacing:.04em;white-space:nowrap}
+.nav-menu a:hover{color:var(--oro)}
+.nav-btn{border:1px solid var(--blu);padding:9px 20px;border-radius:999px}
+.nav-btn:hover{background:var(--blu);color:var(--panna)!important}
+.ritorno{color:var(--oro)!important}
+@media(max-width:860px){.nav-menu a:not(.nav-btn):not(.ritorno){display:none}}
+@media(max-width:520px){.nav-menu{gap:14px}.ritorno{font-size:13px}}
+@media(max-width:420px){.marchio span{display:none}}
+
+.btn{display:inline-block;font-size:15px;letter-spacing:.03em;padding:15px 32px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s}
+.btn-blu{background:var(--blu);color:var(--panna)}
+.btn-blu:hover{background:var(--blu-scuro)}
+.btn-oro{background:var(--oro);color:#fff}
+.btn-oro:hover{background:#B08A40}
+.btn-linea{border-color:var(--blu);color:var(--blu)}
+.btn-linea:hover{background:var(--blu);color:var(--panna)}
+
+/* hero */
+.hero{padding:54px 0 20px}
+.hero-grid{display:grid;gap:40px;align-items:center}
+.hero .etichetta{margin-bottom:14px}
+.hero h1{font-size:clamp(40px,8.4vw,68px);font-weight:300;line-height:1.03}
+.hero .sottotitolo{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3.6vw,26px);color:var(--oro);margin-top:12px;line-height:1.3}
+.hero p.occhio{color:var(--tenue);font-size:18px;max-width:44ch;margin-top:22px}
+.hero-azioni{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:30px}
+.prezzo{font-family:var(--serif);font-size:34px;color:var(--blu);line-height:1}
+.prezzo s{font-family:var(--sans);font-size:16px;color:var(--tenue);margin-right:10px}
+.cop{position:relative;max-width:420px;margin:0 auto}
+.cop img{box-shadow:0 26px 60px rgba(11,27,51,.3)}
+.cop::before{content:"";position:absolute;inset:22px -22px -22px 22px;border:1px solid var(--oro);z-index:-1}
+.dati{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font-size:14px;color:var(--tenue)}
+.dati span{position:relative;padding-left:16px}
+.dati span::before{content:"";position:absolute;left:0;top:11px;width:8px;height:1px;background:var(--oro)}
+
+section{padding:84px 0}
+.tinta{background:var(--panna-2)}
+.scura{background:var(--blu-scuro);color:#DCE3EC}
+.scura h2,.scura h3{color:#fff}
+.etichetta{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);margin-bottom:16px}
+h2{font-size:clamp(29px,5.2vw,44px);max-width:20ch}
+.intro{color:var(--tenue);max-width:58ch;margin-top:18px;font-size:18px}
+.scura .intro{color:#A9B7C9}
+.filo{width:56px;height:1px;background:var(--oro);margin:26px 0}
+.centro{text-align:center}
+.centro h2,.centro .intro{margin-left:auto;margin-right:auto}
+
+/* apertura narrativa */
+.scena{display:grid;gap:34px;align-items:center}
+.scena img{border-radius:2px}
+.scena-testo p:first-of-type::first-letter{font-family:var(--serif);font-size:64px;float:left;line-height:.82;padding:6px 12px 0 0;color:var(--oro)}
+
+.pull{font-family:var(--serif);font-style:italic;font-size:clamp(25px,4.4vw,36px);line-height:1.34;color:var(--blu);max-width:24ch}
+.scura .pull{color:#fff}
+
+/* problemi */
+.elenco{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:13px}
+.elenco li{position:relative;padding-left:26px;color:var(--tenue);font-size:16.5px}
+.elenco li::before{content:"";position:absolute;left:0;top:13px;width:12px;height:1px;background:var(--oro)}
+.scura .elenco li{color:#A9B7C9}
+
+/* imparerai */
+.griglia{display:grid;gap:30px;margin-top:46px}
+.blocco{padding-top:22px;border-top:1px solid var(--linea)}
+.scura .blocco{border-color:rgba(195,154,78,.35)}
+.blocco h3{font-size:23px;margin-bottom:10px}
+.blocco p{font-size:16px;color:var(--tenue);margin:0}
+.scura .blocco p{color:#A9B7C9}
+
+/* indice */
+.indice{display:grid;gap:0;margin-top:40px;border-top:1px solid var(--linea)}
+.cap{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--linea);align-items:baseline}
+.cap-n{font-family:var(--serif);font-size:20px;color:var(--oro);min-width:38px}
+.cap-t{font-family:var(--serif);font-size:22px;color:var(--blu)}
+.cap-d{font-size:15.5px;color:var(--tenue);margin-top:3px}
+
+/* estratto */
+.estratto{background:var(--bianco);border:1px solid var(--linea);border-left:3px solid var(--oro);padding:32px 28px;margin-top:36px}
+.estratto p{font-family:var(--serif);font-size:19.5px;line-height:1.6;color:var(--testo)}
+.estratto p:last-child{margin-bottom:0}
+.estratto .fonte{font-family:var(--sans);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--oro);margin-bottom:18px}
+
+/* per chi */
+.profili{display:grid;gap:26px;margin-top:44px}
+.profilo{background:var(--bianco);border:1px solid var(--linea);border-radius:3px;padding:26px 24px}
+.profilo h3{font-size:22px;margin-bottom:10px}
+.profilo p{font-size:15.5px;color:var(--tenue);margin:0}
+
+/* etica */
+.etica{display:grid;gap:34px;align-items:center}
+
+details{border-bottom:1px solid var(--linea)}
+summary{font-family:var(--serif);font-size:22px;color:var(--blu);padding:20px 40px 20px 0;cursor:pointer;list-style:none;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";position:absolute;right:8px;top:29px;width:11px;height:11px;border-right:1px solid var(--oro);border-bottom:1px solid var(--oro);transform:rotate(45deg);transition:transform .2s}
+details[open] summary::after{transform:rotate(-135deg);top:33px}
+details p{color:var(--tenue);font-size:16px;padding-right:30px;margin-top:-6px}
+
+.acquisto{display:grid;gap:36px;align-items:center}
+.scheda-acquisto{background:var(--bianco);border:1px solid var(--oro);padding:34px 30px;position:relative}
+.scheda-acquisto::before{content:"";position:absolute;inset:7px;border:1px solid var(--oro-tenue);pointer-events:none}
+.scheda-acquisto h3{font-size:28px;margin-bottom:6px}
+.incluso{list-style:none;padding:0;margin:22px 0 26px}
+.incluso li{position:relative;padding-left:24px;font-size:16px;color:var(--tenue);margin-bottom:9px}
+.incluso li::before{content:"";position:absolute;left:0;top:12px;width:11px;height:1px;background:var(--oro)}
+.nota{font-size:13.5px;color:var(--tenue)}
+
+footer{border-top:1px solid var(--linea);padding:44px 0;font-size:14px;color:var(--tenue)}
+.piede{display:grid;gap:22px}
+.piede a{text-decoration:none;margin-right:18px}
+.piede a:hover{color:var(--oro)}
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
+
+@media(min-width:880px){
+  section{padding:106px 0}
+  .hero{padding:70px 0 26px}
+  .hero-grid{grid-template-columns:1.08fr .92fr;gap:64px}
+  .scena{grid-template-columns:1fr 1fr;gap:56px}
+  .griglia{grid-template-columns:repeat(3,1fr);gap:38px}
+  .profili{grid-template-columns:repeat(3,1fr)}
+  .etica{grid-template-columns:1fr 1fr;gap:56px}
+  .acquisto{grid-template-columns:.85fr 1.15fr;gap:60px}
+  .piede{grid-template-columns:1.3fr 1fr 1fr;gap:44px}
+}
+
+/* --- correzioni: piede, stati ebook, accessibilita' --- */
+.piede{grid-template-columns:auto 1fr;gap:34px 44px}
+.piede-col{display:flex;flex-direction:column;gap:7px}
+.piede-nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+.piede a{text-decoration:none}
+.piede a:hover,.piede a:focus-visible{color:var(--blu);text-decoration:underline}
+.piede-social{display:flex;gap:18px;flex-wrap:wrap}
+.piede-basso{grid-column:1/-1;border-top:1px solid var(--linea);padding-top:20px;
+  display:flex;flex-wrap:wrap;gap:6px 26px;font-size:13px;line-height:1.6}
+.piede-dati{color:var(--tenue)}
+@media(max-width:700px){.piede{grid-template-columns:1fr;gap:26px}}
+
+/* ebook annunciati ma non ancora in vendita */
+.ebook.in-arrivo{opacity:.72}
+.ebook-attesa{display:inline-block;margin-top:4px;font-size:13px;letter-spacing:.06em;
+  color:var(--tenue);border:1px solid var(--linea);border-radius:999px;padding:5px 14px}
+
+/* focus visibile da tastiera su tutti gli elementi interattivi */
+a:focus-visible,button:focus-visible,summary:focus-visible,
+input:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--blu);outline-offset:3px;border-radius:3px}
+
+/* etichetta del campo email della newsletter, letta dagli screen reader */
+.solo-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* salta al contenuto */
+.salta{position:absolute;left:-9999px;top:0;z-index:100;background:var(--blu);
+  color:var(--panna);padding:12px 20px;border-radius:0 0 6px 0;text-decoration:none}
+.salta:focus{left:0}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;
+    animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+
+/* tre formati: PDF, Kindle, cartaceo */
+.formati{display:grid;gap:22px;margin-top:44px}
+.formato-card{background:var(--bianco);border:1px solid var(--linea);border-radius:3px;padding:28px 24px;display:flex;flex-direction:column;position:relative}
+.formato-card.carta{border-color:var(--oro)}
+.formato-card .tipo{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);margin-bottom:12px}
+.formato-card h3{font-size:25px;margin-bottom:10px}
+.formato-card p{font-size:15.5px;color:var(--tenue);margin:0 0 18px}
+.formato-prezzo{font-family:var(--serif);font-size:34px;color:var(--blu);margin-bottom:18px;line-height:1}
+.formato-card .btn{margin-top:auto;text-align:center}
+.collana{margin-top:40px;padding:28px 26px;border:1px solid var(--linea);border-radius:3px;background:var(--bianco);display:grid;gap:20px;align-items:center}
+.collana h3{font-size:26px;margin-bottom:8px}
+.collana p{font-size:15.5px;color:var(--tenue);margin:0;max-width:52ch}
+.bollino{position:absolute;top:-11px;right:20px;background:var(--oro);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
+@media(min-width:880px){
+  .collana{grid-template-columns:1fr auto;gap:36px;padding:32px 34px}
+}
+@media(min-width:880px){
+  .formati{grid-template-columns:repeat(2,1fr);gap:26px}
+}
+</style>
+<link rel="stylesheet" href="css/sito.css">
+<link rel="stylesheet" href="css/pagine.css">
+</head>
+<body class="p-libro">
+
+<a class="salta" href="#principale">Vai al contenuto</a>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="marchio" href="./"><img decoding="async" width="440" height="386" src="img/c5acd835.webp" alt=""><span>La Parola Giusta</span></a>
+    <div class="nav-menu">
+      <a class="ritorno" href="./">Home</a>
+      <a href="achillepagliaro.html">I tre libri</a>
+      <a href="#albero">L'albero</a>
+      <a href="#estratto">Un assaggio</a>
+      <a class="nav-btn" href="#acquista">Acquista</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero notte" id="top">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <span class="cadente" aria-hidden="true"></span>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="etichetta">Libro · primo movimento</div>
+      <h1>Il Volo delle Radici</h1>
+      <div class="sottotitolo">Come si fa a volare senza tradire le proprie radici?</div>
+      <p class="occhio">Parla di appartenenza e libertà, famiglia e futuro, memorie e scelte. Si muove tra storie di nonni, genitori, campi, mare, e la tensione fra restare e partire.</p>
+      <div class="hero-azioni">
+        <a class="btn btn-blu" href="https://www.amazon.it/Volo-delle-Radici-trasformazione-spirituale-ebook/dp/B0CY9Y987M">Acquista su Amazon</a>
+        <a class="btn btn-linea" href="prime-pagine.html">Leggi le prime pagine</a>
+      </div>
+      <div class="dati">
+        <span>Cartaceo ed ebook</span>
+        <span>Su Amazon</span>
+        <span>Prime pagine gratis</span>
+      </div>
+    </div>
+    <div class="cop"><img decoding="async" width="700" height="1244" src="img/copertina-di-il-volo-delle-radici.webp" alt="Copertina di Il Volo delle Radici"></div>
+  </div>
+</header>
+
+<div id="principale"></div><section class="notte" id="albero">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <div class="wrap">
+    <div class="etichetta">Prova tu</div>
+    <h2>Più scendono le radici, <em>più sale il volo</em>.</h2>
+    <p class="intro">Il libro parte da qui: una casa piena, un padre, due nonni. Sono sei insegnamenti, e ognuno regge un ramo.</p>
+    <div class="albero">
+      <ol class="radici-elenco">
+        <li><h3>La casa</h3><p>Genitori, fratelli, cugini e nonni sotto lo stesso tetto. La famiglia è il primo sistema di supporto, e resta unita davanti a ogni ostacolo.</p></li>
+        <li><h3>L'alba</h3><p>Genitori che si alzano all'alba e rinunciano a qualcosa perché i figli possano studiare. L'etica del lavoro passa dall'esempio, prima che dalle parole.</p></li>
+        <li><h3>Il resto</h3><p>Un padre trova del denaro in più nel resto e torna subito indietro a restituirlo. Essere onesti è agire con coerenza anche quando nessuno guarda.</p></li>
+        <li><h3>La porta</h3><p>Durante le feste la casa resta aperta ai vicini meno fortunati, per dividere il poco che c'è. La ricchezza si misura in quello che si riesce a dare.</p></li>
+        <li><h3>Il mare</h3><p>Il nonno pescatore e le lunghe giornate in barca. Il mare, come la vita, è imprevedibile: chiede osservazione attenta, pazienza e rispetto.</p></li>
+        <li><h3>La terra</h3><p>Il nonno contadino che pianta, cura e raccoglie. Il risultato arriva da lontano: dipende dalla cura costante e dall'attenzione ai dettagli.</p></li>
+      </ol>
+      <blockquote class="albero-volo">«Le nostre radici non sono catene che ci tengono a terra, ma ali che ci permettono di spiccare il volo.»</blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="tinta">
+  <div class="wrap stretto">
+    <div class="etichetta">Cosa trovi</div>
+    <h2>Un libro per chi si sente diviso tra restare e partire</h2>
+    <ul class="elenco">
+      <li>Storie di famiglia che non sono favole, ma luoghi in cui riconoscersi</li>
+      <li>Il coraggio di guardare le tue radici senza idealizzarle né rinnegarle</li>
+      <li>Una libertà che non rompe i legami, ma li rinnova</li>
+      <li>Domande scomode e liberanti su chi sei e dove vuoi andare</li>
+    </ul>
+    <div class="ideale-libro"><b>Ideale per chi</b>si sente diviso tra ciò che dovrebbe fare e ciò che desidera davvero, e cerca il coraggio di spiccare il volo senza tradire da dove viene.</div>
+  </div>
+</section>
+
+<section id="estratto">
+  <div class="wrap stretto">
+    <div class="etichetta">Un assaggio</div>
+    <h2>Il carretto della frutta</h2>
+    <div class="estratto">
+      <div class="fonte">Dalla prefazione</div>
+      <p>Ricordo come fosse ieri le estati trascorse ad aiutare mio nonno con il suo «carretto della frutta» ambulante. Sotto il sole cocente, imparavo non solo l'arte del commercio, ma lezioni di vita che avrebbero plasmato il mio futuro.</p>
+      <p>L'integrità nel pesare sempre con onestà, anche quando nessuno guardava. La gentilezza nel servire con un sorriso, anche dopo ore di lavoro estenuante. La pazienza nell'ascoltare le storie dei clienti anziani, anche quando la fila si allungava.</p>
+      <p>Queste lezioni sono diventate le radici profonde che mi hanno ancorato nei momenti di tempesta.</p>
+    </div>
+    <p style="margin-top:30px"><a class="btn btn-oro" href="prime-pagine.html">Ricevi gratis le prime pagine</a></p>
+  </div>
+</section>
+
+<section class="tinta">
+  <div class="wrap">
+    <div class="etichetta">Tre libri, un solo viaggio</div>
+    <h2>Gli altri due movimenti</h2>
+    <div class="trilogia">
+      <a href="mappesilenziose.html"><img decoding="async" loading="lazy" width="700" height="974" src="img/copertina-di-mappe-silenziose.webp" alt=""><div><span>Secondo movimento · nel quotidiano</span><strong>Mappe Silenziose</strong><em>Venticinque tappe brevi per non perdersi nel presente.</em></div></a>
+      <a href="achillepagliaro.html#eredita"><img decoding="async" loading="lazy" width="700" height="994" src="img/copertina-di-eredita-invisibili.webp" alt=""><div><span>Terzo movimento · dai figli ai padri</span><strong>Eredità Invisibili</strong><em>Credevo di crescerli. Mi stavano ricrescendo. Dal 20 novembre 2026.</em></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="chiusura notte" id="acquista">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <div class="wrap">
+    <p class="pull">Sei pronto a far volare le tue radici?</p>
+    <p>Il Volo delle Radici è su Amazon, in Kindle e in cartaceo.</p>
+    <a class="btn btn-blu" href="https://www.amazon.it/Volo-delle-Radici-trasformazione-spirituale-ebook/dp/B0CY9Y987M">Acquista su Amazon</a>
+  </div>
+</section>
+
+<footer class="fondo notte">
+  <div class="cielo" aria-hidden="true"><i></i><i></i></div>
+  <div class="wrap">
+    <div class="fondo-scritta" aria-hidden="true">La parola giusta</div>
+    <div class="fondo-griglia">
+      <div>
+        <a class="fondo-marchio" href="./"><img decoding="async" width="440" height="386" src="img/c5acd835.webp" alt="" loading="lazy"><span>La parola giusta</span></a>
+        <p class="fondo-motto">Corsi, libri ed ebook di Achille Pagliaro sulla comunicazione e su tutte le sue sfumature.</p>
+      </div>
+      <nav aria-label="Piè di pagina">
+        <h2>Il sito</h2>
+        <ul>
+          <li><a href="./#corsi">Corsi</a></li>
+          <li><a href="./#libri">Libri</a></li>
+          <li><a href="./#ebook">Ebook</a></li>
+          <li><a href="blog/">Il taccuino</a></li>
+          <li><a href="achillepagliaro.html">L'autore</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Informazioni">
+        <h2>Informazioni</h2>
+        <ul>
+          <li><a href="metodo-e-fonti.html">Metodo e fonti</a></li>
+          <li><a href="contatti.html">Contatti</a></li>
+          <li><a href="termini.html">Termini</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="cookie.html">Cookie</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2>Altrove</h2>
+        <ul>
+          <li><a href="https://www.facebook.com/laparolagiustaofficial" rel="me noopener" target="_blank">Facebook</a></li><li><a href="https://www.instagram.com/laparolagiustaofficial" rel="me noopener" target="_blank">Instagram</a></li><li><a href="https://www.youtube.com/@laparolagiustaofficial" rel="me noopener" target="_blank">YouTube</a></li><li><a href="https://www.tiktok.com/@laparolagiustaofficial" rel="me noopener" target="_blank">TikTok</a></li>
+          <li><a href="mailto:info@laparolagiusta.it">info@laparolagiusta.it</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fondo-basso">
+      <div>© 2026 La parola giusta</div>
+      <div class="piede-dati">Achille Pagliaro · Corsi ed ebook venduti tramite Skillplate</div>
+      <div class="piede-visite" id="visite" hidden><span class="visite-n"></span> visite</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statistiche GoatCounter: senza cookie, nessun dato personale raccolto. -->
+<script data-goatcounter="https://laparolagiusta.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","@id":"https://laparolagiusta.it/ilvolodelleradici.html#libro","name":"Il Volo delle Radici","author":{"@type":"Person","@id":"https://laparolagiusta.it/#autore","name":"Achille Pagliaro","url":"https://laparolagiusta.it/achillepagliaro.html"},"inLanguage":"it","url":"https://laparolagiusta.it/ilvolodelleradici.html","image":"https://laparolagiusta.it/img/copertina-di-il-volo-delle-radici.webp","description":"Il Volo delle Radici di Achille Pagliaro: appartenenza e libertà, famiglia e futuro, tra storie di nonni, genitori, campi e mare. Su Amazon in Kindle e cartaceo."}</script>
+<script src="js/sito.js" defer></script>
+</body>
+</html>
