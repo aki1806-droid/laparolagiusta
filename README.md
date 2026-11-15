@@ -74,3 +74,10 @@ Ai 40 iscritti della lista SendFox «La Parola Giusta» (id 671866) va una sola 
 Stile delle immagini: natura morta fotografica in luce calda da finestra, blu notte, panna e oro, nessuna persona, nessuna scritta.
 
 Lo script riscrive `blog/index.html`, le pagine dei post, `blog/feed.xml`, gli ultimi tre post in home e le voci del blog in `sitemap.xml`. Le pagine dentro `blog/` non vanno modificate a mano: si rigenerano. I post con `esempio: si` servono solo per l'anteprima; `node strumenti/blog.mjs --senza-esempi` li lascia fuori.
+
+## Salvataggio del sito precedente
+
+Il sito com'era online il 15 novembre 2026, prima del sito nuovo, è nel ramo
+`salvataggio/sito-attuale-2026-11-15` (commit `91aebb6`). Quel ramo non va mai modificato né cancellato.
+Per tornare a quella versione dopo la pubblicazione del sito nuovo si riporta `main` al contenuto di quel ramo
+con un nuovo commit (senza riscrivere la storia): il sito torna com'era in un paio di minuti.
