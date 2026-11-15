@@ -14,6 +14,10 @@ su https://aki1806-droid.github.io/laparolagiusta/
 - `css/pagine.css` — componenti di home, ebook, corsi, omaggi, taccuino (la pagina autore ha i suoi)
 - `js/sito.js` — menu su telefono, comparse, sezioni interattive (bussola, costellazione, volto, calendario)
 
+## Le pagine dei libri
+
+`ilvolodelleradici.html` e `mappesilenziose.html` le scrive `node strumenti/libri.mjs` (testi e dati sono dentro lo script). Le venticinque tappe di *Mappe Silenziose*, una per capitolo, ognuna con il suo esercizio, stanno in `strumenti/tappe-mappe.mjs`: per cambiarne una si modifica lì e si rilancia lo script.
+
 ## Il taccuino (blog)
 
 Ogni post è un file di testo in `blog/_post/`, chiamato `AAAA-MM-GG-titolo-breve.md`:
@@ -56,7 +60,7 @@ Ogni post ha un esercizio interattivo, scritto nel testo come blocco:
 :::
 ```
 
-I tipi sono cinque: `scegli` (risposte tra cui scegliere), `carte` (carte da girare: `- davanti | dietro`), `misura` (cursore da 0 a 10: `:::misura Domanda | da | a` e righe `- 0-3 | testo`), `domanda` (campo dove scrivere, resta sul dispositivo di chi legge), `respiro` (un cerchio che conta i secondi: `:::respiro 60 | Invito`, e sotto la frase finale). Nell'intestazione, `libro: eredita | volo | mappe` (o il nome di una scheda ebook) aggiunge in fondo la scheda del libro; `oggetto:` è l'oggetto dell'email.
+I tipi sono undici, descritti in testa a `strumenti/esercizi.mjs`: `scegli` (risposte tra cui scegliere), `carte` (carte da girare: `- davanti | dietro`), `misura` (cursore da 0 a 10: `:::misura Domanda | da | a` e righe `- 0-3 | testo`), `domanda` (campo dove scrivere, resta sul dispositivo di chi legge), `respiro` (un cerchio che conta i secondi: `:::respiro 60 | Invito`, e sotto la frase finale), `tieni` (tenere premuto per rivelare una frase), `conta` (un tocco alla volta), `rallenta` (una frase che corre finché non la si ferma), `spegni` (interruttori), `cancella` (voci da togliere), `passi` (un passo alla volta). Nell'intestazione, `libro: eredita | volo | mappe` (o il nome di una scheda ebook) aggiunge in fondo la scheda del libro; `oggetto:` è l'oggetto dell'email.
 
 ### L'email della settimana
 

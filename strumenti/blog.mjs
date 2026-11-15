@@ -29,6 +29,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, unlinkSync, mkdirSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { gioco as giocoBase } from './esercizi.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SENZA_ESEMPI = process.argv.includes('--senza-esempi');
@@ -49,38 +50,11 @@ function riga(t) {
   h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
   return h;
 }
-// --- esercizi interattivi: blocchi  :::tipo titolo ... :::  dentro il testo del post ---
-//   :::scegli Domanda            - Risposta possibile | Che cosa succede se scegli questa
-//   :::carte Titolo              - Davanti | Dietro
-//   :::misura Domanda | da | a   - 0-3 | Testo per chi sta tra 0 e 3
-//   :::domanda La domanda        (righe seguenti: una nota sotto il campo dove scrivere)
-//   :::respiro 60 | Invito       (righe seguenti: la frase che compare alla fine)
-// Senza JavaScript restano testo leggibile; nell'email diventano un invito a farlo sul sito.
-const NOMI_GIOCO = { scegli: 'Scegli', carte: 'Gira le carte', misura: 'Misurati', domanda: 'Scrivilo', respiro: 'Fermati' };
-function gioco(tipo, titolo, dentro) {
-  const righe = dentro.split('\n').map(r => r.trim()).filter(Boolean);
-  const voci = righe.filter(r => /^[-•]\s+/.test(r)).map(r => r.replace(/^[-•]\s+/, '').split('|').map(x => x.trim()));
-  const libere = righe.filter(r => !/^[-•]\s+/.test(r));
-  const testa = `<div class="gioco-etichetta">Prova tu · ${NOMI_GIOCO[tipo]}</div>`;
-  if (tipo === 'scegli' || tipo === 'carte') {
-    if (voci.length < 2 || voci.some(v => v.length < 2)) throw new Error(`esercizio "${tipo}": servono almeno due righe "- testo | testo"`);
-    return `<div class="gioco g-${tipo}" data-gioco="${tipo}">${testa}<p class="gioco-tit">${riga(titolo)}</p><ul>${voci.map(v => `<li><strong>${riga(v[0])}</strong><span>${riga(v[1])}</span></li>`).join('')}</ul></div>`;
-  }
-  if (tipo === 'misura') {
-    const [dom, da = 'per niente', a = 'moltissimo'] = titolo.split('|').map(x => x.trim());
-    const fasce = voci.map(v => { const m = v[0].match(/^(\d+)\s*-\s*(\d+)$/); if (!m || !v[1]) throw new Error('esercizio "misura": righe "- 0-3 | testo"'); return [m[1], m[2], v[1]]; });
-    return `<div class="gioco g-misura" data-gioco="misura" data-da="${esc(da)}" data-a="${esc(a)}">${testa}<p class="gioco-tit">${riga(dom)}</p><ul>${fasce.map(f => `<li data-min="${f[0]}" data-max="${f[1]}"><strong>Da ${f[0]} a ${f[1]}</strong><span>${riga(f[2])}</span></li>`).join('')}</ul></div>`;
-  }
-  if (tipo === 'domanda') return `<div class="gioco g-domanda" data-gioco="domanda">${testa}<p class="gioco-tit">${riga(titolo)}</p>${libere.length ? `<p class="gioco-nota">${riga(libere.join(' '))}</p>` : ''}</div>`;
-  if (tipo === 'respiro') {
-    const [sec, invito = 'Un minuto, senza fare altro.'] = titolo.split('|').map(x => x.trim());
-    return `<div class="gioco g-respiro" data-gioco="respiro" data-secondi="${parseInt(sec, 10) || 60}">${testa}<p class="gioco-tit">${riga(invito)}</p>${libere.length ? `<p class="gioco-fine">${riga(libere.join(' '))}</p>` : ''}</div>`;
-  }
-  throw new Error('esercizio sconosciuto: ' + tipo);
-}
+// --- esercizi interattivi: blocchi  :::tipo titolo ... :::  dentro il testo del post (vedi strumenti/esercizi.mjs) ---
+const gioco = (tipo, titolo, dentro) => giocoBase(tipo, titolo, dentro, riga, esc);
 function corpo(md, giochi = []) {
   md = md.replace(/\r/g, '').replace(/^:::(\w+)[ \t]*(.*)\n([\s\S]*?)^:::[ \t]*$/gm, (_, tipo, titolo, dentro) => { const parti = titolo.split('|').map(x => x.trim());
-    const invito = tipo === 'misura' ? parti[0] : tipo === 'respiro' ? (parti[1] || 'Un minuto, senza fare altro.') : titolo.trim();
+    const invito = tipo === 'misura' ? parti[0] : ['respiro', 'tieni', 'conta'].includes(tipo) ? (parti[1] || 'Un minuto, senza fare altro.') : titolo.trim();
     let html = gioco(tipo, titolo, dentro);
     if (!giochi.length) html = html.replace('<div class="gioco ', '<div id="esercizio" class="gioco ');
     giochi.push({ tipo, invito, html }); return `\n\n@@GIOCO${giochi.length - 1}@@\n\n`; });

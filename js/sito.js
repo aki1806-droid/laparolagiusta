@@ -79,7 +79,7 @@
     '.profili > *, .formati > *, .collana, .gruppi > *, .frasi > *, .giorni > *, .scheda-acquisto, .acquisto > *, details, .pull, .citazione, .bio > *, .valori > *, ' +
     '.corsi > *, .griglia-3 > *, .scaffale, .omaggio-in > *, .bc > *, .consiglio > *, .secondo > *, .anteprima, .anteprima-video, .news > *, .modulo-nl, ' +
     '.fondo-griglia > *, .fondo-scritta, main > .wrap > h2, main > .wrap > .riquadro, .chiusura p, .chiusura .btn, ' +
-    '.gioco, .libro-del-post, .cost, .quadrante, .rotte > li, .volto-cerchio, .volto-detto, .albero-scena, .silenzio-scena, .trilogia > *, .post-primo, .post-lista > *, .calendario, .dal-taccuino > *, .articolo-coda > *';
+    '.articolo .gioco, .tappe, .libro-del-post, .cost, .quadrante, .rotte > li, .volto-cerchio, .volto-detto, .albero-scena, .silenzio-scena, .trilogia > *, .post-primo, .post-lista > *, .calendario, .dal-taccuino > *, .articolo-coda > *';
   function comparse() {
     if (d.body.classList.contains('p-autore')) return;   // la pagina autore ha le sue
     var els = tutti(DA_MOSTRARE).filter(function (e) { return !e.closest('.hero') && !e.closest('.menu') && !e.closest('[hidden]') && !e.classList.contains('r'); });
@@ -579,7 +579,7 @@
   function esercizi() {
     tutti('.gioco[data-gioco]').forEach(function (g, quale) {
       if (g.classList.contains('vivo')) return;
-      var tipo = g.getAttribute('data-gioco'), lista = g.querySelector('ul'), voci = lista ? tutti('li', lista) : [], aggiunti = [];
+      var tipo = g.getAttribute('data-gioco'), lista = g.querySelector('ul, ol'), voci = lista ? tutti('li', lista) : [], aggiunti = [];
       function metti(el, prima) { g.insertBefore(el, prima || null); aggiunti.push(el); return el; }
       var esito = crea('div', 'gioco-esito'); esito.setAttribute('aria-live', 'polite');
 
@@ -646,10 +646,147 @@
         });
         metti(cerchio, fine);
         pulizie.push(function () { clearInterval(timer); if (fine) fine.hidden = false; });
+      } else if (tipo === 'spegni' || tipo === 'cancella') {
+        var fineS = g.querySelector('.gioco-fine'), modello = fineS ? fineS.innerHTML : '';
+        if (fineS) fineS.hidden = true;
+        var pulsS = metti(crea('div', 'gioco-' + (tipo === 'spegni' ? 'interruttori' : 'lista')), lista);
+        var tastiS = voci.map(function (li) {
+          var b = crea('button', tipo === 'spegni' ? 'interruttore' : 'da-togliere', '<span>' + li.querySelector('strong').innerHTML + '</span>' + (tipo === 'spegni' ? '<i></i>' : ''));
+          b.type = 'button';
+          if (tipo === 'spegni') { b.setAttribute('role', 'switch'); b.setAttribute('aria-checked', 'true'); } else b.setAttribute('aria-pressed', 'false');
+          ascolta(b, 'click', function () {
+            var via = b.classList.toggle('via');
+            if (tipo === 'spegni') b.setAttribute('aria-checked', via ? 'false' : 'true'); else b.setAttribute('aria-pressed', via ? 'true' : 'false');
+            var n = tastiS.filter(function (x) { return x.classList.contains('via'); }).length, finito = tipo === 'spegni' ? n === tastiS.length : n > 0;
+            g.classList.toggle('risposto', finito);
+            if (fineS) { fineS.hidden = !finito; fineS.innerHTML = modello.replace('{n}', n === 1 ? 'una' : n); }
+          });
+          pulsS.appendChild(b); return b;
+        });
+        lista.hidden = true;
+        pulizie.push(function () { if (fineS) { fineS.hidden = false; fineS.innerHTML = modello; } });
+      } else if (tipo === 'passi') {
+        var fineP = g.querySelector('.gioco-fine'); if (fineP) fineP.hidden = true;
+        var scena = metti(crea('div', 'gioco-passo'), lista), iP = 0;
+        var mostraP = function () {
+          if (iP < voci.length) {
+            scena.innerHTML = '<div class="passo-n">' + (iP + 1) + ' <span>di ' + voci.length + '</span></div><p class="passo-testo">' + voci[iP].querySelector('strong').innerHTML + '</p><button type="button" class="gioco-avanti">' + (iP < voci.length - 1 ? 'Fatto, avanti' : 'Fatto') + '</button>';
+            if (fineP) fineP.hidden = true; g.classList.remove('risposto');
+          } else { scena.innerHTML = '<button type="button" class="gioco-avanti secondario">Ricomincia</button>'; if (fineP) fineP.hidden = false; g.classList.add('risposto'); }
+        };
+        ascolta(scena, 'click', function (e) { if (!e.target.closest('button')) return; iP = iP < voci.length ? iP + 1 : 0; mostraP(); var b = scena.querySelector('button'); if (b) b.focus({ preventScroll: true }); });
+        mostraP(); lista.hidden = true;
+        pulizie.push(function () { if (fineP) fineP.hidden = false; });
+      } else if (tipo === 'conta') {
+        var N = +g.getAttribute('data-n') || 5, fineC = g.querySelector('.gioco-fine'), quanti = 0; if (fineC) fineC.hidden = true;
+        var pallini = crea('div', 'conta-pallini', new Array(N + 1).join('<i></i>')), tocca = crea('button', 'conta-tasto', '<b>Tocca</b><span>0 di ' + N + '</span>'); tocca.type = 'button';
+        ascolta(tocca, 'click', function () {
+          if (quanti >= N) { quanti = 0; if (fineC) fineC.hidden = true; g.classList.remove('risposto'); } else quanti++;
+          tutti('i', pallini).forEach(function (p, k) { p.classList.toggle('pieno', k < quanti); });
+          tocca.querySelector('span').textContent = quanti + ' di ' + N; tocca.querySelector('b').textContent = quanti >= N ? 'Ricomincia' : 'Tocca';
+          if (quanti >= N) { if (fineC) fineC.hidden = false; g.classList.add('risposto'); }
+        });
+        metti(pallini, fineC); metti(tocca, fineC);
+        pulizie.push(function () { if (fineC) fineC.hidden = false; });
+      } else if (tipo === 'tieni') {
+        var durT = (+g.getAttribute('data-secondi') || 8) * 1000, fineT = g.querySelector('.gioco-fine'); if (fineT) fineT.hidden = true;
+        var tastoT = crea('button', 'tieni-tasto', '<span class="st-anello"></span><span class="st-testo"><b>Tieni premuto</b><i>' + Math.round(durT / 1000) + ' secondi</i></span>'); tastoT.type = 'button';
+        var pT = 0, giuT = false, rafT = null, ultT = 0, fattoT = false;
+        var giraT = function (t) {
+          var dt = Math.min(60, t - ultT); ultT = t;
+          pT = Math.max(0, Math.min(1, pT + (giuT ? dt / durT : -dt / 900)));
+          tastoT.style.setProperty('--p', pT.toFixed(3));
+          if (pT >= 1) { fattoT = true; giuT = false; rafT = null; g.classList.add('risposto'); if (fineT) fineT.hidden = false; tastoT.querySelector('b').textContent = 'Fatto'; tastoT.querySelector('i').textContent = 'tocca per ricominciare'; return; }
+          rafT = (giuT || pT > 0) ? requestAnimationFrame(giraT) : null;
+        };
+        var premiT = function (e) {
+          if (fattoT) { fattoT = false; pT = 0; tastoT.style.setProperty('--p', 0); g.classList.remove('risposto'); if (fineT) fineT.hidden = true; tastoT.querySelector('b').textContent = 'Tieni premuto'; tastoT.querySelector('i').textContent = Math.round(durT / 1000) + ' secondi'; return; }
+          if (e && e.type === 'pointerdown') e.preventDefault();
+          giuT = true; g.classList.add('premuto'); if (!rafT) { ultT = performance.now(); rafT = requestAnimationFrame(giraT); }
+        };
+        var lasciaT = function () { giuT = false; g.classList.remove('premuto'); };
+        ascolta(tastoT, 'pointerdown', premiT); ascolta(window, 'pointerup', lasciaT); ascolta(tastoT, 'pointerleave', lasciaT); ascolta(tastoT, 'pointercancel', lasciaT);
+        ascolta(tastoT, 'contextmenu', function (e) { e.preventDefault(); });
+        ascolta(tastoT, 'keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); premiT(e); } });
+        ascolta(tastoT, 'keyup', function (e) { if (e.key === ' ' || e.key === 'Enter') lasciaT(); });
+        metti(tastoT, fineT);
+        pulizie.push(function () { if (rafT) cancelAnimationFrame(rafT); if (fineT) fineT.hidden = false; g.classList.remove('premuto'); });
+      } else if (tipo === 'rallenta') {
+        var frase = g.querySelector('.gioco-frase'), idr = 'rallenta-' + quale;
+        var pista = crea('div', 'rallenta-pista'); frase.parentNode.insertBefore(pista, frase); pista.appendChild(frase);
+        var rigaR = metti(crea('div', 'gioco-misura rallenta-riga', '<label class="solo-sr" for="' + idr + '">Velocità</label><span>fermo</span><input type="range" id="' + idr + '" min="0" max="10" step="1" value="10"><span>di corsa</span>'), pista.nextSibling);
+        var cursR = rigaR.querySelector('input');
+        var aggR = function () {
+          var v = +cursR.value; cursR.style.setProperty('--v', (v * 10) + '%');
+          g.classList.toggle('ferma', v === 0); g.classList.toggle('risposto', v === 0);
+          frase.style.setProperty('--dur', (v ? (11 - v) * 0.9 + 0.5 : 0).toFixed(2) + 's'); frase.style.setProperty('--sf', (fermo ? 0 : v * 0.8).toFixed(1) + 'px');
+        };
+        ascolta(cursR, 'input', aggR); g.classList.add('corre'); aggR();
+        pulizie.push(function () { pista.parentNode.insertBefore(frase, pista); pista.remove(); g.classList.remove('corre', 'ferma'); frase.removeAttribute('style'); });
       }
       g.classList.add('vivo');
       pulizie.push(function () { aggiunti.forEach(function (x) { x.remove(); }); if (lista) lista.hidden = false; g.classList.remove('vivo', 'risposto', 'respira'); });
     });
+  }
+
+  /* ---- Mappe Silenziose: la mappa delle venticinque tappe ---- */
+  function tappe() {
+    var m = d.querySelector('.tappe'); if (!m || m.classList.contains('viva')) return;
+    var elenco = m.querySelector('.tappe-elenco'), voci = tutti(':scope > li', elenco); if (voci.length < 6) return;
+    var PER_RIGA = 5, righe = Math.ceil(voci.length / PER_RIGA), CHIAVE = 'lpg-tappe-mappe', viste = {};
+    try { (JSON.parse(localStorage.getItem(CHIAVE) || '[]') || []).forEach(function (k) { viste[k] = 1; }); } catch (e) {}
+    var mappa = crea('div', 'tappe-mappa', '<svg aria-hidden="true"><polyline class="tm-via"/><polyline class="tm-fatta" pathLength="1"/></svg>');
+    mappa.style.setProperty('--righe', righe); mappa.setAttribute('role', 'tablist'); mappa.setAttribute('aria-label', 'Le venticinque tappe');
+    var punti = voci.map(function (li, i) {
+      var r = Math.floor(i / PER_RIGA), c = i % PER_RIGA; if (r % 2) c = PER_RIGA - 1 - c;
+      return [10 + c * 20, (r + 0.62) * (100 / righe)];
+    });
+    for (var r = 0; r < righe; r++) {
+      var nome = voci[r * PER_RIGA].getAttribute('data-territorio');
+      if (nome) { var et = crea('div', 'tm-territorio', '<b>' + ['I', 'II', 'III', 'IV', 'V', 'VI'][r] + '</b> ' + nome); et.style.top = (r * (100 / righe)) + '%'; mappa.appendChild(et); }
+    }
+    var bottoni = voci.map(function (li, i) {
+      var b = crea('button', 'tm-punto' + (viste[i] ? ' vista' : ''), '<span>' + (i + 1) + '</span>'); b.type = 'button';
+      b.style.left = punti[i][0] + '%'; b.style.top = punti[i][1] + '%'; b.setAttribute('aria-label', 'Tappa ' + (i + 1) + ': ' + li.querySelector('h3').textContent); b.setAttribute('aria-controls', 'tappa-pannello');
+      mappa.appendChild(b); return b;
+    });
+    var svg = mappa.querySelector('svg'), via = mappa.querySelector('.tm-via'), fatta = mappa.querySelector('.tm-fatta'), lung = [0], s = null, n = voci.length;
+    function disponi() {
+      var W = mappa.clientWidth, H = mappa.clientHeight; if (!W || !H) return;
+      var px = punti.map(function (p) { return [p[0] * W / 100, p[1] * H / 100]; }), pt = px.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); via.setAttribute('points', pt); fatta.setAttribute('points', pt);
+      lung = [0]; for (var j = 1; j < n; j++) lung.push(lung[j - 1] + Math.hypot(px[j][0] - px[j - 1][0], px[j][1] - px[j - 1][1]));
+      if (s && s.quale() >= 0) fatta.style.strokeDashoffset = (1 - lung[s.quale()] / lung[n - 1]).toFixed(4);
+    }
+    var barra = crea('div', 'tappe-barra', '<button type="button" class="cal-freccia" aria-label="Tappa precedente">←</button><div class="tappe-dove" aria-live="polite"></div><button type="button" class="cal-freccia" aria-label="Tappa successiva">→</button>');
+    var dove = barra.querySelector('.tappe-dove'), conto = crea('p', 'tappe-conto'), mosso = false;
+    elenco.id = 'tappa-pannello'; elenco.setAttribute('role', 'tabpanel');
+    s = schede(bottoni, function (i) {
+      voci.forEach(function (li, k) { li.classList.toggle('attiva', k === i); });
+      if (lung.length === n) fatta.style.strokeDashoffset = (1 - lung[i] / lung[n - 1]).toFixed(4);
+      dove.innerHTML = '<b>Tappa ' + (i + 1) + '</b> di ' + n + (voci[i].getAttribute('data-territorio') ? ' · ' + voci[i].getAttribute('data-territorio') : '');
+      if (mosso) {
+        segna(i);
+        var q = barra.getBoundingClientRect(); if (q.top > window.innerHeight * 0.6 || q.top < 70) barra.scrollIntoView({ block: 'start', behavior: fermo ? 'auto' : 'smooth' });
+      }
+      scrivi();
+    });
+    function scrivi() {
+      var fatte = Object.keys(viste).length;
+      conto.innerHTML = fatte ? '<b>' + fatte + '</b> ' + (fatte === 1 ? 'tappa percorsa' : 'tappe percorse') + ' su ' + n + ' · il conto resta su questo dispositivo' : 'Tocca un numero sulla mappa per cominciare.';
+    }
+    function segna(i) {
+      viste[i] = 1; bottoni[i].classList.add('vista');
+      try { localStorage.setItem(CHIAVE, JSON.stringify(Object.keys(viste).map(Number))); } catch (e) {}
+    }
+    ascolta(mappa, 'click', function (e) { mosso = true; var b = e.target.closest('.tm-punto'), k = bottoni.indexOf(b); if (k >= 0 && k === s.quale()) { segna(k); scrivi(); } }, true); ascolta(mappa, 'keydown', function () { mosso = true; }, true);
+    ascolta(barra.children[0], 'click', function () { mosso = true; s.scegli(s.quale() - 1); });
+    ascolta(barra.children[2], 'click', function () { mosso = true; s.scegli(s.quale() + 1); });
+    m.insertBefore(mappa, elenco); m.insertBefore(conto, elenco); m.insertBefore(barra, elenco); m.classList.add('viva');
+    disponi(); ascolta(window, 'resize', disponi);
+    var primaNuova = 0; while (primaNuova < n - 1 && viste[primaNuova]) primaNuova++;
+    s.scegli(Object.keys(viste).length ? primaNuova : 0);
+    pulizie.push(function () { mappa.remove(); barra.remove(); conto.remove(); m.classList.remove('viva'); voci.forEach(function (li) { li.classList.remove('attiva'); }); elenco.removeAttribute('role'); });
   }
 
   /* ---- taccuino: il calendario mostra un mese alla volta ---- */
@@ -670,7 +807,7 @@
   function avvia() {
     pulizie.forEach(function (f) { try { f(); } catch (e) {} }); pulizie = [];
     if (h.className.indexOf(' js') < 0 && !h.classList.contains('js')) h.classList.add('js');
-    menu(); lettura(); titolo(); costellazione(); indice(); bussola(); volto(); albero(); silenzio(); esercizi(); calendario(); comparse(); apertura(); conta(); barra(); puntatore(); stelle();
+    menu(); lettura(); titolo(); costellazione(); indice(); bussola(); volto(); albero(); silenzio(); esercizi(); tappe(); calendario(); comparse(); apertura(); conta(); barra(); puntatore(); stelle();
   }
   window.LPG = { avvia: avvia };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', avvia); else avvia();
