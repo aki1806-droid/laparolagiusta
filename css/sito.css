@@ -1,0 +1,228 @@
+/* La Parola Giusta — font serviti dal dominio, nessuna chiamata a Google */
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300;font-display:swap;src:url('../fonts/cormorant-garamond-300-italic-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300;font-display:swap;src:url('../fonts/cormorant-garamond-300-italic-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;font-display:swap;src:url('../fonts/cormorant-garamond-400-italic-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;font-display:swap;src:url('../fonts/cormorant-garamond-400-italic-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;font-display:swap;src:url('../fonts/cormorant-garamond-300-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;font-display:swap;src:url('../fonts/cormorant-garamond-300-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/cormorant-garamond-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/cormorant-garamond-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url('../fonts/cormorant-garamond-600-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url('../fonts/cormorant-garamond-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Jost';font-style:normal;font-weight:300;font-display:swap;src:url('../fonts/jost-300-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Jost';font-style:normal;font-weight:300;font-display:swap;src:url('../fonts/jost-300-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Jost';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/jost-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Jost';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/jost-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Jost';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/jost-500-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Jost';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/jost-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
+/* =====================================================================
+   La Parola Giusta — stile comune a tutte le pagine ("notte e carta").
+   Si carica DOPO lo stile interno di ogni pagina e lo aggiorna:
+   menu, cieli notturni, pulsanti, comparse, piede.
+   ===================================================================== */
+:root{
+  --blu:#12294A;--blu-scuro:#0B1B33;--oro:#C39A4E;--oro-tenue:#E2D2B0;
+  --panna:#F7F3EA;--panna-2:#EFE9DC;--bianco:#FFFCF6;
+  --testo:#1C2B3F;--tenue:#5F6B82;--linea:#DED5C2;
+  --notte:#081526;--notte-2:#0E2140;--luna:#EEF2F8;--luna-tenue:#A9B8CE;--oro-chiaro:#DDBD7C;
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:"Jost",system-ui,-apple-system,sans-serif;
+  --molla:cubic-bezier(.2,.7,.2,1);
+  --raggio:20px;
+  --ombra:0 18px 44px rgba(11,27,51,.10),0 2px 6px rgba(11,27,51,.05);
+  --ombra-alta:0 34px 70px rgba(11,27,51,.18),0 4px 12px rgba(11,27,51,.07);
+}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
+::selection{background:var(--oro);color:#fff}
+[hidden]{display:none!important}
+.solo-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+h1,h2,h3{text-wrap:balance}
+img{height:auto}
+
+/* grana di carta: un velo fermo sopra tutta la pagina */
+body::after{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E")}
+@media print{body::after{display:none}}
+
+/* passaggio morbido da una pagina all'altra, dove il browser lo sa fare */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-esce .28s ease both}
+::view-transition-new(root){animation:vt-entra .5s var(--molla) both}
+@keyframes vt-esce{to{opacity:0;transform:translateY(-10px)}}
+@keyframes vt-entra{from{opacity:0;transform:translateY(16px)}}
+
+/* ------------------------------------------------------------------ menu */
+.nav{position:sticky;top:0;z-index:60;background:rgba(8,21,38,.93);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);
+  border-bottom:1px solid rgba(221,189,124,.2)}
+.nav::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--oro),var(--oro-chiaro));
+  transform-origin:left;transform:scaleX(var(--letto,0))}
+.nav .marchio{color:#fff;text-decoration:none}
+.nav .marchio span{color:#fff;letter-spacing:.01em}
+.nav .marchio img{filter:brightness(0) invert(1);opacity:.96;transition:transform .5s var(--molla)}
+.nav .marchio:hover img{transform:rotate(-6deg) scale(1.06)}
+.nav .nav-menu a,.nav .nav-sezioni a,.nav .nav-azioni a{color:var(--luna);position:relative;transition:color .25s}
+.nav .nav-menu a:not(.nav-btn)::after,.nav .nav-sezioni a::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:var(--oro-chiaro);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s var(--molla)}
+.nav .nav-menu a:not(.nav-btn):hover::after,.nav .nav-sezioni a:hover::after{transform:scaleX(1)}
+.nav .nav-menu a:hover,.nav .nav-sezioni a:hover,.nav .nav-azioni a:hover{color:#fff}
+.nav .ritorno{color:var(--oro-chiaro)!important}
+.nav .nav-btn{background:var(--oro);border:1px solid var(--oro);color:#fff;padding:9px 20px;border-radius:999px;white-space:nowrap;
+  transition:background .25s,box-shadow .25s,transform .25s var(--molla)}
+.nav .nav-btn:hover{background:var(--oro-chiaro);border-color:var(--oro-chiaro);color:var(--notte)!important;box-shadow:0 8px 26px rgba(221,189,124,.35);transform:translateY(-1px)}
+.nav .nav-accedi,.nav .nav-in .torna{color:var(--luna);border:1px solid rgba(238,242,248,.3);padding:8px 16px;border-radius:999px;text-decoration:none;transition:border-color .25s,color .25s}
+.nav .nav-accedi:hover,.nav .nav-in .torna:hover{border-color:var(--oro-chiaro);color:#fff}
+.nav a:focus-visible,.nav button:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:3px}
+
+/* pulsante del menu a tutto schermo: lo crea lo script, quindi esiste solo se lo script e' partito */
+.nav-apri{display:none;order:9;width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(238,242,248,.3);border-radius:50%;background:transparent;cursor:pointer;
+  position:relative;padding:0;color:var(--luna);transition:border-color .25s}
+.nav-apri:hover{border-color:var(--oro-chiaro)}
+.nav .nav-apri:focus-visible{border-radius:50%}
+.nav-apri i{position:absolute;left:13px;right:13px;height:1.5px;background:currentColor;transition:transform .4s var(--molla),top .4s var(--molla),opacity .2s}
+.nav-apri i:nth-child(1){top:16px}.nav-apri i:nth-child(2){top:21px}.nav-apri i:nth-child(3){top:26px}
+.menu-aperto .nav-apri i:nth-child(1){top:21px;transform:rotate(45deg)}
+.menu-aperto .nav-apri i:nth-child(2){opacity:0}
+.menu-aperto .nav-apri i:nth-child(3){top:21px;transform:rotate(-45deg)}
+@media(max-width:900px){
+  .js .nav-apri{display:block}
+  .nav .nav-in{flex-wrap:nowrap;min-height:64px;padding-top:0;padding-bottom:0;gap:12px}
+  .nav .nav-sezioni,.nav .nav-menu a:not(.nav-btn),.nav .nav-accedi{display:none}
+  .js .nav .nav-in .torna{display:none}
+  .nav .nav-azioni,.nav .nav-menu{margin-left:auto;gap:12px}
+  .nav .marchio span{display:inline;font-size:19px}
+}
+@media(max-width:430px){
+  .nav .wrap{padding-left:16px;padding-right:16px}
+  .nav .marchio{gap:8px}
+  .nav .marchio span{font-size:17px}
+  .nav .nav-btn{padding:8px 14px;font-size:13px}
+  .nav .nav-in,.nav .nav-azioni,.nav .nav-menu{gap:9px}
+}
+@media(max-width:350px){.nav .marchio span{display:none}}
+
+.menu{position:fixed;inset:0;z-index:55;background:radial-gradient(120% 80% at 80% 0%,#17325C 0%,var(--notte) 58%);color:var(--luna);
+  display:flex;flex-direction:column;padding:92px 28px 34px;overflow-y:auto;overscroll-behavior:contain;
+  visibility:hidden;opacity:0;clip-path:circle(0 at calc(100% - 46px) 32px);
+  transition:clip-path .7s var(--molla),opacity .3s,visibility 0s .7s}
+.menu-aperto .menu{visibility:visible;opacity:1;clip-path:circle(150% at calc(100% - 46px) 32px);transition:clip-path .8s var(--molla),opacity .2s,visibility 0s}
+.menu-aperto{overflow:hidden}
+.menu ol{list-style:none;margin:0;padding:0;counter-reset:voce}
+.menu li{counter-increment:voce;border-bottom:1px solid rgba(221,189,124,.18);opacity:0;transform:translateY(22px);transition:opacity .5s var(--molla),transform .6s var(--molla)}
+.menu-aperto .menu li{opacity:1;transform:none;transition-delay:calc(.12s + var(--i,0) * .055s)}
+.menu li a{display:flex;align-items:baseline;gap:16px;padding:15px 0;color:#fff;text-decoration:none;font-family:var(--serif);font-size:clamp(30px,8.4vw,44px);line-height:1.1;font-weight:300}
+.menu li a::before{content:counter(voce,decimal-leading-zero);font-family:var(--sans);font-size:11.5px;letter-spacing:.18em;color:var(--oro-chiaro);min-width:24px}
+.menu li a:hover,.menu li a:focus-visible{color:var(--oro-chiaro);font-style:italic}
+.menu-piede{margin-top:auto;padding-top:30px;display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px}
+.menu-piede a{color:var(--luna-tenue);text-decoration:none}
+.menu-piede a:hover{color:#fff}
+.menu .btn{margin-top:26px;text-align:center}
+.menu a:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:3px}
+
+/* ------------------------------------------------------------ cielo notturno */
+:root{--cielo:radial-gradient(90% 70% at 78% 8%,#1B3A6B 0%,rgba(27,58,107,0) 60%),radial-gradient(70% 60% at 6% 96%,rgba(195,154,78,.20) 0%,rgba(195,154,78,0) 62%),linear-gradient(180deg,var(--notte) 0%,var(--notte-2) 100%)}
+.notte{position:relative;isolation:isolate;overflow:hidden;color:var(--luna)}
+.notte h1,.notte h2,.notte h3{color:#fff}
+.notte .etichetta{color:var(--oro-chiaro)}
+.notte .intro,.notte .nota{color:var(--luna-tenue)}
+.notte a:focus-visible,.notte button:focus-visible{outline-color:var(--oro-chiaro)}
+.cielo{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  -webkit-mask-image:linear-gradient(#000 30%,transparent 96%);mask-image:linear-gradient(#000 30%,transparent 96%)}
+.cielo i{position:absolute;inset:0;display:block}
+.cielo i:first-child{background-size:330px 330px;animation:brilla 7s ease-in-out infinite alternate;
+  background-image:
+    radial-gradient(1.6px 1.6px at 9% 14%,#fff 50%,transparent 52%),
+    radial-gradient(1.3px 1.3px at 27% 71%,#DCE6FF 50%,transparent 52%),
+    radial-gradient(2px 2px at 44% 33%,#FFF6DD 50%,transparent 52%),
+    radial-gradient(1px 1px at 61% 88%,#fff 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 73% 22%,#DCE6FF 50%,transparent 52%),
+    radial-gradient(1px 1px at 88% 57%,#fff 50%,transparent 52%),
+    radial-gradient(.9px .9px at 52% 60%,#fff 50%,transparent 52%)}
+.cielo i:last-child{background-size:510px 510px;animation:brilla 11s ease-in-out -5s infinite alternate;
+  background-image:
+    radial-gradient(2.2px 2.2px at 16% 42%,#FFF6DD 50%,transparent 52%),
+    radial-gradient(1px 1px at 36% 9%,#fff 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 58% 77%,#DCE6FF 50%,transparent 52%),
+    radial-gradient(1px 1px at 79% 39%,#fff 50%,transparent 52%),
+    radial-gradient(1.8px 1.8px at 93% 84%,#fff 50%,transparent 52%),
+    radial-gradient(.9px .9px at 6% 81%,#DCE6FF 50%,transparent 52%)}
+@keyframes brilla{from{opacity:.38}to{opacity:1}}
+.cadente{position:absolute;top:12%;left:58%;width:110px;height:1px;z-index:-1;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0),#fff);animation:cade 13s linear 3s infinite}
+@keyframes cade{0%{opacity:0;transform:translate(0,0) rotate(156deg)}2%{opacity:1}7%{opacity:0;transform:translate(-260px,116px) rotate(156deg)}100%{opacity:0;transform:translate(-260px,116px) rotate(156deg)}}
+/* lanterna: un alone che segue il puntatore sulle aperture notturne */
+.lanterna{position:absolute;z-index:-1;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(closest-side,rgba(255,226,160,.16),rgba(255,226,160,0));transform:translate(var(--lx,50vw),var(--ly,30vh));transition:opacity .6s}
+.notte:hover > .lanterna{opacity:1}
+
+/* --------------------------------------------------------------- pulsanti */
+.btn{position:relative;overflow:hidden;font-weight:400;
+  transition:background .25s,color .25s,border-color .25s,transform .35s var(--molla),box-shadow .35s var(--molla)}
+.btn::before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.38),rgba(255,255,255,0));transform:skewX(-18deg);transition:left .7s var(--molla)}
+.btn:hover::before{left:120%}
+.btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(18,41,74,.22)}
+.btn:active{transform:translateY(0)}
+.btn-oro{background:linear-gradient(135deg,#CFA85C,#B98E3F);color:#fff}
+.btn-oro:hover{background:linear-gradient(135deg,#DDBD7C,#C39A4E);box-shadow:0 14px 34px rgba(195,154,78,.42)}
+.btn-luce{background:var(--panna);color:var(--blu)}
+.btn-luce:hover{background:#fff;box-shadow:0 10px 30px rgba(255,236,190,.22)}
+.btn-linea-chiara{border-color:rgba(238,242,248,.55);color:var(--luna)}
+.btn-linea-chiara:hover{background:var(--luna);color:var(--blu);box-shadow:none}
+.notte .btn-blu{background:linear-gradient(135deg,#DDBD7C,#C39A4E);color:var(--notte);font-weight:500}
+.notte .btn-blu:hover{background:linear-gradient(135deg,#EBD3A0,#DDBD7C);box-shadow:0 14px 38px rgba(221,189,124,.4)}
+.notte .btn-linea{border-color:rgba(238,242,248,.5);color:var(--luna)}
+.notte .btn-linea:hover{background:var(--luna);color:var(--blu)}
+
+/* ------------------------------------------- comparsa allo scorrimento */
+.js .r{opacity:0;transform:translateY(30px);transition:opacity .9s var(--molla),transform .9s var(--molla);transition-delay:var(--d,0s)}
+.js .r.visto{opacity:1;transform:none}
+@media print{.js .r{opacity:1;transform:none}}
+
+/* -------------------------------------------------------------- piede */
+footer.fondo{border-top:0;padding:0;font-size:15px;color:var(--luna-tenue);background:var(--cielo)}
+.fondo .wrap{padding-top:74px;padding-bottom:30px}
+.fondo-scritta{font-family:var(--serif);font-style:italic;font-weight:300;line-height:.86;letter-spacing:-.02em;white-space:nowrap;text-align:center;
+  font-size:clamp(54px,15.4vw,236px);color:transparent;-webkit-text-stroke:1px rgba(221,189,124,.5);margin:0 -24px 46px;user-select:none;
+  background:linear-gradient(180deg,rgba(221,189,124,.26),rgba(221,189,124,0) 78%);-webkit-background-clip:text;background-clip:text}
+.fondo-griglia{display:grid;gap:36px}
+.fondo-marchio{display:flex;align-items:center;gap:13px;text-decoration:none;color:#fff;font-family:var(--serif);font-size:25px}
+.fondo-marchio img{height:50px;width:auto;filter:brightness(0) invert(1)}
+.fondo-motto{margin:16px 0 0;max-width:34ch;color:var(--luna-tenue);font-size:15.5px;line-height:1.6}
+.fondo h2{font-family:var(--sans);font-size:11.5px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--oro-chiaro);margin:0 0 14px;max-width:none}
+.fondo ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fondo li{margin:0}
+.fondo a{color:var(--luna);text-decoration:none;background:linear-gradient(var(--oro-chiaro),var(--oro-chiaro)) 0 100%/0 1px no-repeat;transition:background-size .4s var(--molla),color .25s;padding-bottom:2px}
+.fondo a:hover,.fondo a:focus-visible{color:#fff;background-size:100% 1px;text-decoration:none}
+.fondo-basso{margin-top:52px;padding-top:22px;border-top:1px solid rgba(221,189,124,.2);display:flex;flex-wrap:wrap;gap:6px 26px;font-size:13px;line-height:1.6;color:var(--luna-tenue)}
+.fondo .piede-visite{margin:0 0 0 auto}
+.fondo .piede-visite[hidden]{display:none}
+.fondo .visite-n{font-family:var(--serif);font-size:17px;color:#fff}
+@media(min-width:760px){.fondo-griglia{grid-template-columns:1.5fr 1fr 1fr 1fr;gap:44px}.fondo .wrap{padding-top:96px}}
+
+/* salta al contenuto */
+.salta{position:absolute;left:-9999px;top:0;z-index:300;background:var(--oro);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;text-decoration:none}
+.salta:focus{left:0}
+
+/* barra d'acquisto: compare su telefono quando l'apertura e' uscita dallo schermo */
+.barra{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:50;display:none;align-items:center;gap:12px;
+  background:rgba(8,21,38,.93);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(221,189,124,.32);border-radius:999px;
+  padding:8px 8px 8px 20px;color:#fff;box-shadow:0 18px 44px rgba(8,21,38,.42);transform:translateY(140%);transition:transform .55s var(--molla)}
+.barra.su{transform:none}
+.barra-titolo{flex:1;min-width:0;font-family:var(--serif);font-size:18px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra-prezzo{font-family:var(--serif);font-size:21px;color:var(--oro-chiaro);white-space:nowrap}
+.barra a{flex:0 0 auto;background:linear-gradient(135deg,#DDBD7C,#C39A4E);color:var(--notte);font-weight:500;font-size:14.5px;text-decoration:none;padding:11px 18px;border-radius:999px;white-space:nowrap}
+@media(max-width:760px){.js .barra{display:flex}}
+@media print{.barra,.nav,.menu{display:none!important}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .js .r{opacity:1;transform:none}
+  .cadente,.lanterna{display:none}
+  ::view-transition-old(root),::view-transition-new(root){animation:none}
+}
+
+/* pagina autore: il rimando ad Amazon del terzo libro, in apertura e nella scelta finale */
+.p-autore .hero-scheda a{color:var(--oro-chiaro);text-underline-offset:3px}
+.p-autore .scelta .scelta-anche{margin-top:12px;font-size:14px;color:var(--luna-tenue);text-underline-offset:3px}
+.p-autore .scelta .scelta-anche:hover{color:var(--oro-chiaro)}

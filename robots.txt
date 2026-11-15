@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /strumenti/
+Disallow: /blog/_coda/
+Disallow: /blog/_post/
+Disallow: /blog/_email/
 
 Sitemap: https://laparolagiusta.it/sitemap.xml
