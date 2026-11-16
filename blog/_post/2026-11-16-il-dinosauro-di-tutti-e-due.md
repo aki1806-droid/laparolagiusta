@@ -1,5 +1,6 @@
 ---
 titolo: Il dinosauro di tutti e due
+data: 2026-11-16
 sommario: Due bambini litigano per un tirannosauro di plastica e fanno pace in cinque minuti. Io, dalla soglia della cucina, mi chiedo perché non so fare così.
 oggetto: Perché io non so fare così?
 libro: eredita
