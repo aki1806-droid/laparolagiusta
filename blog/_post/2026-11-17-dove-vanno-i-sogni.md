@@ -1,5 +1,6 @@
 ---
 titolo: Dove vanno i sogni quando ci svegliamo?
+data: 2026-11-17
 sommario: Una domanda fatta in pigiama, e il trucco con cui noi adulti evitiamo di rispondere.
 oggetto: Dove vanno i sogni quando ci svegliamo?
 libro: eredita
