@@ -1,5 +1,6 @@
 ---
 titolo: Trentasette notifiche
+data: 2026-11-18
 sommario: Quando tutto è urgente, niente è davvero importante. Una misura del rumore di oggi.
 oggetto: Prima ancora di alzarmi dal letto
 libro: mappe
