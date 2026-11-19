@@ -1,0 +1,26 @@
+---
+titolo: La lumaca
+sommario: Eravamo in ritardo, e mio figlio si è fermato per una lumaca. Ho aperto la bocca per dire «dai, è tardi». Poi mi sono accovacciato.
+oggetto: «Papà, guarda come è bella»
+libro: eredita
+prompt: Museum-style still life photograph, a small garden snail with a brown and ochre spiral shell on a wet grey paving stone, a few raindrops and a fallen leaf beside it , soft warm window light from the left, cream wall behind, muted palette of navy blue, cream and gold, shallow depth of field, quiet contemplative mood, fine art editorial photography, no people, no text
+---
+Una lumaca sul marciapiede, dopo la pioggia, con quella scia argentata che lasciava dietro di sé come una calligrafia segreta.
+
+Il piccolo si è fermato. Si è accovacciato. Ha portato il viso a pochi centimetri da lei, come se stesse contemplando una delle meraviglie del mondo. E per lui lo era.
+
+«Papà, guarda. Guarda come è bella.»
+
+Eravamo in ritardo. Lo eravamo da prima di uscire di casa, perché con i bambini non si è mai abbastanza puntuali. Il marciapiede, per me, era un mezzo, non un luogo: qualcosa da attraversare in fretta per arrivare altrove.
+
+Ho sentito salire quell'impazienza che conosco bene. Ho aperto la bocca per dire «dai, è tardi, la guardiamo un'altra volta». Ma qualcosa mi ha fermato. Forse lo sguardo di mio figlio. Forse la lumaca stessa, che nel suo procedere lentissimo sembrava un rimprovero vivente a tutta la mia fretta.
+
+Mi sono accovacciato accanto a lui. Ho guardato. E per un momento breve, fragile, ma luminosissimo, il mondo ha smesso di essere ovvio.
+
+> Lo straordinario non è ciò che accade di rado. È ciò che guardi con occhi che non hanno smesso di guardare.
+
+**Per oggi.** Una cosa che vedi tutti i giorni, guardata come se fosse la prima volta.
+
+:::rallenta La frase corre come me quel giorno. Rallenta, finché riesci a leggerla.
+Quando ho smesso di meravigliarmi?
+:::
