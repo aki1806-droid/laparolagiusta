@@ -1,5 +1,6 @@
 ---
 titolo: Il carretto della frutta
+data: 2026-11-19
 sommario: Tre lezioni imparate d'estate, sotto il sole, aiutando mio nonno a vendere la frutta.
 oggetto: Anche quando nessuno guardava
 libro: volo
