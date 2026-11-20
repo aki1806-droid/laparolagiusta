@@ -1,5 +1,6 @@
 ---
 titolo: Il mare non si impara
+data: 2026-11-20
 sommario: Mio nonno pescatore guardava il mare come si guarda un maestro. Mi ci sono voluti due figli per capire che cosa intendesse.
 oggetto: «Il mare non si impara. Si ascolta.»
 libro: eredita
