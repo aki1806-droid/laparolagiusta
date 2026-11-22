@@ -1,5 +1,6 @@
 ---
 titolo: Cinque minuti di silenzio
+data: 2026-11-22
 sommario: Una trattativa ferma da ore, le voci alzate, le posizioni rigide. Invece di un'altra frase, ho proposto di tacere.
 oggetto: Ho proposto di tacere
 libro: volo
