@@ -1,5 +1,6 @@
 ---
 titolo: Lo tenevo e basta
+data: 2026-11-24
 sommario: Una notte, mio figlio di sei mesi piangeva. Avevo fatto tutto quello che dicevano i manuali. Mancava una cosa sola, e non era nei manuali.
 oggetto: «Non ha bisogno di un esperto»
 libro: mappe
