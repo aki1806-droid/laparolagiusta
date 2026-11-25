@@ -1,5 +1,6 @@
 ---
 titolo: Sei qui con noi, però non mi ascolti
+data: 2026-11-25
 sommario: Avevo promesso ai miei figli una vacanza tutta per loro. Poi rispondevo ai messaggi «urgenti». Me l'ha detto il più piccolo, in una frase.
 oggetto: «Papà, sei qui con noi, però non mi ascolti»
 libro: volo
