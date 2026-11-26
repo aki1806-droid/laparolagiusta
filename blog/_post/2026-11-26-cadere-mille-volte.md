@@ -1,5 +1,6 @@
 ---
 titolo: Cadere mille volte
+data: 2026-11-26
 sommario: Mio figlio imparava a camminare. Cadeva decine di volte al giorno, e non falliva mai. Io, da adulto, avevo smesso di saper fare la differenza.
 oggetto: Cadeva sempre, ma non falliva mai
 libro: eredita
