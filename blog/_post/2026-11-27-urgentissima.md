@@ -1,5 +1,6 @@
 ---
 titolo: Urgentissima
+data: 2026-11-27
 sommario: Stavo ascoltando un collega che finalmente parlava. Poi è arrivata una telefonata «urgentissima». La questione si è risolta in dieci minuti. Lui, invece, si era richiuso.
 oggetto: Una telefonata «urgentissima»
 libro: mappe

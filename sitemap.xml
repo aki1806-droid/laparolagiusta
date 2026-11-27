@@ -98,9 +98,15 @@
   </url>
   <url>
     <loc>https://laparolagiusta.it/blog/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://laparolagiusta.it/blog/urgentissima.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://laparolagiusta.it/blog/cadere-mille-volte.html</loc>
