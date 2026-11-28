@@ -1,5 +1,6 @@
 ---
 titolo: La serata del caos
+data: 2026-11-28
 sommario: I bambini irrequieti, la cena bruciata, io sull'orlo dei nervi. Invece di rimettere ordine, ho dichiarato aperta la «Serata del caos».
 oggetto: La cena era bruciata
 libro: volo
